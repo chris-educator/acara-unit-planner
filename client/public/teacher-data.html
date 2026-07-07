@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Data Handling — Micro-Unit Starter Kit</title>
+    <style>
+      :root { color-scheme: dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; line-height: 1.6; }
+      body { margin: 0; background: #09090b; color: #f4f4f5; }
+      main { max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+      h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+      p.meta { color: #a1a1aa; margin-top: 0; }
+      h2 { font-size: 1.1rem; margin-top: 2rem; }
+      a { color: #0084ff; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+      th, td { border: 1px solid #3f3f46; padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+      th { background: #18181b; }
+      ul { padding-left: 1.25rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>School Data Handling</h1>
+      <p class="meta">Micro-Unit Starter Kit · AppStax · For schools · Last updated: 30 June 2026</p>
+      <p>
+        Micro-Unit Starter Kit does not store generated units on AppStax servers. Contact
+        <a href="mailto:apps@appstax.ai">apps@appstax.ai</a> for contractual questions.
+      </p>
+      <h2>Data inventory</h2>
+      <table>
+        <thead>
+          <tr><th>Data</th><th>Where stored</th><th>Retention</th><th>Who can access</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unit configuration + generated unit</td>
+            <td>Browser local storage</td>
+            <td>Until cleared by user</td>
+            <td>Teacher on that device</td>
+          </tr>
+          <tr>
+            <td>Per-request AI payload</td>
+            <td>Sent to third-party AI providers</td>
+            <td>Not in AppStax DB</td>
+            <td>Teacher; Google under its policies</td>
+          </tr>
+          <tr>
+            <td>Assistant chat (optional)</td>
+            <td>Processed by AI services per message; not stored by AppStax</td>
+            <td>Not in AppStax DB</td>
+            <td>Teacher; Google under its policies</td>
+          </tr>
+          <tr>
+            <td>Exported ZIP/DOCX/TXT</td>
+            <td>Downloaded to teacher device</td>
+            <td>User-controlled</td>
+            <td>User</td>
+          </tr>
+          <tr>
+            <td>Teacher account (when billing on)</td>
+            <td>EdStack billing service</td>
+            <td>Account lifetime</td>
+            <td>User; AppStax for billing support</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>What we do not do</h2>
+      <ul>
+        <li>No server-side unit storage in v1.</li>
+        <li>No student accounts or student work uploads.</li>
+        <li>No advertising or profiling.</li>
+      </ul>
+      <h2>Sub-processors</h2>
+      <p><strong>third-party AI providers</strong> — unit generation, refinement, and assistant chat.</p>
+      <p><strong>EdStack billing</strong> — accounts and credits when enabled.</p>
+      <p class="meta">
+        See also: <a href="/privacy.html">Privacy Policy</a> ·
+        <a href="/terms.html">Terms of Service</a>
+      </p>
+    </main>
+  </body>
+</html>

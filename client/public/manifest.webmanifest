@@ -1,0 +1,30 @@
+{
+  "id": "./",
+  "name": "Micro-Unit Starter Kit",
+  "short_name": "Micro-Unit",
+  "description": "3\u20135 lesson mini-units with starters, activities, exit tickets, and assessment export.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0084ff",
+  "lang": "en-AU",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

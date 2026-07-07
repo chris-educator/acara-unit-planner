@@ -1,0 +1,9 @@
+{
+  "name": "micro-unit-starter",
+  "private": true,
+  "scripts": {
+    "dev:api": "uvicorn server.main:app --reload --port 8009",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client"
+  }
+}

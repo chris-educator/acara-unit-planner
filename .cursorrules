@@ -1,0 +1,17 @@
+Project Context:
+- Micro-Unit Starter Kit (B2): 3–5 lesson mini-units for Australian teachers.
+- Part of Lesson & Assessment Forge module vision.
+
+AI Behavior:
+- Use UNIT_PACK_SYSTEM from src/unit_prompts.py for Gemini generation.
+- Run validate_unit_output before returning or exporting; retry up to 3 attempts.
+- Australian English; practical classroom activities; no paste-ready student assessment answers.
+
+Stack:
+- client/: React + Tailwind + Vite (FBG teacher chrome)
+- server/: FastAPI on port 8009
+- src/: ACARA descriptor picks, generation, guardrails, DOCX/ZIP export
+
+UI:
+- Theme Auto/Light/Dark; top bar Ask button.
+- App title: **Micro-Unit** (muted) + **Starter Kit** (blue).
