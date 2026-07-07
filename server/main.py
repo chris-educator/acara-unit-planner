@@ -1,4 +1,4 @@
-"""FastAPI backend for Micro-Unit Starter Kit."""
+"""FastAPI backend for ACARA Unit Planner."""
 
 from __future__ import annotations
 
@@ -56,7 +56,7 @@ UNIT_GENERATE_USER_ERROR = (
 UNIT_REFINE_USER_ERROR = "Refinement could not complete. Try a shorter or clearer instruction."
 ASSISTANT_USER_ERROR = "The Assistant could not respond. Try again in a moment."
 
-app = FastAPI(title="Micro-Unit Starter API")
+app = FastAPI(title="ACARA Unit Planner API")
 
 
 @app.on_event("startup")
@@ -139,7 +139,7 @@ def health() -> dict:
         "status": "ok",
         "service": "acara-unit-planner",
         "product": "ACARA Unit Planner",
-        "product": "Micro-Unit Starter Kit",
+        "product": "ACARA Unit Planner",
         "api_key_configured": is_llm_configured(),
         "llm_provider": get_llm_provider(),
         "llm_model": get_llm_model(),
