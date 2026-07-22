@@ -144,7 +144,7 @@ export function UnitSetupForm({
           </div>
           <div>
             <label className="ui-label" htmlFor="lesson_count">
-              Lesson Count
+              Week Count
             </label>
             <select
               id="lesson_count"
@@ -154,7 +154,7 @@ export function UnitSetupForm({
             >
               {LESSON_COUNT_OPTIONS.map((count) => (
                 <option key={count} value={count}>
-                  {count} lessons
+                  {count} weeks
                 </option>
               ))}
             </select>
@@ -243,10 +243,10 @@ export function UnitSetupForm({
         functionalTitle={!topic.trim() ? 'Enter a unit topic to generate.' : undefined}
       >
         {loading
-          ? 'Building your micro-unit…'
+          ? 'Building your term plan…'
           : billingActive
-            ? 'Generate Micro-Unit (10 credits)'
-            : 'Generate Micro-Unit'}
+            ? 'Generate Term Plan (15 credits)'
+            : 'Generate Term Plan'}
       </SignInGatedButton>
     </div>
   )

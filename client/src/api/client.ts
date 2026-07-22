@@ -155,7 +155,7 @@ export async function exportMicroUnit(payload: {
   }
   const disposition = res.headers.get('Content-Disposition') ?? ''
   const match = disposition.match(/filename="([^"]+)"/)
-  const filename = match?.[1] ?? 'micro-unit.zip'
+  const filename = match?.[1] ?? 'term-plan.zip'
   const blob = await res.blob()
   return { blob, filename }
 }

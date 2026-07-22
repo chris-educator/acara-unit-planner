@@ -6,7 +6,7 @@ export const SHARE_TEXT = APP_TAGLINE
 
 export const SITE_URL =
   (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ??
-  (typeof window !== 'undefined' ? window.location.origin : 'https://micro.appstax.ai')
+  (typeof window !== 'undefined' ? window.location.origin : 'https://planner.appstax.ai')
 
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.svg`
 

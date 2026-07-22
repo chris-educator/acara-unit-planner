@@ -8,5 +8,5 @@ def test_provider_defaults_to_anthropic_when_key_set(monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
     monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
     assert get_llm_provider() == "anthropic"
-    assert get_llm_model() == "claude-sonnet-4-20250514"
+    assert get_llm_model() == "claude-sonnet-4-6"
     assert is_llm_configured() is True

@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
+from starlette.middleware.base import BaseHTTPMiddleware
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -32,7 +33,12 @@ from server.edstack_auth_routes import (  # noqa: E402
 
 from src.acara import list_descriptors_for_kla, list_kla_options  # noqa: E402
 from src.app_assistant import chat_with_assistant  # noqa: E402
-from src.config import is_google_api_key_configured  # noqa: E402
+from src.config import (  # noqa: E402
+    MAX_ASSISTANT_MESSAGE_CHARS,
+    MAX_ASSISTANT_MESSAGES,
+    MAX_REQUEST_BYTES,
+    is_google_api_key_configured,
+)
 from src.llm_config import (  # noqa: E402
     get_llm_model,
     get_llm_provider,
@@ -57,6 +63,35 @@ UNIT_REFINE_USER_ERROR = "Refinement could not complete. Try a shorter or cleare
 ASSISTANT_USER_ERROR = "The Assistant could not respond. Try again in a moment."
 
 app = FastAPI(title="ACARA Unit Planner API")
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+        if billing.cookie_secure():
+            response.headers["Strict-Transport-Security"] = (
+                "max-age=31536000; includeSubDomains"
+            )
+        return response
+
+
+app.add_middleware(SecurityHeadersMiddleware)
+
+
+@app.middleware("http")
+async def _limit_request_body(request: Request, call_next):
+    content_length = request.headers.get("content-length")
+    if content_length:
+        try:
+            if int(content_length) > MAX_REQUEST_BYTES:
+                return Response(status_code=413, content="Request body too large")
+        except ValueError:
+            pass
+    return await call_next(request)
 
 
 @app.on_event("startup")
@@ -95,7 +130,7 @@ class GenerateUnitRequest(BaseModel):
     topic: str = Field(min_length=2, max_length=200)
     year_level: str = Field(default="Year 8", max_length=40)
     subject: str = Field(default="Science", max_length=80)
-    lesson_count: int = Field(default=4, ge=3, le=5)
+    lesson_count: int = Field(default=8, ge=6, le=10)
     school_name: str = Field(default="", max_length=120)
     pedagogy_focus: str = Field(default="", max_length=120)
     class_context: str = Field(default="", max_length=400)
@@ -121,11 +156,14 @@ class RefineSectionRequest(BaseModel):
 
 class AssistantChatMessage(BaseModel):
     role: Literal["user", "assistant"]
-    content: str
+    content: str = Field(max_length=MAX_ASSISTANT_MESSAGE_CHARS)
 
 
 class AssistantChatRequest(BaseModel):
-    messages: list[AssistantChatMessage]
+    messages: list[AssistantChatMessage] = Field(
+        min_length=1,
+        max_length=MAX_ASSISTANT_MESSAGES,
+    )
 
 
 class AssistantChatResponse(BaseModel):
@@ -138,7 +176,6 @@ def health() -> dict:
         **billing_health_fields(),
         "status": "ok",
         "service": "acara-unit-planner",
-        "product": "ACARA Unit Planner",
         "product": "ACARA Unit Planner",
         "api_key_configured": is_llm_configured(),
         "llm_provider": get_llm_provider(),

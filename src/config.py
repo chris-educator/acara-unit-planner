@@ -38,3 +38,7 @@ MAX_ASSISTANT_MESSAGES = max(1, int(os.getenv("MAX_ASSISTANT_MESSAGES", "40")))
 MAX_ASSISTANT_MESSAGE_CHARS = max(
     256, int(os.getenv("MAX_ASSISTANT_MESSAGE_CHARS", "4000"))
 )
+
+# Hard cap on incoming request body size (bytes) — protects against
+# oversized uploads consuming CPU/memory before per-field truncation applies.
+MAX_REQUEST_BYTES = max(1_000_000, int(os.getenv("MAX_REQUEST_BYTES", "15000000")))

@@ -6,16 +6,16 @@ export function HowToUseGuide() {
       <div className="app-how-to-guide__header">
         <span className="app-how-to-guide__badge">Quick Guide</span>
         <h2 id="how-to-use-heading" className="app-how-to-guide__title">
-          How to Use Micro-Unit Starter Kit
+          How to Use ACARA Unit Planner
         </h2>
         <p className="app-how-to-guide__lead">
-          Plan a tight 3–5 lesson sequence with everything teachers need — not just activities. Use{' '}
+          Plan a 6–10 week term with curriculum-linked weekly intents and assessment — not just activities. Use{' '}
           <strong className="font-semibold text-text">Ask</strong> in the top bar for planning help,
           or <strong className="font-semibold text-text">Refine</strong> on any section after generation.
         </p>
       </div>
 
-      <ol className="app-how-to-guide__steps" aria-label="Micro-Unit Starter Kit workflow">
+      <ol className="app-how-to-guide__steps" aria-label="ACARA Unit Planner workflow">
         {HOW_TO_USE_STEPS.map((item) => (
           <li key={item.step} className="app-how-to-guide__step">
             <span className="app-how-to-guide__num" aria-hidden="true">

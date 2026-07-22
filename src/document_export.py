@@ -1,4 +1,4 @@
-"""Export micro-unit packs to DOCX, TXT, and ZIP."""
+"""Export term unit packs to DOCX, TXT, and ZIP."""
 
 from __future__ import annotations
 
@@ -19,18 +19,18 @@ def _generated_line() -> str:
 
 def _slug(text: str) -> str:
     slug = "".join(ch if ch.isalnum() or ch in "-_" else "-" for ch in text)[:50]
-    return slug.strip("-") or "micro-unit"
+    return slug.strip("-") or "term-plan"
 
 
 def _header_lines(unit: dict, *, school_name: str = "") -> list[str]:
-    title = unit.get("unit_title", "Micro-Unit")
+    title = unit.get("unit_title", "Term Plan")
     lines = [title, "=" * len(title), ""]
     if school_name.strip():
         lines.append(school_name.strip())
     lines.append(f"Topic: {unit.get('topic', '')}")
     lines.append(f"Year level: {unit.get('year_level', '')}")
     lines.append(f"Subject: {unit.get('subject', '')}")
-    lines.append(f"Lessons: {unit.get('lesson_count', len(unit.get('lessons') or []))}")
+    lines.append(f"Weeks: {unit.get('lesson_count', len(unit.get('lessons') or []))}")
     lines.append(_generated_line())
     return lines
 
@@ -38,7 +38,7 @@ def _header_lines(unit: dict, *, school_name: str = "") -> list[str]:
 def _lesson_block(lesson: dict) -> list[str]:
     lines = [
         "",
-        f"Lesson {lesson.get('lesson_number')}: {lesson.get('title', '')}",
+        f"Week {lesson.get('lesson_number')}: {lesson.get('title', '')}",
         "-" * 40,
     ]
     if lesson.get("timing_notes"):
@@ -142,7 +142,7 @@ def _add_rubric_table(doc: Document, rubric: list[dict]) -> None:
 
 def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
     doc = Document()
-    title = unit.get("unit_title", "Micro-Unit")
+    title = unit.get("unit_title", "Term Plan")
     heading = doc.add_heading(title, level=0)
     heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -176,7 +176,7 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
 
     for lesson in unit.get("lessons") or []:
         doc.add_heading(
-            f"Lesson {lesson.get('lesson_number')}: {lesson.get('title', '')}",
+            f"Week {lesson.get('lesson_number')}: {lesson.get('title', '')}",
             level=1,
         )
         if lesson.get("timing_notes"):
@@ -216,12 +216,12 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
 
 
 def build_export_zip(unit: dict, *, school_name: str = "") -> bytes:
-    slug = _slug(unit.get("unit_title", unit.get("topic", "micro-unit")))
+    slug = _slug(unit.get("unit_title", unit.get("topic", "term-plan")))
     docx_bytes = build_unit_docx(unit, school_name=school_name)
     txt_bytes = build_unit_txt(unit, school_name=school_name)
 
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
-        archive.writestr(f"{slug}-micro-unit.docx", docx_bytes)
-        archive.writestr(f"{slug}-micro-unit.txt", txt_bytes)
+        archive.writestr(f"{slug}-term-plan.docx", docx_bytes)
+        archive.writestr(f"{slug}-term-plan.txt", txt_bytes)
     return buffer.getvalue()

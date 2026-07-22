@@ -208,7 +208,7 @@ export default function AppMain() {
         <SignInCreditsCallout
           maxWidthClass="max-w-6xl"
           linkSignIn
-          creditQuote={billingActive ? '10 credits per generate, 3 per refine' : null}
+          creditQuote={billingActive ? '15 credits per generate, 3 per refine' : null}
         />
       }
     >

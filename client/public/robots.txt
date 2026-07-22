@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://micro.appstax.ai/sitemap.xml
+Sitemap: https://planner.appstax.ai/sitemap.xml

@@ -13,7 +13,7 @@ type AppAssistantChatProps = {
 
 export function AppAssistantChat({
   apiReady,
-  welcomeMessage = "Hi — I'm Ask the Assistant. Ask about lesson count, curriculum links, or exporting your micro-unit.",
+  welcomeMessage = "Hi — I'm Ask the Assistant. Ask about week count, curriculum links, or exporting your term plan.",
   inputPlaceholder = 'e.g. How many lessons should I include for a revision unit?',
 }: AppAssistantChatProps) {
   const { requiresSignIn, requiresEmailVerification, signInTo, emailVerifyTo } = useBillingGate()

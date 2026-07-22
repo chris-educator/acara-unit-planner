@@ -60,7 +60,7 @@ export function UnitPreviewPanel({
               {unit.unit_title}
             </h2>
             <p className="mt-2 text-sm text-text-muted">
-              {unit.lesson_count} lessons · {unit.subject} · {unit.year_level}
+              {unit.lesson_count} weeks · {unit.subject} · {unit.year_level}
               {schoolName.trim() ? ` · ${schoolName.trim()}` : ''}
             </p>
           </div>

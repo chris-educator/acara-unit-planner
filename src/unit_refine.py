@@ -8,7 +8,7 @@ from typing import Any
 from src.config import GEMINI_MAX_OUTPUT_TOKENS_REFINE
 from src.llm_chat import generate_json_text, parse_json_object
 
-REFINE_SYSTEM = """You are an expert teacher planner helping refine one section of a micro-unit.
+REFINE_SYSTEM = """You are an expert teacher planner helping refine one section of a term unit plan.
 
 Return strict JSON only:
 - For text fields: {"value": "..."}
@@ -17,7 +17,7 @@ Return strict JSON only:
 Rules:
 - Match the teacher's instruction and the unit context (year level, subject, topic).
 - Keep classroom-ready, practical tone; Australian/international school English as appropriate.
-- Do not invent unrelated topics or change the lesson focus unless asked.
+- Do not invent unrelated topics or change the week focus unless asked.
 - Preserve approximate length unless the teacher asks to shorten or expand.
 """
 

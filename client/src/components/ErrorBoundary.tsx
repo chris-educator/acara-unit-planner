@@ -11,7 +11,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[Micro-Unit Starter]', error, info.componentStack)
+    console.error('[ACARA Unit Planner]', error, info.componentStack)
   }
 
   render() {

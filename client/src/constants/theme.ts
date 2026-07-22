@@ -1,4 +1,4 @@
-export const THEME_STORAGE_KEY = 'micro-unit-starter-theme'
+export const THEME_STORAGE_KEY = 'acara-unit-planner-theme'
 
 export type ThemePreference = 'light' | 'dark' | 'system'
 export type ResolvedTheme = 'light' | 'dark'

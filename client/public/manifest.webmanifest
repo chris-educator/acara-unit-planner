@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Micro-Unit Starter Kit",
-  "short_name": "Micro-Unit",
-  "description": "3\u20135 lesson mini-units with starters, activities, exit tickets, and assessment export.",
+  "name": "ACARA Unit Planner",
+  "short_name": "Unit Planner",
+  "description": "6\u201310 week term unit plans with curriculum descriptor links, weekly intents, and assessment export.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,8 +1,8 @@
 {
-  "name": "micro-unit-starter-client",
+  "name": "acara-unit-planner-client",
   "private": true,
   "version": "1.0.0",
-  "description": "Micro-Unit Starter Kit — 3–5 lesson mini-units with export pack",
+  "description": "ACARA Unit Planner — 6–10 week term unit plans with curriculum descriptor links",
   "type": "module",
   "scripts": {
     "dev": "vite",
