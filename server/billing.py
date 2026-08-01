@@ -121,6 +121,16 @@ class UserRow:
 
 
 @dataclass(frozen=True)
+class MeSession:
+    authenticated: bool
+    billing_enabled: bool
+    billing_degraded: bool
+    email: str | None
+    credits: int | None
+    email_verified: bool | None
+
+
+@dataclass(frozen=True)
 class RegisterResult:
     user: UserRow
     needs_email_verification: bool = False
@@ -703,6 +713,36 @@ def user_from_request(request: Request) -> UserRow | None:
         return _user_row_from_db(conn, row)
 
 
+def session_from_request(request: Request) -> MeSession:
+    if not billing_enabled():
+        return MeSession(
+            authenticated=False,
+            billing_enabled=False,
+            billing_degraded=False,
+            email=None,
+            credits=None,
+            email_verified=None,
+        )
+    user = user_from_request(request)
+    if not user:
+        return MeSession(
+            authenticated=False,
+            billing_enabled=True,
+            billing_degraded=False,
+            email=None,
+            credits=0,
+            email_verified=None,
+        )
+    return MeSession(
+        authenticated=True,
+        billing_enabled=True,
+        billing_degraded=False,
+        email=user.email,
+        credits=user.credits,
+        email_verified=user.email_verified,
+    )
+
+
 def require_user(request: Request) -> UserRow:
     """Signed-in and email-verified (required before credits, generate, checkout)."""
     user = user_from_request(request)
@@ -979,6 +1019,7 @@ def _activate_shared_wallet() -> None:
             "resend_verification_email": remote.resend_verification_email,
             "find_or_create_google_user": remote.find_or_create_google_user,
             "user_from_request": remote.user_from_request,
+            "session_from_request": remote.session_from_request,
             "debit_credits": remote.debit_credits,
             "add_credits": remote.add_credits,
             "log_usage": remote.log_usage,

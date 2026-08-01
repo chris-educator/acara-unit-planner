@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { AppAssistantChat } from './AppAssistantChat'
 import { AskChatIcon } from './AskChatIcon'
 import { ASK_ASSISTANT_BACKDROP_CLASS, ASK_ASSISTANT_PANEL_CLASS } from './askAssistantClasses'
+import { useFocusTrap } from '../utils/focusTrap'
 
 type AskAssistantProps = {
   apiReady: boolean
@@ -35,7 +36,12 @@ export function AskAssistant({
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const isMobileLayout = useMobileAskLayout()
+
+  const close = useCallback(() => setOpen(false), [])
+
+  useFocusTrap(panelRef, open, close)
 
   useEffect(() => {
     if (!open || !isMobileLayout) return
@@ -52,20 +58,15 @@ export function AskAssistant({
     const onPointerDown = (event: MouseEvent) => {
       const target = event.target as Node
       if (containerRef.current?.contains(target)) return
-      if (isMobileLayout && panelRef.current?.contains(target)) return
+      if (panelRef.current?.contains(target)) return
       setOpen(false)
-    }
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
     }
 
     document.addEventListener('mousedown', onPointerDown)
-    document.addEventListener('keydown', onKeyDown)
     return () => {
       document.removeEventListener('mousedown', onPointerDown)
-      document.removeEventListener('keydown', onKeyDown)
     }
-  }, [open, isMobileLayout])
+  }, [open])
 
   const popout = open ? (
     <>
@@ -74,30 +75,36 @@ export function AskAssistant({
         tabIndex={-1}
         aria-label="Close Assistant"
         className={ASK_ASSISTANT_BACKDROP_CLASS}
-        onClick={() => setOpen(false)}
+        onClick={close}
       />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Ask the Assistant"
+        aria-labelledby="ask-assistant-title"
+        aria-describedby="ask-assistant-subtitle"
+        tabIndex={-1}
         className={ASK_ASSISTANT_PANEL_CLASS}
       >
-        <div className="flex shrink-0 items-start justify-between gap-2 border-b border-border px-3 py-3 sm:px-4">
+        <div className="ask-assistant-panel__header flex shrink-0 items-start justify-between gap-3 border-b border-border px-4 py-3.5 sm:px-5">
           <div className="min-w-0 flex-1">
-            <h3 className="ui-section-heading mb-1">Ask the Assistant</h3>
-            <p className="text-xs leading-snug text-text-muted">{subtitle}</p>
+            <h3 id="ask-assistant-title" className="ui-section-heading mb-1">
+              Ask the Assistant
+            </h3>
+            <p id="ask-assistant-subtitle" className="text-xs leading-snug text-text-muted">
+              {subtitle}
+            </p>
           </div>
           <button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={close}
             aria-label="Close assistant"
-            className="rounded-md p-1 text-text-muted transition-colors hover:bg-surface-raised hover:text-text"
+            className="ask-assistant-close shrink-0 rounded-lg p-2 text-text-muted transition-colors hover:bg-surface-raised hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
           >
             <CloseIcon className="h-5 w-5" />
           </button>
         </div>
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3 sm:p-4">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3 sm:px-5 sm:py-4">
           <AppAssistantChat
             apiReady={apiReady}
             welcomeMessage={welcomeMessage}
@@ -115,9 +122,10 @@ export function AskAssistant({
       data-tour="ask-assistant"
     >
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Ask"
+        aria-label="Ask the Assistant"
         aria-expanded={open}
         aria-haspopup="dialog"
         className={[

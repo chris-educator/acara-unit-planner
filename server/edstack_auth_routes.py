@@ -107,16 +107,21 @@ def register_edstack_auth_routes(app: FastAPI, *, default_public_url: str) -> No
     @app.get("/api/me")
     def me(request: Request) -> dict:
         if not billing.billing_enabled():
-            return {"authenticated": False, "billing_enabled": False, "email": None, "credits": None}
-        user = billing.user_from_request(request)
-        if user is None:
-            return {"authenticated": False, "billing_enabled": True, "email": None, "credits": 0}
+            return {
+                "authenticated": False,
+                "billing_enabled": False,
+                "billing_degraded": False,
+                "email": None,
+                "credits": None,
+            }
+        session = billing.session_from_request(request)
         return {
-            "authenticated": True,
-            "billing_enabled": True,
-            "email": user.email,
-            "credits": user.credits,
-            "email_verified": user.email_verified,
+            "authenticated": session.authenticated,
+            "billing_enabled": session.billing_enabled,
+            "billing_degraded": session.billing_degraded,
+            "email": session.email,
+            "credits": session.credits if session.authenticated else (0 if not session.billing_degraded else None),
+            "email_verified": session.email_verified,
         }
 
     @app.post("/api/auth/register")

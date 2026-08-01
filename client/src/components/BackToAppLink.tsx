@@ -7,7 +7,7 @@ type BackToAppLinkProps = {
 }
 
 export function BackToAppLink({ className = '', variant = 'text' }: BackToAppLinkProps) {
-  const label = '← Back to Micro Unit Starter'
+  const label = '← Back to ACARA Unit Planner'
   const linkClass =
     variant === 'primary'
       ? 'ui-btn-primary inline-flex shrink-0 items-center no-underline'

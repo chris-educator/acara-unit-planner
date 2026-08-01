@@ -29,6 +29,7 @@ export type RegisterResponse = {
 export type MeResponse = {
   authenticated: boolean
   billing_enabled: boolean
+  billing_degraded?: boolean
   email: string | null
   email_verified?: boolean
   credits: number | null

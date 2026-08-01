@@ -7,6 +7,7 @@ export type UnitDraft = {
   schoolName: string
   yearLevel: string
   subject: string
+  curriculumFramework?: string
   lessonCount: number
   pedagogyFocus: string
   classContext: string

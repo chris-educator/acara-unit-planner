@@ -12,6 +12,7 @@ type SiteTopBarToolsProps = {
   showBilling?: boolean
   signedIn?: boolean
   credits?: number
+  billingDegraded?: boolean
   accountTo?: string
   loginTo?: string
   onLogout?: () => void
@@ -32,6 +33,7 @@ export function SiteTopBarTools({
   showBilling = false,
   signedIn = false,
   credits = 0,
+  billingDegraded = false,
   accountTo = '/account',
   loginTo = '/login',
   onLogout,
@@ -53,7 +55,11 @@ export function SiteTopBarTools({
       <div className="site-top-bar__group-primary">
         {primaryBeforeTheme}
         {showBilling && signedIn ? (
-          <CreditsTopBarLink credits={credits} to={accountTo} />
+          <CreditsTopBarLink
+            credits={credits}
+            billingDegraded={billingDegraded}
+            to={accountTo}
+          />
         ) : null}
         {showBilling && !signedIn ? <SignInTopBarLink to={loginTo} /> : null}
         {showBilling && signedIn && onLogout ? (

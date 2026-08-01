@@ -9,14 +9,18 @@ import { useAuth } from '../context/AuthContext'
 
 type LayoutProps = {
   children: React.ReactNode
-  apiReady: boolean
+  /** Primary LLM readiness for Generate / Refine (`null` = still checking). */
+  apiReady: boolean | null
+  /** Gemini readiness for Ask the Assistant. */
+  assistantReady: boolean
   creditsCallout?: React.ReactNode
 }
 
-export function Layout({ children, apiReady, creditsCallout }: LayoutProps) {
+export function Layout({ children, apiReady, assistantReady, creditsCallout }: LayoutProps) {
   const { me, config, logout, loading: authLoading } = useAuth()
   const showBilling = config?.billing_enabled
   const signedIn = !authLoading && me?.authenticated === true
+  const billingDegraded = Boolean(me?.billing_degraded)
 
   return (
     <div
@@ -24,16 +28,31 @@ export function Layout({ children, apiReady, creditsCallout }: LayoutProps) {
       className="flex min-h-screen min-h-[100dvh] w-full max-w-[100vw] flex-col bg-bg"
     >
       <SiteTopBar>
-                <SiteTopBarTools
-          askSlot={<AskAssistant apiReady={apiReady} />}
+        <SiteTopBarTools
+          askSlot={<AskAssistant apiReady={assistantReady} />}
           showBilling={showBilling}
           signedIn={signedIn}
           credits={me?.credits ?? 0}
+          billingDegraded={billingDegraded}
           accountTo={ROUTE_ACCOUNT}
           loginTo={ROUTE_LOGIN}
           onLogout={() => void logout()}
         />
       </SiteTopBar>
+      {billingDegraded && signedIn ? (
+        <div
+          className="ui-callout-orange mx-auto w-full max-w-6xl px-4 pt-3 sm:px-6 md:px-8"
+          role="status"
+        >
+          Account services are temporarily unavailable. Your sign-in is still valid — credit balance
+          and purchases may be delayed. Try again in a few minutes.
+        </div>
+      ) : null}
+      {apiReady === false ? (
+        <div className="ui-callout mx-auto w-full max-w-6xl px-4 pt-3 sm:px-6 md:px-8" role="status">
+          Term plan generation is not configured on this server. Contact your administrator.
+        </div>
+      ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
         <div className="mx-auto w-full min-w-0 max-w-6xl space-y-3 px-4 sm:px-6 md:px-8">
           <AppTitle />

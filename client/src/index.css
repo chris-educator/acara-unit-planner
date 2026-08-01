@@ -252,6 +252,95 @@ html[data-theme='dark'] .ui-header__ask-text {
     color: var(--color-btn-label);
   }
 
+  /* Ask the Assistant — high-spec popout motion */
+  @keyframes ask-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes ask-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes ask-typing {
+    0%,
+    80%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    40% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+
+  .ask-assistant-backdrop {
+    animation: ask-backdrop-in 180ms ease-out both;
+  }
+
+  .ask-assistant-panel {
+    animation: ask-panel-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    box-shadow:
+      0 0 0 1px rgb(0 132 255 / 0.08),
+      0 18px 50px rgb(0 0 0 / 0.18),
+      0 4px 14px rgb(0 0 0 / 0.08);
+  }
+
+  .ask-assistant-bubble {
+    animation: ask-panel-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .ask-assistant-typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 1.25rem;
+  }
+
+  .ask-assistant-typing > span {
+    display: block;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-text-muted);
+    animation: ask-typing 1.1s ease-in-out infinite;
+  }
+
+  .ask-assistant-typing > span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .ask-assistant-typing > span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .ask-assistant-close:focus-visible,
+  .ask-assistant-composer textarea:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ask-assistant-backdrop,
+    .ask-assistant-panel,
+    .ask-assistant-bubble,
+    .ask-assistant-typing > span {
+      animation: none !important;
+    }
+  }
+
   .site-top-bar__action:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
@@ -638,6 +727,22 @@ html[data-theme='dark'] .ui-header__ask-text {
     position: relative;
     display: inline-block;
     max-width: 100%;
+  }
+
+  .sign-in-gated-button--full {
+    display: flex;
+    width: 100%;
+  }
+
+  .sign-in-gated-button--full > button {
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .sign-in-gated-button--full {
+      display: inline-flex;
+      width: auto;
+    }
   }
 
   .sign-in-gated-button--blocked button {
@@ -1125,6 +1230,12 @@ html[data-theme='dark'] .app-how-to-guide__step {
   gap: 1.5rem;
 }
 
+.unit-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .unit-descriptor-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1457,6 +1568,44 @@ html[data-theme='dark'] .app-how-to-guide__step {
     background: var(--color-header-bg);
     border-bottom: 1px solid var(--color-border);
     color: var(--color-text);
+  }
+}
+
+@media (max-width: 639px) {
+  .unit-export-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .unit-export-actions .ui-btn-secondary {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding-inline: 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  .unit-lesson-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .unit-lesson-tab {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .unit-field-label-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .unit-refine-trigger {
+    align-self: flex-start;
   }
 }
 

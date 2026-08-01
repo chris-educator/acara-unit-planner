@@ -39,6 +39,7 @@ def generate_unit_pack(
     school_name: str = "",
     pedagogy_focus: str = "",
     class_context: str = "",
+    curriculum_framework: str = "",
     model: str | None = None,
 ) -> UnitPackResult:
     del model
@@ -52,9 +53,12 @@ def generate_unit_pack(
     context_parts = [
         f"Topic: {topic.strip()}",
         f"Year level: {year_level.strip()}",
-        f"Subject / KLA: {subject.strip()}",
+        f"Subject / learning area: {subject.strip()}",
+        f"Curriculum framework: {curriculum_framework.strip() or 'Australian Curriculum (ACARA)'}",
         f"Lesson count: {lesson_count}",
         f"School name (optional header): {school_name.strip() or 'School name'}",
+        "Context: Plan for Australian schools. Align language and outcomes to the selected "
+        "Australian curriculum framework (and common overseas quals used in AU schools when selected).",
     ]
     if pedagogy_focus.strip():
         context_parts.append(f"Pedagogy focus: {pedagogy_focus.strip()}")

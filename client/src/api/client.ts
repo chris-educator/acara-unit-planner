@@ -62,7 +62,12 @@ export { FetchTimeoutError }
 
 export async function fetchHealth() {
   const res = await fetchWithTimeout('/api/health', undefined, HEALTH_TIMEOUT_MS)
-  return parseJsonResponse<{ gemini_configured?: boolean }>(res)
+  return parseJsonResponse<{
+    api_key_configured?: boolean
+    gemini_configured?: boolean
+    anthropic_configured?: boolean
+    assistant_ready?: boolean
+  }>(res)
 }
 
 export async function fetchSubjects() {
@@ -83,6 +88,7 @@ export async function generateMicroUnit(payload: {
   topic: string
   year_level: string
   subject: string
+  curriculum_framework?: string
   lesson_count: number
   school_name: string
   pedagogy_focus: string

@@ -81,7 +81,7 @@ class UnitOutput(BaseModel):
     unit_title: str = Field(min_length=4, max_length=200)
     topic: str = Field(min_length=2, max_length=200)
     year_level: str = Field(min_length=2, max_length=40)
-    subject: str = Field(min_length=2, max_length=80)
+    subject: str = Field(min_length=2, max_length=120)
     lesson_count: int = Field(ge=6, le=10)
     overview: str = Field(min_length=20, max_length=3000)
     success_criteria: list[str] = Field(min_length=2, max_length=10)

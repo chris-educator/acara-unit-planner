@@ -1,9 +1,10 @@
-import type { DescriptorRef } from '../api/client'
 import { SignInGatedButton } from './SignInGatedButton'
 import {
   CLASS_CONTEXT_PLACEHOLDER,
+  CURRICULUM_FRAMEWORK_OPTIONS,
   LESSON_COUNT_OPTIONS,
   PEDAGOGY_FOCUS_OPTIONS,
+  TOPIC_PLACEHOLDER,
   YEAR_LEVEL_OPTIONS,
 } from '../constants/formOptions'
 
@@ -13,11 +14,10 @@ type UnitSetupFormProps = {
   yearLevel: string
   subject: string
   subjects: string[]
+  curriculumFramework: string
   lessonCount: number
   pedagogyFocus: string
   classContext: string
-  descriptors: DescriptorRef[]
-  selectedDescriptors: Set<string>
   loading: boolean
   apiReady: boolean
   billingActive?: boolean
@@ -29,10 +29,10 @@ type UnitSetupFormProps = {
   onSchoolNameChange: (value: string) => void
   onYearLevelChange: (value: string) => void
   onSubjectChange: (value: string) => void
+  onCurriculumFrameworkChange: (value: string) => void
   onLessonCountChange: (value: number) => void
   onPedagogyFocusChange: (value: string) => void
   onClassContextChange: (value: string) => void
-  onToggleDescriptor: (id: string) => void
   onClearDraft: () => void
 }
 
@@ -42,11 +42,10 @@ export function UnitSetupForm({
   yearLevel,
   subject,
   subjects,
+  curriculumFramework,
   lessonCount,
   pedagogyFocus,
   classContext,
-  descriptors,
-  selectedDescriptors,
   loading,
   apiReady,
   billingActive = false,
@@ -58,29 +57,55 @@ export function UnitSetupForm({
   onSchoolNameChange,
   onYearLevelChange,
   onSubjectChange,
+  onCurriculumFrameworkChange,
   onLessonCountChange,
   onPedagogyFocusChange,
   onClassContextChange,
-  onToggleDescriptor,
   onClearDraft,
 }: UnitSetupFormProps) {
+  const sortedSubjects = [...subjects].sort((a, b) =>
+    a.localeCompare(b, 'en-AU', { sensitivity: 'base' }),
+  )
+
   return (
     <div className="space-y-6 no-print">
       <section className="ui-card p-4 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+          <div className="min-w-0">
             <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
             <p className="mt-2 text-sm text-text-muted">
-              Describe your topic and class context — the AI builds a sequenced mini-unit with
-              materials, differentiation, and a marking rubric.
+              Plan against Australian Curriculum frameworks and subjects taught in Australian
+              schools — including state senior syllabuses and common overseas quals (IB, Cambridge).
+              Defaults open on Humanities.
             </p>
           </div>
-          <button type="button" className="ui-btn-ghost text-xs" onClick={onClearDraft}>
+          <button
+            type="button"
+            className="ui-btn-ghost w-full text-xs sm:w-auto"
+            onClick={onClearDraft}
+          >
             Clear All
           </button>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <label className="ui-label" htmlFor="curriculum_framework">
+              Curriculum Framework
+            </label>
+            <select
+              id="curriculum_framework"
+              value={curriculumFramework}
+              onChange={(e) => onCurriculumFrameworkChange(e.target.value)}
+              className="ui-input"
+            >
+              {CURRICULUM_FRAMEWORK_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="sm:col-span-2">
             <label className="ui-label" htmlFor="topic">
               Unit Topic
@@ -90,7 +115,7 @@ export function UnitSetupForm({
               type="text"
               value={topic}
               onChange={(e) => onTopicChange(e.target.value)}
-              placeholder="e.g. Ecosystem interactions and food webs"
+              placeholder={TOPIC_PLACEHOLDER}
               className="ui-input"
               required
             />
@@ -127,7 +152,7 @@ export function UnitSetupForm({
           </div>
           <div>
             <label className="ui-label" htmlFor="subject">
-              Subject / KLA
+              Subject / Learning Area
             </label>
             <select
               id="subject"
@@ -135,7 +160,7 @@ export function UnitSetupForm({
               onChange={(e) => onSubjectChange(e.target.value)}
               className="ui-input"
             >
-              {subjects.map((option) => (
+              {sortedSubjects.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -170,7 +195,7 @@ export function UnitSetupForm({
               className="ui-input"
             >
               <option value="">Default (balanced mix)</option>
-              {PEDAGOGY_FOCUS_OPTIONS.filter(Boolean).map((option) => (
+              {PEDAGOGY_FOCUS_OPTIONS.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -193,61 +218,24 @@ export function UnitSetupForm({
         </div>
       </section>
 
-      {descriptors.length ? (
-        <section className="ui-card p-4 sm:p-6">
-          <h2 className="ui-section-heading border-l-2 border-blue pl-3">
-            Curriculum Links
-          </h2>
-          <p className="mt-2 text-sm text-text-muted">
-            Optional descriptors for {subject}. Select up to four to weave into objectives.
-          </p>
-          <div className="mt-4 space-y-2">
-            {descriptors.map((descriptor) => {
-              const checked = selectedDescriptors.has(descriptor.id)
-              const disabled = !checked && selectedDescriptors.size >= 4
-              return (
-                <label
-                  key={descriptor.id}
-                  className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors ${
-                    checked
-                      ? 'border-blue bg-blue-soft/40'
-                      : 'border-border bg-surface hover:border-blue/40'
-                  } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    disabled={disabled}
-                    onChange={() => onToggleDescriptor(descriptor.id)}
-                    className="mt-1"
-                  />
-                  <span>
-                    <span className="block text-sm font-medium text-text">{descriptor.label}</span>
-                    <span className="block text-sm text-text-muted">{descriptor.summary}</span>
-                  </span>
-                </label>
-              )
-            })}
-          </div>
-        </section>
-      ) : null}
-
-      <SignInGatedButton
-        type="submit"
-        className="ui-btn-primary w-full sm:w-auto"
-        requiresSignIn={requiresSignIn}
-        requiresEmailVerification={requiresEmailVerification}
-        signInTo={signInTo}
-        emailVerifyTo={emailVerifyTo}
-        disabled={loading || !apiReady}
-        functionalTitle={!topic.trim() ? 'Enter a unit topic to generate.' : undefined}
-      >
-        {loading
-          ? 'Building your term plan…'
-          : billingActive
-            ? 'Generate Term Plan (15 credits)'
-            : 'Generate Term Plan'}
-      </SignInGatedButton>
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <SignInGatedButton
+          type="submit"
+          className="ui-btn-primary w-full sm:w-auto"
+          requiresSignIn={requiresSignIn}
+          requiresEmailVerification={requiresEmailVerification}
+          signInTo={signInTo}
+          emailVerifyTo={emailVerifyTo}
+          disabled={loading || !apiReady}
+          functionalTitle={!topic.trim() ? 'Enter a unit topic to generate.' : undefined}
+        >
+          {loading
+            ? 'Building your term plan…'
+            : billingActive
+              ? 'Generate Term Plan (15 credits)'
+              : 'Generate Term Plan'}
+        </SignInGatedButton>
+      </div>
     </div>
   )
 }

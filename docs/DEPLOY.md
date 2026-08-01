@@ -1,14 +1,14 @@
 # Deploy — ACARA Unit Planner
 
-**Host:** https://planner.appstax.ai
+**Host:** https://acara.appstax.ai
 
 | Variable | Value |
 |----------|-------|
 | `EDSTACK_APP_ID` | `acara-unit-planner` |
-| `APP_PUBLIC_URL` | `https://planner.appstax.ai` |
-| `VITE_SITE_URL` | `https://planner.appstax.ai` |
+| `APP_PUBLIC_URL` | `https://acara.appstax.ai` |
+| `VITE_SITE_URL` | `https://acara.appstax.ai` |
 
-Health: `curl -fsS https://planner.appstax.ai/api/health`
+Health: `curl -fsS https://acara.appstax.ai/api/health`
 
 Local dev:
 

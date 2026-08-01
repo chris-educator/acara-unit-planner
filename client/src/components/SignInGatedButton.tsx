@@ -54,11 +54,14 @@ export function SignInGatedButton({
     }
   }
 
+  const stretchesFull = /\bw-full\b/.test(className)
+
   return (
     <span
       className={[
         'sign-in-gated-button',
         authBlocked ? 'sign-in-gated-button--blocked' : '',
+        stretchesFull ? 'sign-in-gated-button--full' : '',
       ]
         .filter(Boolean)
         .join(' ')}

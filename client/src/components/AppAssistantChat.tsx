@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { sendAssistantMessage, type AssistantChatMessage } from '../api/client'
 import { appstaxFlagAssistantReplyMailto } from '../constants/branding'
 import { useBillingGate } from '../hooks/useBillingGate'
@@ -13,8 +13,8 @@ type AppAssistantChatProps = {
 
 export function AppAssistantChat({
   apiReady,
-  welcomeMessage = "Hi — I'm Ask the Assistant. Ask about week count, curriculum links, or exporting your term plan.",
-  inputPlaceholder = 'e.g. How many lessons should I include for a revision unit?',
+  welcomeMessage = "Hi — I'm Ask the Assistant. Ask about week count, curriculum links, Refine, or exporting your term plan.",
+  inputPlaceholder = 'e.g. How many weeks should I include for a revision unit?',
 }: AppAssistantChatProps) {
   const { requiresSignIn, requiresEmailVerification, signInTo, emailVerifyTo } = useBillingGate()
   const [messages, setMessages] = useState<AssistantChatMessage[]>([
@@ -23,7 +23,13 @@ export function AppAssistantChat({
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const listRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: loading ? 'smooth' : 'auto', block: 'end' })
+  }, [messages, loading])
 
   const handleSend = async () => {
     const text = input.trim()
@@ -31,19 +37,19 @@ export function AppAssistantChat({
 
     setError('')
     setInput('')
-    const nextMessages: AssistantChatMessage[] = [
-      ...messages,
-      { role: 'user', content: text },
-    ]
+    const prior = messages
+    const nextMessages: AssistantChatMessage[] = [...prior, { role: 'user', content: text }]
     setMessages(nextMessages)
     setLoading(true)
 
     try {
       const { reply } = await sendAssistantMessage(nextMessages)
       setMessages([...nextMessages, { role: 'assistant', content: reply }])
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     } catch (err) {
+      setMessages(prior)
+      setInput(text)
       setError(err instanceof Error ? err.message : 'Chat failed.')
+      window.setTimeout(() => inputRef.current?.focus(), 0)
     } finally {
       setLoading(false)
     }
@@ -51,15 +57,20 @@ export function AppAssistantChat({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain pr-1 pb-2">
+      <div
+        ref={listRef}
+        className="ask-assistant-thread min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1 pb-2"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
         {messages.map((msg, i) => (
           <div
-            key={i}
+            key={`${msg.role}-${i}-${msg.content.slice(0, 24)}`}
             className={[
-              'max-w-[90%] rounded-xl px-4 py-3 text-sm leading-relaxed break-words',
+              'ask-assistant-bubble max-w-[92%] rounded-2xl px-4 py-3 text-sm leading-relaxed break-words',
               msg.role === 'user'
-                ? 'ml-auto bg-blue text-btn-label shadow-sm'
-                : 'border border-border border-l-4 border-l-blue bg-surface-raised text-text',
+                ? 'ask-assistant-bubble--user ml-auto bg-blue text-btn-label shadow-sm'
+                : 'ask-assistant-bubble--assistant border border-border border-l-4 border-l-blue bg-surface-raised text-text',
             ].join(' ')}
           >
             {msg.content}
@@ -80,41 +91,59 @@ export function AppAssistantChat({
           </div>
         ))}
         {loading && (
-          <div className="max-w-[90%] rounded-xl bg-surface-raised px-4 py-3 text-sm text-text-muted">
-            Thinking…
+          <div
+            className="ask-assistant-bubble ask-assistant-bubble--assistant max-w-[92%] rounded-2xl border border-border bg-surface-raised px-4 py-3 text-sm text-text-muted"
+            aria-label="Assistant is thinking"
+          >
+            <span className="ask-assistant-typing" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
           </div>
         )}
         <div ref={bottomRef} aria-hidden className="h-px shrink-0" />
       </div>
 
       {error && (
-        <div className="mt-3 shrink-0 ui-callout-orange" role="alert">
+        <div className="mt-3 shrink-0 ui-callout-orange text-sm" role="alert">
           {error}
         </div>
       )}
 
-      <div className="mt-3 shrink-0 flex flex-col gap-2 sm:mt-4 sm:flex-row">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              void handleSend()
+      {!apiReady && (
+        <div className="mt-3 shrink-0 ui-callout text-sm" role="status">
+          Ask needs a Gemini or Anthropic API key on the server.
+        </div>
+      )}
+
+      <div className="ask-assistant-composer mt-3 shrink-0 flex flex-col gap-2 sm:mt-4 sm:flex-row sm:items-end">
+        <label className="flex min-w-0 flex-1 flex-col gap-1">
+          <span className="sr-only">Message for the assistant</span>
+          <textarea
+            ref={inputRef}
+            data-ask-autofocus="true"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                void handleSend()
+              }
+            }}
+            rows={2}
+            disabled={!apiReady || loading}
+            placeholder={
+              apiReady
+                ? inputPlaceholder
+                : 'Assistant unavailable — configure API keys on the server'
             }
-          }}
-          rows={2}
-          disabled={!apiReady || loading}
-          placeholder={
-            apiReady
-              ? inputPlaceholder
-              : 'Configure GOOGLE_API_KEY on the server to use the Assistant'
-          }
-          className="ui-input flex-1 resize-none disabled:opacity-50"
-        />
+            className="ui-input min-h-[4.5rem] flex-1 resize-none disabled:opacity-50"
+          />
+        </label>
         <SignInGatedButton
           type="button"
-          className="ui-btn-primary sm:self-end"
+          className="ui-btn-primary min-h-11 w-full sm:min-w-[5.5rem] sm:w-auto sm:self-end"
           requiresSignIn={requiresSignIn}
           requiresEmailVerification={requiresEmailVerification}
           signInTo={signInTo}
@@ -122,7 +151,7 @@ export function AppAssistantChat({
           disabled={!apiReady || loading || !input.trim()}
           onAuthorizedClick={() => void handleSend()}
         >
-          Chat
+          {loading ? 'Sending…' : 'Send'}
         </SignInGatedButton>
       </div>
     </div>

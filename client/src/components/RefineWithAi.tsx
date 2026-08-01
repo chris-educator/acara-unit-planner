@@ -88,10 +88,10 @@ export function RefineWithAi({ apiReady, sectionLabel, onRefine }: RefineWithAiP
                 ))}
               </div>
               {error ? <div className="ui-callout-orange text-sm" role="alert">{error}</div> : null}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <SignInGatedButton
                   type="submit"
-                  className="ui-btn-primary"
+                  className="ui-btn-primary w-full sm:w-auto"
                   requiresSignIn={requiresSignIn}
                   requiresEmailVerification={requiresEmailVerification}
                   signInTo={signInTo}
@@ -104,7 +104,11 @@ export function RefineWithAi({ apiReady, sectionLabel, onRefine }: RefineWithAiP
                       ? 'Apply Refinement (3 credits)'
                       : 'Apply Refinement'}
                 </SignInGatedButton>
-                <button type="button" className="ui-btn-ghost" onClick={() => setOpen(false)}>
+                <button
+                  type="button"
+                  className="ui-btn-ghost w-full sm:w-auto"
+                  onClick={() => setOpen(false)}
+                >
                   Cancel
                 </button>
               </div>

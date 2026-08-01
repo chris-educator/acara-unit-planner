@@ -18,7 +18,7 @@ def is_google_api_key_configured() -> bool:
     return get_google_api_key() is not None
 
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash").strip()
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash").strip()
 MAX_GENERATION_ATTEMPTS = 3
 DEFAULT_DURATION_MINUTES = 60
 DEFAULT_TOTAL_MARKS = 50
@@ -31,7 +31,7 @@ GEMINI_MAX_OUTPUT_TOKENS_REFINE = max(
     128, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_REFINE", "1024"))
 )
 GEMINI_MAX_OUTPUT_TOKENS_ASSISTANT = max(
-    128, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_ASSISTANT", "512"))
+    128, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_ASSISTANT", "384"))
 )
 
 MAX_ASSISTANT_MESSAGES = max(1, int(os.getenv("MAX_ASSISTANT_MESSAGES", "40")))

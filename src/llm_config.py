@@ -16,7 +16,7 @@ _PLACEHOLDER_KEYS = frozenset(
 )
 
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-6"
-DEFAULT_GEMINI_MODEL = "gemini-3.5-flash"
+DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"
 
 
 def get_anthropic_api_key() -> str | None:

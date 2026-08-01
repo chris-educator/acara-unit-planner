@@ -3,7 +3,7 @@
 **Full-term unit plans aligned to curriculum descriptors**  
 **ID:** B1 · **Repo:** `/Users/c.magill/AppDev/acara-unit-planner`  
 **Status:** MVP · July 2026  
-**Host:** `planner.appstax.ai`
+**Host:** `acara.appstax.ai`
 
 ## One-liner
 

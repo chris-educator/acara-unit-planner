@@ -1,20 +1,95 @@
-"""Curated curriculum descriptor picks for teacher selection."""
+"""Australian curriculum frameworks, subjects/KLAs, and descriptor picks."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-KLA_OPTIONS = (
-    "English",
-    "Mathematics",
-    "Science",
-    "Geography",
-    "History",
-    "Digital Technologies",
-    "Economics & Business",
-    "Civics & Citizenship",
-    "The Arts",
-    "Health and Physical Education",
+# Default subject for Unit Setup — Australian Humanities focus.
+DEFAULT_SUBJECT = "Humanities and Social Sciences"
+DEFAULT_CURRICULUM_FRAMEWORK = "Australian Curriculum (ACARA)"
+
+# Frameworks used in Australian schools (national, state/territory senior, and common overseas quals).
+# Kept A–Z for dropdowns.
+CURRICULUM_FRAMEWORKS: tuple[str, ...] = tuple(
+    sorted(
+        {
+            "ACT Board of Senior Secondary Studies (BSSS)",
+            "Australian Curriculum (ACARA)",
+            "Cambridge International (IGCSE / A Level)",
+            "Early Years Learning Framework (EYLF)",
+            "International Baccalaureate (IB DP)",
+            "International Baccalaureate (IB MYP)",
+            "International Baccalaureate (IB PYP)",
+            "NSW Education Standards Authority (NESA)",
+            "Northern Territory Certificate of Education and Training (NTCET)",
+            "Queensland Curriculum and Assessment Authority (QCAA)",
+            "South Australian Certificate of Education (SACE)",
+            "Tasmanian Assessment, Standards and Certification (TASC)",
+            "Victorian Curriculum and Assessment Authority (VCAA)",
+            "Western Australian Certificate of Education (WACE)",
+        },
+        key=str.casefold,
+    )
+)
+
+# Learning areas and subjects commonly offered in Australian schools (F–12 + senior electives).
+# A–Z — single source for /api/subjects and client fallbacks.
+KLA_OPTIONS: tuple[str, ...] = tuple(
+    sorted(
+        {
+            "Accounting",
+            "Agricultural Science",
+            "Ancient History",
+            "Arabic",
+            "Biology",
+            "Business",
+            "Chemistry",
+            "Chinese",
+            "Civics and Citizenship",
+            "Dance",
+            "Design and Technologies",
+            "Digital Technologies",
+            "Drama",
+            "Earth and Environmental Science",
+            "Economics",
+            "Economics and Business",
+            "Engineering",
+            "English",
+            "English as an Additional Language or Dialect (EAL/D)",
+            "Food Technology",
+            "French",
+            "Geography",
+            "German",
+            "Health and Physical Education",
+            "History",
+            "Humanities and Social Sciences",
+            "Indonesian",
+            "Italian",
+            "Japanese",
+            "Korean",
+            "Languages",
+            "Legal Studies",
+            "Literature",
+            "Marine Science",
+            "Mathematics",
+            "Media Arts",
+            "Modern History",
+            "Music",
+            "Outdoor Education",
+            "Philosophy",
+            "Physics",
+            "Psychology",
+            "Religion and Ethics",
+            "Science",
+            "Spanish",
+            "Studies of Religion",
+            "Textiles and Design",
+            "The Arts",
+            "Visual Arts",
+            "Work Studies",
+        },
+        key=str.casefold,
+    )
 )
 
 
@@ -26,192 +101,153 @@ class DescriptorOption:
     summary: str
 
 
-DESCRIPTORS: tuple[DescriptorOption, ...] = (
-    # English
-    DescriptorOption(
-        id="eng-text-analysis",
-        kla="English",
-        label="Text analysis and interpretation",
-        summary="Analyse how language, structure and multimodal features shape meaning.",
-    ),
-    DescriptorOption(
-        id="eng-writing",
-        kla="English",
-        label="Creating written texts",
-        summary="Plan, draft and refine texts for purpose, audience and context.",
-    ),
-    DescriptorOption(
-        id="eng-speaking",
-        kla="English",
-        label="Oral language and presentation",
-        summary="Present ideas clearly using evidence and appropriate register.",
-    ),
-    DescriptorOption(
-        id="eng-literacy",
-        kla="English",
-        label="Language conventions and literacy",
-        summary="Apply spelling, grammar and punctuation to improve clarity.",
-    ),
-    # Mathematics
-    DescriptorOption(
-        id="math-data-rep",
-        kla="Mathematics",
-        label="Data representation and interpretation",
-        summary="Construct and interpret tables, graphs and summary statistics.",
-    ),
-    DescriptorOption(
-        id="math-problem-solving",
-        kla="Mathematics",
-        label="Problem-solving and reasoning",
-        summary="Apply mathematical models to practical problems and justify solutions.",
-    ),
-    DescriptorOption(
-        id="math-number-algebra",
-        kla="Mathematics",
-        label="Number and algebra",
-        summary="Use algebraic and numeric techniques to solve structured problems.",
-    ),
-    DescriptorOption(
-        id="math-measurement",
-        kla="Mathematics",
-        label="Measurement and geometry",
-        summary="Apply measurement, spatial reasoning and geometric properties.",
-    ),
-    # Science
-    DescriptorOption(
-        id="sci-investigation",
-        kla="Science",
-        label="Planning and conducting investigations",
-        summary="Design fair tests and collect evidence to answer scientific questions.",
-    ),
-    DescriptorOption(
-        id="sci-evidence",
-        kla="Science",
-        label="Evidence and conclusions",
-        summary="Use investigation evidence to develop and refine explanations.",
-    ),
-    DescriptorOption(
-        id="sci-models",
-        kla="Science",
-        label="Scientific models and systems",
-        summary="Use models to explain patterns, relationships and change over time.",
-    ),
-    DescriptorOption(
-        id="sci-sustainability",
-        kla="Science",
-        label="Science and sustainability",
-        summary="Evaluate human impacts and sustainable responses using scientific ideas.",
-    ),
-    # Geography
-    DescriptorOption(
-        id="geo-patterns",
-        kla="Geography",
-        label="Geographical patterns and relationships",
-        summary="Analyse spatial and temporal patterns using maps, data and fieldwork.",
-    ),
-    DescriptorOption(
-        id="geo-inquiry",
-        kla="Geography",
-        label="Geographical inquiry",
-        summary="Collect and interpret data to investigate place-based questions.",
-    ),
-    DescriptorOption(
-        id="geo-environment",
-        kla="Geography",
-        label="Environment and sustainability",
-        summary="Explain interactions between people, places and environments.",
-    ),
+def _d(id_: str, kla: str, label: str, summary: str) -> DescriptorOption:
+    return DescriptorOption(id=id_, kla=kla, label=label, summary=summary)
+
+
+# Descriptor banks — labels sorted A–Z within each subject when returned.
+_RAW_DESCRIPTORS: tuple[DescriptorOption, ...] = (
+    # Humanities and Social Sciences (default)
+    _d("hass-inquiry", "Humanities and Social Sciences", "Inquiry questions and investigation", "Pose and investigate questions about people, places, cultures and societies using evidence."),
+    _d("hass-perspectives", "Humanities and Social Sciences", "Perspectives and contestability", "Compare viewpoints and explain why interpretations of the past and present can differ."),
+    _d("hass-sources", "Humanities and Social Sciences", "Sources and evidence", "Select, analyse and use sources to support explanations about society and citizenship."),
+    _d("hass-significance", "Humanities and Social Sciences", "Significance and continuity", "Explain significance, continuity and change in Australian and global contexts."),
     # History
-    DescriptorOption(
-        id="hist-sources",
-        kla="History",
-        label="Historical sources and evidence",
-        summary="Evaluate sources to construct evidence-based historical narratives.",
-    ),
-    DescriptorOption(
-        id="hist-cause-effect",
-        kla="History",
-        label="Cause, consequence and significance",
-        summary="Analyse causes and effects to explain historical change.",
-    ),
-    DescriptorOption(
-        id="hist-perspectives",
-        kla="History",
-        label="Historical perspectives",
-        summary="Compare viewpoints to understand contested historical interpretations.",
-    ),
-    # Digital Technologies
-    DescriptorOption(
-        id="dt-data",
-        kla="Digital Technologies",
-        label="Data collection and interpretation",
-        summary="Acquire, validate and interpret data using digital tools.",
-    ),
-    DescriptorOption(
-        id="dt-algorithms",
-        kla="Digital Technologies",
-        label="Algorithms and programming",
-        summary="Design and implement algorithms to solve defined problems.",
-    ),
-    DescriptorOption(
-        id="dt-systems",
-        kla="Digital Technologies",
-        label="Digital systems and networks",
-        summary="Explain how digital systems transmit, store and process information.",
-    ),
-    # Economics & Business
-    DescriptorOption(
-        id="econ-decisions",
-        kla="Economics & Business",
-        label="Economic decision-making",
-        summary="Interpret economic data to explain choices, trade-offs and impacts.",
-    ),
-    DescriptorOption(
-        id="econ-enterprise",
-        kla="Economics & Business",
-        label="Enterprise and financial literacy",
-        summary="Apply business concepts to real-world enterprise scenarios.",
-    ),
-    # Civics
-    DescriptorOption(
-        id="civics-issues",
-        kla="Civics & Citizenship",
-        label="Civic issues and viewpoints",
-        summary="Analyse information to understand civic issues and diverse perspectives.",
-    ),
-    DescriptorOption(
-        id="civics-participation",
-        kla="Civics & Citizenship",
-        label="Democratic participation",
-        summary="Explain how citizens participate in and influence democratic processes.",
-    ),
+    _d("hist-cause", "History", "Cause, consequence and significance", "Analyse causes and effects to explain historical change and continuity."),
+    _d("hist-perspectives", "History", "Historical perspectives", "Compare viewpoints to understand contested historical interpretations."),
+    _d("hist-sources", "History", "Historical sources and evidence", "Evaluate sources to construct evidence-based historical narratives."),
+    _d("hist-empathy", "History", "Historical empathy and context", "Interpret actions and ideas within their historical context without presentism."),
+    # Ancient / Modern History
+    _d("ahist-evidence", "Ancient History", "Ancient evidence and interpretation", "Evaluate archaeological and written evidence to reconstruct ancient societies."),
+    _d("ahist-power", "Ancient History", "Power, belief and daily life", "Explain how power, belief systems and everyday life shaped ancient communities."),
+    _d("mhist-change", "Modern History", "Modern change and continuity", "Analyse forces of change in the modern world using evidence-based arguments."),
+    _d("mhist-ideology", "Modern History", "Ideologies and movements", "Evaluate how ideologies and movements shaped twentieth- and twenty-first-century events."),
+    # Geography
+    _d("geo-environment", "Geography", "Environment and sustainability", "Explain interactions between people, places and environments."),
+    _d("geo-inquiry", "Geography", "Geographical inquiry", "Collect and interpret data to investigate place-based questions."),
+    _d("geo-patterns", "Geography", "Geographical patterns and relationships", "Analyse spatial and temporal patterns using maps, data and fieldwork."),
+    _d("geo-fieldwork", "Geography", "Fieldwork and spatial technologies", "Use fieldwork methods and spatial technologies to gather and present findings."),
+    # Civics / Economics
+    _d("civics-issues", "Civics and Citizenship", "Civic issues and viewpoints", "Analyse information to understand civic issues and diverse perspectives."),
+    _d("civics-participation", "Civics and Citizenship", "Democratic participation", "Explain how citizens participate in and influence democratic processes."),
+    _d("civics-law", "Civics and Citizenship", "Laws, rights and responsibilities", "Describe how laws, rights and responsibilities shape Australian democracy."),
+    _d("econ-decisions", "Economics and Business", "Economic decision-making", "Interpret economic data to explain choices, trade-offs and impacts."),
+    _d("econ-enterprise", "Economics and Business", "Enterprise and financial literacy", "Apply business concepts to real-world enterprise scenarios."),
+    _d("econ-markets", "Economics", "Markets, scarcity and allocation", "Explain how scarcity and markets influence allocation of resources."),
+    _d("econ-policy", "Economics", "Economic performance and policy", "Analyse indicators of economic performance and evaluate policy responses."),
+    _d("bus-operations", "Business", "Business operations and strategy", "Analyse how businesses organise resources to create and deliver value."),
+    _d("bus-stakeholders", "Business", "Stakeholders and ethics", "Evaluate business decisions from stakeholder and ethical perspectives."),
+    _d("acc-records", "Accounting", "Recording and reporting", "Apply accounting processes to record, report and interpret financial information."),
+    _d("acc-decisions", "Accounting", "Financial decision-making", "Use accounting information to support informed business decisions."),
+    _d("legal-system", "Legal Studies", "Australian legal system", "Explain key features of Australia's legal system and how laws are made."),
+    _d("legal-rights", "Legal Studies", "Rights, justice and dispute resolution", "Analyse how the law protects rights and resolves disputes."),
+    # English / Literature / EAL/D
+    _d("eng-literacy", "English", "Language conventions and literacy", "Apply spelling, grammar and punctuation to improve clarity."),
+    _d("eng-speaking", "English", "Oral language and presentation", "Present ideas clearly using evidence and appropriate register."),
+    _d("eng-analysis", "English", "Text analysis and interpretation", "Analyse how language, structure and multimodal features shape meaning."),
+    _d("eng-writing", "English", "Creating written texts", "Plan, draft and refine texts for purpose, audience and context."),
+    _d("lit-close", "Literature", "Close reading and interpretation", "Interpret literary texts through close reading of language, form and context."),
+    _d("lit-context", "Literature", "Literary contexts and values", "Explain how context and values shape the production and reception of texts."),
+    _d("eald-language", "English as an Additional Language or Dialect (EAL/D)", "Language development", "Build vocabulary, grammar and text structures for classroom and assessment tasks."),
+    _d("eald-meaning", "English as an Additional Language or Dialect (EAL/D)", "Making meaning in English", "Comprehend and produce spoken and written English for learning purposes."),
+    # Mathematics
+    _d("math-data", "Mathematics", "Data representation and interpretation", "Construct and interpret tables, graphs and summary statistics."),
+    _d("math-measurement", "Mathematics", "Measurement and geometry", "Apply measurement, spatial reasoning and geometric properties."),
+    _d("math-number", "Mathematics", "Number and algebra", "Use algebraic and numeric techniques to solve structured problems."),
+    _d("math-reasoning", "Mathematics", "Problem-solving and reasoning", "Apply mathematical models to practical problems and justify solutions."),
+    # Science family
+    _d("sci-evidence", "Science", "Evidence and conclusions", "Use investigation evidence to develop and refine explanations."),
+    _d("sci-investigation", "Science", "Planning and conducting investigations", "Design fair tests and collect evidence to answer scientific questions."),
+    _d("sci-models", "Science", "Scientific models and systems", "Use models to explain patterns, relationships and change over time."),
+    _d("sci-sustainability", "Science", "Science and sustainability", "Evaluate human impacts and sustainable responses using scientific ideas."),
+    _d("bio-systems", "Biology", "Biological systems and processes", "Explain structure–function relationships in living systems."),
+    _d("bio-evidence", "Biology", "Biological inquiry and evidence", "Collect and analyse biological data to test explanations."),
+    _d("chem-matter", "Chemistry", "Structure and properties of matter", "Explain chemical behaviour using particle models and bonding."),
+    _d("chem-reactions", "Chemistry", "Chemical reactions and analysis", "Investigate reactions quantitatively and qualitatively."),
+    _d("phys-energy", "Physics", "Energy, forces and motion", "Apply models of energy and forces to explain motion and interactions."),
+    _d("phys-inquiry", "Physics", "Physical inquiry and modelling", "Use investigation and modelling to solve physics problems."),
+    _d("ees-earth", "Earth and Environmental Science", "Earth systems", "Explain interactions within and between Earth’s spheres."),
+    _d("ees-human", "Earth and Environmental Science", "Human impacts and management", "Evaluate human impacts on Earth systems and management responses."),
+    _d("marine-systems", "Marine Science", "Marine systems and biodiversity", "Explain processes that shape marine environments and biodiversity."),
+    _d("marine-human", "Marine Science", "Human use of marine environments", "Analyse sustainable use and management of marine resources."),
+    _d("ag-systems", "Agricultural Science", "Agricultural systems", "Explain biological and environmental factors in agricultural production."),
+    _d("ag-sustainability", "Agricultural Science", "Sustainable agriculture", "Evaluate sustainable practices in food and fibre production."),
+    _d("psych-behaviour", "Psychology", "Behaviour and cognition", "Explain psychological concepts that influence behaviour and thinking."),
+    _d("psych-research", "Psychology", "Psychological research methods", "Apply ethical research methods to investigate psychological questions."),
+    # Technologies
+    _d("dt-algorithms", "Digital Technologies", "Algorithms and programming", "Design and implement algorithms to solve defined problems."),
+    _d("dt-data", "Digital Technologies", "Data collection and interpretation", "Acquire, validate and interpret data using digital tools."),
+    _d("dt-systems", "Digital Technologies", "Digital systems and networks", "Explain how digital systems transmit, store and process information."),
+    _d("des-design", "Design and Technologies", "Design thinking and processes", "Apply design processes to create preferred futures."),
+    _d("des-materials", "Design and Technologies", "Materials and systems", "Select and evaluate materials, tools and systems for designed solutions."),
+    _d("eng-design", "Engineering", "Engineering design and analysis", "Apply engineering principles to design, test and improve solutions."),
+    _d("eng-systems", "Engineering", "Systems thinking", "Analyse engineered systems in terms of inputs, processes and outputs."),
+    _d("food-nutrition", "Food Technology", "Food and nutrition", "Apply food and nutrition knowledge to practical food solutions."),
+    _d("food-design", "Food Technology", "Food product design", "Design, prepare and evaluate food products for purpose and audience."),
+    _d("tex-design", "Textiles and Design", "Textile design processes", "Design and produce textile items using appropriate techniques."),
+    _d("tex-materials", "Textiles and Design", "Fibres, fabrics and sustainability", "Evaluate textile materials with attention to function and sustainability."),
     # The Arts
-    DescriptorOption(
-        id="arts-responding",
-        kla="The Arts",
-        label="Responding to artworks",
-        summary="Interpret and evaluate artistic works using subject-specific language.",
-    ),
-    DescriptorOption(
-        id="arts-making",
-        kla="The Arts",
-        label="Making and presenting",
-        summary="Create and refine artworks through structured design and performance processes.",
-    ),
-    # HPE
-    DescriptorOption(
-        id="hpe-movement",
-        kla="Health and Physical Education",
-        label="Movement and performance",
-        summary="Apply movement concepts and tactics in physical activity contexts.",
-    ),
-    DescriptorOption(
-        id="hpe-wellbeing",
-        kla="Health and Physical Education",
-        label="Health and wellbeing",
-        summary="Analyse factors that influence personal and community health decisions.",
-    ),
+    _d("arts-making", "The Arts", "Making and presenting", "Create and refine artworks through structured design and performance processes."),
+    _d("arts-responding", "The Arts", "Responding to artworks", "Interpret and evaluate artistic works using subject-specific language."),
+    _d("dance-making", "Dance", "Dance making and performance", "Compose and perform dance works using safe dance practice."),
+    _d("dance-respond", "Dance", "Responding to dance", "Analyse dance works with reference to elements, form and context."),
+    _d("drama-making", "Drama", "Drama making and performance", "Devise and perform drama using dramatic elements and conventions."),
+    _d("drama-respond", "Drama", "Responding to drama", "Evaluate dramatic works and performances using drama terminology."),
+    _d("media-making", "Media Arts", "Media production", "Plan and produce media artworks for intended audiences."),
+    _d("media-respond", "Media Arts", "Media analysis", "Analyse how media codes and conventions shape meaning."),
+    _d("music-making", "Music", "Music making and performance", "Create and perform music using stylistic and technical understanding."),
+    _d("music-respond", "Music", "Listening and responding", "Analyse music works with reference to elements and context."),
+    _d("vis-making", "Visual Arts", "Art making practice", "Develop visual artworks through exploration of materials and ideas."),
+    _d("vis-respond", "Visual Arts", "Critical and historical studies", "Interpret artworks with reference to artists, styles and contexts."),
+    # HPE / Outdoor
+    _d("hpe-movement", "Health and Physical Education", "Movement and performance", "Apply movement concepts and tactics in physical activity contexts."),
+    _d("hpe-wellbeing", "Health and Physical Education", "Health and wellbeing", "Analyse factors that influence personal and community health decisions."),
+    _d("outdoor-skills", "Outdoor Education", "Outdoor skills and safety", "Apply outdoor skills with attention to safety and environmental care."),
+    _d("outdoor-env", "Outdoor Education", "People and environments", "Explain relationships between people, adventure activities and environments."),
+    # Languages (generic + named)
+    _d("lang-communicating", "Languages", "Communicating in the target language", "Exchange information and ideas in the target language for real purposes."),
+    _d("lang-understanding", "Languages", "Understanding language and culture", "Explain how language and culture shape meaning and identity."),
+    _d("arabic-comm", "Arabic", "Communicating in Arabic", "Interact and create texts in Arabic for familiar purposes."),
+    _d("arabic-culture", "Arabic", "Arabic language and culture", "Explore connections between Arabic language and cultural practices."),
+    _d("chinese-comm", "Chinese", "Communicating in Chinese", "Interact and create texts in Chinese for familiar purposes."),
+    _d("chinese-culture", "Chinese", "Chinese language and culture", "Explore connections between Chinese language and cultural practices."),
+    _d("french-comm", "French", "Communicating in French", "Interact and create texts in French for familiar purposes."),
+    _d("french-culture", "French", "French language and culture", "Explore connections between French language and cultural practices."),
+    _d("german-comm", "German", "Communicating in German", "Interact and create texts in German for familiar purposes."),
+    _d("german-culture", "German", "German language and culture", "Explore connections between German language and cultural practices."),
+    _d("indo-comm", "Indonesian", "Communicating in Indonesian", "Interact and create texts in Indonesian for familiar purposes."),
+    _d("indo-culture", "Indonesian", "Indonesian language and culture", "Explore connections between Indonesian language and cultural practices."),
+    _d("italian-comm", "Italian", "Communicating in Italian", "Interact and create texts in Italian for familiar purposes."),
+    _d("italian-culture", "Italian", "Italian language and culture", "Explore connections between Italian language and cultural practices."),
+    _d("japanese-comm", "Japanese", "Communicating in Japanese", "Interact and create texts in Japanese for familiar purposes."),
+    _d("japanese-culture", "Japanese", "Japanese language and culture", "Explore connections between Japanese language and cultural practices."),
+    _d("korean-comm", "Korean", "Communicating in Korean", "Interact and create texts in Korean for familiar purposes."),
+    _d("korean-culture", "Korean", "Korean language and culture", "Explore connections between Korean language and cultural practices."),
+    _d("spanish-comm", "Spanish", "Communicating in Spanish", "Interact and create texts in Spanish for familiar purposes."),
+    _d("spanish-culture", "Spanish", "Spanish language and culture", "Explore connections between Spanish language and cultural practices."),
+    # Religion / Philosophy / Work
+    _d("rel-belief", "Religion and Ethics", "Beliefs, values and ethics", "Analyse how beliefs and ethical frameworks guide decisions and actions."),
+    _d("rel-dialogue", "Religion and Ethics", "Interfaith understanding", "Compare religious and ethical perspectives respectfully using evidence."),
+    _d("sor-traditions", "Studies of Religion", "Religious traditions", "Explain key beliefs, practices and texts within religious traditions."),
+    _d("sor-society", "Studies of Religion", "Religion and society", "Analyse the interaction of religion with Australian and global societies."),
+    _d("phil-argument", "Philosophy", "Argument and reasoning", "Construct and evaluate philosophical arguments with clarity and rigour."),
+    _d("phil-concepts", "Philosophy", "Philosophical concepts", "Apply philosophical concepts to contemporary ethical and social questions."),
+    _d("work-skills", "Work Studies", "Workplace skills and pathways", "Develop skills, knowledge and attributes for work and further learning."),
+    _d("work-enterprise", "Work Studies", "Enterprise and employability", "Apply enterprise and employability skills to authentic work contexts."),
 )
+
+DESCRIPTORS: tuple[DescriptorOption, ...] = _RAW_DESCRIPTORS
+
+# Generic fallback when a subject has no dedicated bank (should be rare).
+_GENERIC_FALLBACK: tuple[DescriptorOption, ...] = (
+    _d("gen-inquiry", "_generic", "Disciplinary inquiry", "Investigate key questions using methods appropriate to the subject."),
+    _d("gen-evidence", "_generic", "Evidence and reasoning", "Use evidence to support explanations and justified conclusions."),
+    _d("gen-communication", "_generic", "Communication of learning", "Communicate understanding clearly for purpose and audience."),
+)
+
+
+def list_curriculum_frameworks() -> list[str]:
+    return list(CURRICULUM_FRAMEWORKS)
 
 
 def list_kla_options() -> list[str]:
@@ -219,10 +255,22 @@ def list_kla_options() -> list[str]:
 
 
 def list_descriptors_for_kla(kla: str) -> list[dict[str, str]]:
+    key = (kla or "").strip()
+    items = [d for d in DESCRIPTORS if d.kla == key]
+    if not items:
+        items = [
+            DescriptorOption(
+                id=f"{d.id}-{abs(hash(key)) % 10_000}",
+                kla=key or "Subject",
+                label=d.label,
+                summary=d.summary,
+            )
+            for d in _GENERIC_FALLBACK
+        ]
+    items = sorted(items, key=lambda d: d.label.casefold())
     return [
         {"id": d.id, "kla": d.kla, "label": d.label, "summary": d.summary}
-        for d in DESCRIPTORS
-        if d.kla == kla
+        for d in items
     ]
 
 

@@ -10,12 +10,19 @@ import {
   type DescriptorRef,
   type MicroUnit,
 } from './api/client'
+import { CurriculumLinksPanel } from './components/CurriculumLinksPanel'
 import { HowToUseGuide } from './components/HowToUseGuide'
 import { Layout } from './components/Layout'
 import { SignInCreditsCallout } from './components/SignInCreditsCallout'
 import { UnitPreviewPanel } from './components/UnitPreviewPanel'
 import { UnitSetupForm } from './components/UnitSetupForm'
-import { DEFAULT_LESSON_COUNT } from './constants/formOptions'
+import {
+  DEFAULT_CURRICULUM_FRAMEWORK,
+  DEFAULT_LESSON_COUNT,
+  DEFAULT_SUBJECT,
+  DEFAULT_YEAR_LEVEL,
+  SUBJECT_OPTIONS_FALLBACK,
+} from './constants/formOptions'
 import { useAuth } from './context/AuthContext'
 import { useBillingGate } from './hooks/useBillingGate'
 import { clearUnitDraft, loadUnitDraft, saveUnitDraft } from './hooks/useUnitDraft'
@@ -28,15 +35,18 @@ export default function AppMain() {
     useBillingGate()
   const draft = loadUnitDraft()
 
-  const [subjects, setSubjects] = useState<string[]>([])
+  const [subjects, setSubjects] = useState<string[]>([...SUBJECT_OPTIONS_FALLBACK])
   const [descriptors, setDescriptors] = useState<DescriptorRef[]>([])
   const [selectedDescriptors, setSelectedDescriptors] = useState<Set<string>>(
     new Set(draft?.selectedDescriptorIds ?? []),
   )
   const [topic, setTopic] = useState(draft?.topic ?? '')
   const [schoolName, setSchoolName] = useState(draft?.schoolName ?? '')
-  const [yearLevel, setYearLevel] = useState(draft?.yearLevel ?? 'Year 8')
-  const [subject, setSubject] = useState(draft?.subject ?? 'Science')
+  const [yearLevel, setYearLevel] = useState(draft?.yearLevel ?? DEFAULT_YEAR_LEVEL)
+  const [subject, setSubject] = useState(draft?.subject ?? DEFAULT_SUBJECT)
+  const [curriculumFramework, setCurriculumFramework] = useState(
+    draft?.curriculumFramework ?? DEFAULT_CURRICULUM_FRAMEWORK,
+  )
   const [lessonCount, setLessonCount] = useState(draft?.lessonCount ?? DEFAULT_LESSON_COUNT)
   const [pedagogyFocus, setPedagogyFocus] = useState(draft?.pedagogyFocus ?? '')
   const [classContext, setClassContext] = useState(draft?.classContext ?? '')
@@ -47,14 +57,31 @@ export default function AppMain() {
   const [exporting, setExporting] = useState(false)
   const [error, setError] = useState('')
   const [apiReady, setApiReady] = useState<boolean | null>(null)
+  const [assistantReady, setAssistantReady] = useState(false)
 
   useEffect(() => {
     fetchHealth()
-      .then((health) => setApiReady(Boolean(health.gemini_configured)))
-      .catch(() => setApiReady(false))
+      .then((health) => {
+        setApiReady(Boolean(health.api_key_configured))
+        setAssistantReady(
+          Boolean(health.assistant_ready ?? health.gemini_configured ?? health.anthropic_configured),
+        )
+      })
+      .catch(() => {
+        setApiReady(false)
+        setAssistantReady(false)
+      })
     fetchSubjects()
-      .then((data) => setSubjects(data.subjects))
-      .catch(() => setError('Could not load subject list'))
+      .then((data) => {
+        const sorted = [...data.subjects].sort((a, b) =>
+          a.localeCompare(b, 'en-AU', { sensitivity: 'base' }),
+        )
+        setSubjects(sorted.length ? sorted : [...SUBJECT_OPTIONS_FALLBACK])
+      })
+      .catch(() => {
+        setSubjects([...SUBJECT_OPTIONS_FALLBACK])
+        setError('Could not load subject list — using Australian curriculum defaults.')
+      })
   }, [])
 
   useEffect(() => {
@@ -76,6 +103,7 @@ export default function AppMain() {
       schoolName,
       yearLevel,
       subject,
+      curriculumFramework,
       lessonCount,
       pedagogyFocus,
       classContext,
@@ -88,6 +116,7 @@ export default function AppMain() {
     schoolName,
     yearLevel,
     subject,
+    curriculumFramework,
     lessonCount,
     pedagogyFocus,
     classContext,
@@ -110,8 +139,9 @@ export default function AppMain() {
   function clearAll() {
     setTopic('')
     setSchoolName('')
-    setYearLevel('Year 8')
-    setSubject('Science')
+    setYearLevel(DEFAULT_YEAR_LEVEL)
+    setSubject(DEFAULT_SUBJECT)
+    setCurriculumFramework(DEFAULT_CURRICULUM_FRAMEWORK)
     setLessonCount(DEFAULT_LESSON_COUNT)
     setPedagogyFocus('')
     setClassContext('')
@@ -126,7 +156,6 @@ export default function AppMain() {
   async function handleGenerate(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    setUnit(null)
     setDraftBanner(false)
 
     if (!topic.trim()) {
@@ -140,6 +169,7 @@ export default function AppMain() {
         topic: topic.trim(),
         year_level: yearLevel,
         subject,
+        curriculum_framework: curriculumFramework,
         lesson_count: lessonCount,
         school_name: schoolName.trim(),
         pedagogy_focus: pedagogyFocus,
@@ -203,7 +233,8 @@ export default function AppMain() {
 
   return (
     <Layout
-      apiReady={apiReady === true}
+      apiReady={apiReady}
+      assistantReady={assistantReady}
       creditsCallout={
         <SignInCreditsCallout
           maxWidthClass="max-w-6xl"
@@ -224,12 +255,6 @@ export default function AppMain() {
           </div>
         ) : null}
 
-        {apiReady === false ? (
-          <div className="ui-callout-orange no-print" role="alert">
-            Unit generation is unavailable — the server API key is not configured.
-          </div>
-        ) : null}
-
         {error ? (
           <div className="ui-callout-orange no-print" role="alert">
             {error}
@@ -243,12 +268,11 @@ export default function AppMain() {
               schoolName={schoolName}
               yearLevel={yearLevel}
               subject={subject}
-              subjects={subjects.length ? subjects : [subject]}
+              subjects={subjects.length ? subjects : [...SUBJECT_OPTIONS_FALLBACK]}
+              curriculumFramework={curriculumFramework}
               lessonCount={lessonCount}
               pedagogyFocus={pedagogyFocus}
               classContext={classContext}
-              descriptors={descriptors}
-              selectedDescriptors={selectedDescriptors}
               loading={loading}
               apiReady={apiReady === true}
               billingActive={billingActive}
@@ -260,43 +284,53 @@ export default function AppMain() {
               onSchoolNameChange={setSchoolName}
               onYearLevelChange={setYearLevel}
               onSubjectChange={setSubject}
+              onCurriculumFrameworkChange={setCurriculumFramework}
               onLessonCountChange={setLessonCount}
               onPedagogyFocusChange={setPedagogyFocus}
               onClassContextChange={setClassContext}
-              onToggleDescriptor={toggleDescriptor}
               onClearDraft={clearAll}
             />
           </form>
 
-          {unit ? (
-            <UnitPreviewPanel
-              unit={unit}
-              schoolName={schoolName}
-              activeLesson={activeLesson}
-              apiReady={apiReady === true}
-              exporting={exporting}
-              onActiveLessonChange={setActiveLesson}
-              onUnitChange={setUnit}
-              onRefine={handleRefine}
-              onExport={(format) => void handleExport(format)}
-              onPrint={handlePrint}
+          <div className="unit-workspace__preview space-y-6">
+            <CurriculumLinksPanel
+              subject={subject}
+              curriculumFramework={curriculumFramework}
+              descriptors={descriptors}
+              selectedDescriptors={selectedDescriptors}
+              onToggleDescriptor={toggleDescriptor}
             />
-          ) : (
-            <aside className="unit-workspace__placeholder no-print" aria-hidden={loading}>
-              <div className="unit-empty-state">
-                <p className="unit-empty-state__title">Your teacher pack appears here</p>
-                <p className="unit-empty-state__text">
-                  After generation you will get editable lessons with objectives, materials,
-                  differentiation, assessment tasks, and a marking rubric — plus ZIP or DOCX export.
-                </p>
-                <ul className="unit-empty-state__list">
-                  <li>Lesson tabs for quick navigation</li>
-                  <li>Refine any section with AI</li>
-                  <li>Auto-saved in this browser</li>
-                </ul>
-              </div>
-            </aside>
-          )}
+
+            {unit ? (
+              <UnitPreviewPanel
+                unit={unit}
+                schoolName={schoolName}
+                activeLesson={activeLesson}
+                apiReady={apiReady === true}
+                exporting={exporting}
+                onActiveLessonChange={setActiveLesson}
+                onUnitChange={setUnit}
+                onRefine={handleRefine}
+                onExport={(format) => void handleExport(format)}
+                onPrint={handlePrint}
+              />
+            ) : (
+              <aside className="unit-workspace__placeholder no-print" aria-hidden={loading}>
+                <div className="unit-empty-state">
+                  <p className="unit-empty-state__title">Your teacher pack appears here</p>
+                  <p className="unit-empty-state__text">
+                    After generation you will get editable lessons with objectives, materials,
+                    differentiation, assessment tasks, and a marking rubric — plus ZIP or DOCX export.
+                  </p>
+                  <ul className="unit-empty-state__list">
+                    <li>Lesson tabs for quick navigation</li>
+                    <li>Refine any section with AI</li>
+                    <li>Auto-saved in this browser</li>
+                  </ul>
+                </div>
+              </aside>
+            )}
+          </div>
         </div>
       </div>
     </Layout>

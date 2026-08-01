@@ -2,7 +2,7 @@ import { BROWSER_TAB_TITLE, APP_TITLE } from '../constants/branding'
 
 export const SITE_URL =
   (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ??
-  'https://planner.appstax.ai'
+  'https://acara.appstax.ai'
 
 export const SITE_NAME = APP_TITLE
 
@@ -17,7 +17,7 @@ export const SEO_KEYWORDS = [
   'curriculum descriptors',
   'teacher accreditation',
   'EdStack',
-  'planner.appstax.ai',
+  'acara.appstax.ai',
 ].join(', ')
 
 export interface PageSeo {

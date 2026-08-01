@@ -2,7 +2,7 @@
 
 Full-term unit plans with curriculum descriptor links for Australian teachers.
 
-**Host:** https://planner.appstax.ai  
+**Host:** https://acara.appstax.ai  
 **EdStack app id:** `acara-unit-planner`
 
 ## MVP

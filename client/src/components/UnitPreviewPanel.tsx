@@ -53,8 +53,8 @@ export function UnitPreviewPanel({
   return (
     <div className="unit-preview-panel print-unit">
       <section className="ui-card p-4 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-wide text-blue">Your unit</p>
             <h2 className="mt-1 font-heading text-xl font-bold text-text sm:text-2xl">
               {unit.unit_title}
@@ -64,7 +64,7 @@ export function UnitPreviewPanel({
               {schoolName.trim() ? ` · ${schoolName.trim()}` : ''}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 no-print">
+          <div className="unit-export-actions no-print">
             <button
               type="button"
               className="ui-btn-secondary"

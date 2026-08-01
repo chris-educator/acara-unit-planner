@@ -21,7 +21,7 @@ npm run dev:client   # :5202
 
 ## Production
 
-- **Host:** https://planner.appstax.ai
+- **Host:** https://acara.appstax.ai
 - **Health:** `GET /api/health`
 - **Deploy:** Dockerfile + `railway.toml`
 - **Credits:** 15 per term plan · 3 per refine (`EDSTACK_APP_ID=acara-unit-planner`)
@@ -30,7 +30,8 @@ npm run dev:client   # :5202
 
 - Run `validate_unit_output` before returning or exporting units
 - Lesson/week count must be 6–10
-- Primary generation: Anthropic; Ask the Assistant: Gemini
+- Primary generation: Anthropic; Ask the Assistant: Gemini 3.6 Flash with Anthropic fallback
+- Ask is ready when either `GOOGLE_API_KEY` or `ANTHROPIC_API_KEY` is set
 
 ## Tests
 

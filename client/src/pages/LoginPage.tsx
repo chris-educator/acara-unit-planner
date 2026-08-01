@@ -83,13 +83,13 @@ export function LoginPage() {
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-bg">
       <SignInCreditsCallout maxWidthClass="max-w-lg" />
       <div className="mx-auto w-full min-w-0 max-w-lg flex-1 px-4 pb-10 pt-6 sm:px-6">
-        <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <div className="mb-4 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="ui-page-heading">Sign in</h1>
-          <BackToAppLink variant="primary" className="shrink-0" />
+          <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
         <p className="mt-2 text-sm text-text-muted">
           {billingReady
-            ? 'Create an account to use micro unit credits and purchase top-up packs.'
+            ? 'Create an account to use term plan credits and purchase top-up packs.'
             : 'Accounts and billing are being rolled out. You can still draft without signing in.'}
         </p>
 
@@ -183,6 +183,21 @@ export function LoginPage() {
           </form>
         </div>
       </div>
+      <p className="mx-auto mt-6 w-full min-w-0 max-w-lg px-4 text-center text-xs text-text-muted sm:px-6">
+        By signing in you agree to our{' '}
+        <a href="/terms.html" className="text-blue hover:text-blue-hover">
+          Terms of Service
+        </a>{' '}
+        and{' '}
+        <a href="/privacy.html" className="text-blue hover:text-blue-hover">
+          Privacy Policy
+        </a>
+        . See how we handle school data in our{' '}
+        <a href="/teacher-data.html" className="text-blue hover:text-blue-hover">
+          School data summary
+        </a>
+        .
+      </p>
     </div>
   )
 }

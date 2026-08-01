@@ -94,15 +94,15 @@ export function AccountPage() {
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-bg">
       <SignInCreditsCallout maxWidthClass="max-w-2xl" />
       <div className="mx-auto w-full min-w-0 max-w-2xl flex-1 px-4 pb-10 pt-6 sm:px-6 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="ui-page-heading">Account &amp; Credits</h1>
-          <BackToAppLink variant="primary" className="shrink-0" />
+          <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
 
         {needsEmailVerification && (
           <div className="ui-callout mt-4 text-sm">
             <p>
-              Verify your email to unlock signup credits and generate micro units. We sent a link to{' '}
+              Verify your email to unlock signup credits and generate term plans. We sent a link to{' '}
               <span className="font-medium text-text">{me?.email}</span>.
             </p>
             {verifyNotice && <p className="mt-2 text-text">{verifyNotice}</p>}
@@ -166,7 +166,7 @@ export function AccountPage() {
           <p className="mt-4 text-sm text-text-muted">Loading account…</p>
         ) : !config?.billing_enabled ? (
           <div className="ui-callout mt-6">
-            Billing is not enabled on this deployment. Micro Unit Starter works without credits for now.
+            Billing is not enabled on this deployment. ACARA Unit Planner works without credits for now.
           </div>
         ) : (
           <>
@@ -186,7 +186,10 @@ export function AccountPage() {
               </div>
               <p className="mt-6 text-3xl font-bold text-blue">{me?.credits ?? 0}</p>
               <p className="text-sm text-text-muted">credits remaining</p>
-              <p className="mt-3 text-xs text-text-muted">Each micro unit generation costs credits — see the quote before you generate.</p>
+              <p className="mt-3 text-xs text-text-muted">
+                Each term plan generation costs 15 credits; refine costs 3 — see the quote before you
+                generate.
+              </p>
             </div>
 
             <h2 className="ui-section-heading mt-8 mb-1">Need more credits?</h2>
@@ -200,6 +203,20 @@ export function AccountPage() {
             >
               Buy credits at EdStack →
             </a>
+
+            <h2 className="ui-section-heading mt-8 mb-1">Your account data</h2>
+            <p className="text-sm leading-snug text-text-muted">
+              Account email and credit balance are managed by the shared EdStack billing service. For
+              data export or deletion requests, email{' '}
+              <a href="mailto:apps@appstax.ai" className="text-blue hover:text-blue-hover">
+                apps@appstax.ai
+              </a>
+              . See the{' '}
+              <a href="/privacy.html" className="text-blue hover:text-blue-hover">
+                Privacy Policy
+              </a>{' '}
+              for details.
+            </p>
           </>
         )}
       </div>

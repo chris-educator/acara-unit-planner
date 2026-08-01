@@ -64,11 +64,11 @@ export function SignInCreditsCallout({
             <Link to={ROUTE_LOGIN} className="sign-in-credits-callout__link">
               Sign in
             </Link>{' '}
-            to use micro unit credits — sign up includes {FREE_SIGNUP_CREDITS} free credits to try any
+            to use term plan credits — sign up includes {FREE_SIGNUP_CREDITS} free credits to try any
             credit-based EdStack app.
           </>
         ) : (
-          `Sign in to use micro unit credits — sign up includes ${FREE_SIGNUP_CREDITS} free credits to try any credit-based EdStack app.`
+          `Sign in to use term plan credits — sign up includes ${FREE_SIGNUP_CREDITS} free credits to try any credit-based EdStack app.`
         )}
       </div>
     </div>

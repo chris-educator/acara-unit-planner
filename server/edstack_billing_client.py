@@ -31,6 +31,8 @@ def app_id() -> str:
     if explicit:
         return explicit
     public = os.getenv("APP_PUBLIC_URL", "").strip().lower()
+    if "acara." in public or "planner." in public:
+        return "acara-unit-planner"
     if "feedback." in public:
         return "feedback-generator"
     if "data." in public:
@@ -206,12 +208,93 @@ def find_or_create_google_user(
     return _user_from_payload(data)
 
 
-def user_from_request(request: Request) -> local_billing.UserRow | None:
+def _user_from_jwt_fallback(request: Request) -> local_billing.UserRow | None:
+    secret = local_billing._auth_secret()
+    if not secret:
+        return None
+    token = request.cookies.get(session_cookie_name())
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(token, secret, algorithms=["HS256"])
+    except jwt.PyJWTError:
+        return None
+    user_id = str(payload.get("sub") or "")
+    email = str(payload.get("email") or "").strip()
+    if not user_id or not email:
+        return None
+    return local_billing.UserRow(
+        id=user_id,
+        email=email,
+        credits=0,
+        email_verified=True,
+    )
+
+
+def session_from_request(request: Request) -> local_billing.MeSession:
+    if not local_billing.billing_enabled():
+        return local_billing.MeSession(
+            authenticated=False,
+            billing_enabled=False,
+            billing_degraded=False,
+            email=None,
+            credits=None,
+            email_verified=None,
+        )
     user_id = _jwt_user_id(request)
     if not user_id:
+        return local_billing.MeSession(
+            authenticated=False,
+            billing_enabled=True,
+            billing_degraded=False,
+            email=None,
+            credits=0,
+            email_verified=None,
+        )
+    try:
+        data = _request("GET", f"/api/internal/user/{user_id}")
+        user = _user_from_payload(data)
+        return local_billing.MeSession(
+            authenticated=True,
+            billing_enabled=True,
+            billing_degraded=False,
+            email=user.email,
+            credits=user.credits,
+            email_verified=user.email_verified,
+        )
+    except HTTPException as exc:
+        if exc.status_code not in (502, 503, 504):
+            raise
+        fallback = _user_from_jwt_fallback(request)
+        if fallback:
+            return local_billing.MeSession(
+                authenticated=True,
+                billing_enabled=True,
+                billing_degraded=True,
+                email=fallback.email,
+                credits=None,
+                email_verified=fallback.email_verified,
+            )
+        return local_billing.MeSession(
+            authenticated=False,
+            billing_enabled=True,
+            billing_degraded=True,
+            email=None,
+            credits=None,
+            email_verified=None,
+        )
+
+
+def user_from_request(request: Request) -> local_billing.UserRow | None:
+    session = session_from_request(request)
+    if not session.authenticated or not session.email:
         return None
-    data = _request("GET", f"/api/internal/user/{user_id}")
-    return _user_from_payload(data)
+    return local_billing.UserRow(
+        id=_jwt_user_id(request) or "",
+        email=session.email,
+        credits=int(session.credits or 0),
+        email_verified=bool(session.email_verified),
+    )
 
 
 def debit_credits(user_id: str, amount: int, *, reason: str) -> int:

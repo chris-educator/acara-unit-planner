@@ -31,8 +31,19 @@ from server.edstack_auth_routes import (  # noqa: E402
     register_edstack_auth_routes,
 )
 
-from src.acara import list_descriptors_for_kla, list_kla_options  # noqa: E402
-from src.app_assistant import chat_with_assistant  # noqa: E402
+from src.acara import (  # noqa: E402
+    DEFAULT_CURRICULUM_FRAMEWORK,
+    DEFAULT_SUBJECT,
+    list_curriculum_frameworks,
+    list_descriptors_for_kla,
+    list_kla_options,
+)
+from src.app_assistant import chat_with_assistant, is_assistant_configured  # noqa: E402
+from src.ask_scope import (  # noqa: E402
+    classify_assistant_message,
+    count_consecutive_redirects,
+    pick_redirect,
+)
 from src.config import (  # noqa: E402
     MAX_ASSISTANT_MESSAGE_CHARS,
     MAX_ASSISTANT_MESSAGES,
@@ -129,7 +140,8 @@ if not SERVE_FRONTEND:
 class GenerateUnitRequest(BaseModel):
     topic: str = Field(min_length=2, max_length=200)
     year_level: str = Field(default="Year 8", max_length=40)
-    subject: str = Field(default="Science", max_length=80)
+    subject: str = Field(default=DEFAULT_SUBJECT, max_length=120)
+    curriculum_framework: str = Field(default=DEFAULT_CURRICULUM_FRAMEWORK, max_length=120)
     lesson_count: int = Field(default=8, ge=6, le=10)
     school_name: str = Field(default="", max_length=120)
     pedagogy_focus: str = Field(default="", max_length=120)
@@ -139,7 +151,7 @@ class GenerateUnitRequest(BaseModel):
     @field_validator("descriptor_ids")
     @classmethod
     def clamp_descriptor_ids(cls, value: list[str]) -> list[str]:
-        return [item.strip() for item in value if item.strip()][:6]
+        return [item.strip() for item in value if item.strip()][:4]
 
 
 class ExportUnitRequest(BaseModel):
@@ -168,6 +180,7 @@ class AssistantChatRequest(BaseModel):
 
 class AssistantChatResponse(BaseModel):
     reply: str
+    in_scope: bool = True
 
 
 @app.get("/api/health")
@@ -182,6 +195,7 @@ def health() -> dict:
         "llm_model": get_llm_model(),
         "anthropic_configured": is_anthropic_configured(),
         "gemini_configured": is_google_api_key_configured(),
+        "assistant_ready": is_assistant_configured(),
         "model": get_llm_model(),
         "frontend_built": SERVE_FRONTEND,
     }
@@ -192,8 +206,13 @@ def subjects() -> dict:
     return {"subjects": list_kla_options()}
 
 
+@app.get("/api/curriculum-frameworks")
+def curriculum_frameworks() -> dict:
+    return {"frameworks": list_curriculum_frameworks()}
+
+
 @app.get("/api/descriptors")
-def descriptors(subject: str = Query(..., min_length=2, max_length=80)) -> dict:
+def descriptors(subject: str = Query(..., min_length=2, max_length=120)) -> dict:
     items = list_descriptors_for_kla(subject)
     if not items:
         raise HTTPException(status_code=404, detail=f"No descriptors for subject: {subject}")
@@ -214,18 +233,36 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
         reason="unit_generate",
     )
 
-    outcome = generate_unit_pack(
-        topic=body.topic,
-        year_level=body.year_level,
-        subject=body.subject,
-        lesson_count=body.lesson_count,
-        descriptor_ids=body.descriptor_ids,
-        school_name=body.school_name,
-        pedagogy_focus=body.pedagogy_focus,
-        class_context=body.class_context,
-    )
+    try:
+        outcome = generate_unit_pack(
+            topic=body.topic,
+            year_level=body.year_level,
+            subject=body.subject,
+            lesson_count=body.lesson_count,
+            descriptor_ids=body.descriptor_ids,
+            school_name=body.school_name,
+            pedagogy_focus=body.pedagogy_focus,
+            class_context=body.class_context,
+            curriculum_framework=body.curriculum_framework,
+        )
+        if outcome.error or not outcome.unit:
+            raise RuntimeError(outcome.error or "Unit generation failed")
 
-    if outcome.error or not outcome.unit:
+        response_body = {
+            "unit": outcome.unit,
+            "usage": outcome.usage.to_dict() if outcome.usage else None,
+        }
+        if billing.billing_enabled() and billing_user is not None and credits_remaining is not None:
+            attach_credits_fields(
+                response_body,
+                user=billing_user,
+                charged=credit_cost,
+                remaining=credits_remaining,
+            )
+        return response_body
+    except HTTPException:
+        raise
+    except Exception:
         if credits_debited and billing_user:
             refund(
                 billing_user.id,
@@ -236,20 +273,7 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
         raise HTTPException(
             status_code=502,
             detail=UNIT_GENERATE_USER_ERROR,
-        )
-
-    response_body = {
-        "unit": outcome.unit,
-        "usage": outcome.usage.to_dict() if outcome.usage else None,
-    }
-    if billing.billing_enabled() and billing_user is not None and credits_remaining is not None:
-        attach_credits_fields(
-            response_body,
-            user=billing_user,
-            charged=credit_cost,
-            remaining=credits_remaining,
-        )
-    return response_body
+        ) from None
 
 
 @app.post("/api/unit/validate")
@@ -350,17 +374,32 @@ def unit_export(body: ExportUnitRequest, request: Request) -> Response:
 def assistant_chat(body: AssistantChatRequest, request: Request) -> AssistantChatResponse:
     enforce_rate_limit(request, bucket="assistant")
     require_signed_in(request)
-    if not is_google_api_key_configured():
-        raise HTTPException(status_code=503, detail="GOOGLE_API_KEY is not configured on the server.")
+    if not is_assistant_configured():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Ask the Assistant needs GOOGLE_API_KEY (Gemini 3.6 Flash) or "
+                "ANTHROPIC_API_KEY on the server. Term-plan generation may still work."
+            ),
+        )
     if not body.messages:
         raise HTTPException(status_code=400, detail="At least one message is required.")
     last = body.messages[-1]
     if last.role != "user" or not last.content.strip():
         raise HTTPException(status_code=400, detail="The latest message must be a non-empty user message.")
+
     payload = [{"role": m.role, "content": m.content} for m in body.messages]
+    scope = classify_assistant_message(last.content)
+    if not scope.in_scope:
+        consecutive = count_consecutive_redirects(payload[:-1])
+        return AssistantChatResponse(
+            reply=pick_redirect(escalated=consecutive >= 2, seed=last.content.strip()),
+            in_scope=False,
+        )
+
     try:
         reply = chat_with_assistant(payload)
-        return AssistantChatResponse(reply=reply)
+        return AssistantChatResponse(reply=reply, in_scope=True)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception:
