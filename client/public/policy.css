@@ -1,0 +1,172 @@
+/* Matches EdStack marketing policy pages (1180px rail, light landing palette). */
+:root {
+  color-scheme: light;
+  --es-bg: #fafaf8;
+  --es-text: #0f172a;
+  --es-muted: #64748b;
+  --es-blue: #0084ff;
+  --es-blue-hover: #0066cc;
+  --es-border: rgb(15 23 42 / 0.12);
+  --es-border-soft: rgb(15 23 42 / 0.08);
+  --es-th-bg: rgb(15 23 42 / 0.04);
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--es-bg);
+  color: var(--es-text);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.es-policy-page {
+  width: 100%;
+  background: var(--es-bg);
+  color: var(--es-text);
+}
+
+.es-policy-page__inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem 4rem;
+}
+
+.es-policy-page__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--es-muted);
+}
+
+.es-policy-page__home-link {
+  color: var(--es-blue);
+  text-decoration: none;
+}
+
+.es-policy-page__home-link:hover {
+  color: var(--es-blue-hover);
+}
+
+.es-policy-page__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--es-text);
+}
+
+.es-policy-page__meta {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  color: var(--es-muted);
+}
+
+.es-policy-page__body {
+  margin-top: 1.75rem;
+}
+
+.es-policy-page__body h2 {
+  margin: 2rem 0 0.65rem;
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--es-text);
+}
+
+.es-policy-page__body p,
+.es-policy-page__body ul {
+  margin: 0.75rem 0 0;
+  color: var(--es-text);
+}
+
+.es-policy-page__body ul {
+  padding-left: 1.25rem;
+}
+
+.es-policy-page__body li + li {
+  margin-top: 0.35rem;
+}
+
+.es-policy-page__body a,
+.es-policy-page__footer a {
+  color: var(--es-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.es-policy-page__body a:hover,
+.es-policy-page__footer a:hover {
+  color: var(--es-blue-hover);
+}
+
+.es-policy-page__table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: var(--es-text);
+}
+
+.es-policy-page__table th,
+.es-policy-page__table td {
+  border: 1px solid var(--es-border);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.es-policy-page__table th {
+  background: var(--es-th-bg);
+  color: var(--es-text);
+  font-weight: 600;
+}
+
+.es-policy-page__footer {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--es-border-soft);
+  font-size: 0.875rem;
+  color: var(--es-muted);
+}
+
+.es-policy-page__footer p {
+  margin: 0;
+  color: var(--es-muted);
+}
+
+.es-policy-page__related {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--es-muted);
+}
+
+@media (max-width: 640px) {
+  .es-policy-page__body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .es-policy-page__table {
+    min-width: 36rem;
+  }
+}
