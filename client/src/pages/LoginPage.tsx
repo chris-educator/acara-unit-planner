@@ -87,11 +87,11 @@ export function LoginPage() {
           <h1 className="ui-page-heading">Sign in</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
-        <p className="mt-2 text-sm text-text-muted">
-          {billingReady
-            ? 'Create an account to use term plan credits and purchase top-up packs.'
-            : 'Accounts and billing are being rolled out. You can still draft without signing in.'}
-        </p>
+        {!billingReady ? (
+          <p className="mt-2 text-sm text-text-muted">
+            Accounts and billing are being rolled out. You can still draft without signing in.
+          </p>
+        ) : null}
 
         {!billingReady && !loading && (
           <div className="ui-callout mt-6">

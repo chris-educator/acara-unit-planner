@@ -1,0 +1,24 @@
+---
+description: EdStack login page and SignInCreditsCallout copy conventions
+globs: "**/LoginPage.tsx,**/SignInCreditsCallout.tsx,**/branding.ts"
+alwaysApply: false
+---
+
+# EdStack login / credits callout copy
+
+## Unsigned credits callout (`SignInCreditsCallout`)
+
+Use this exact string from `branding.ts` — no per-app variants:
+
+```ts
+export const SIGN_IN_CREDITS_CALLOUT_TEXT =
+  `Sign up includes ${FREE_SIGNUP_CREDITS} free credits to use across all EdStack apps.`
+```
+
+With `linkSignIn`, render linked “Sign in — ” then `SIGN_IN_CREDITS_CALLOUT_TEXT`.
+
+## Login page subtitle
+
+Do **not** show muted copy like “Create an account to use … credits and purchase top-up packs.”
+The callout already covers signup credits. Only show a muted note when billing is not ready
+(e.g. “Accounts and billing are being rolled out…”).
