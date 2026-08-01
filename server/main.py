@@ -13,7 +13,7 @@ from typing import Any, Literal
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response, StreamingResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -483,6 +483,18 @@ if SERVE_FRONTEND:
     assets_dir = FRONTEND_DIST / "assets"
     if assets_dir.is_dir():
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/privacy.html")
+    def legacy_privacy_html() -> RedirectResponse:
+        return RedirectResponse(url="/privacy", status_code=301)
+
+    @app.get("/terms.html")
+    def legacy_terms_html() -> RedirectResponse:
+        return RedirectResponse(url="/terms", status_code=301)
+
+    @app.get("/teacher-data.html")
+    def legacy_teacher_data_html() -> RedirectResponse:
+        return RedirectResponse(url="/school-data", status_code=301)
 
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):

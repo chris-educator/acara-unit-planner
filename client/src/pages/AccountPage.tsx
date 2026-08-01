@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useSearchParams, Link } from 'react-router-dom'
 import { fetchMe, fulfillCheckout, isRetryableFulfillError } from '../api/billing'
 import { SignInCreditsCallout } from '../components/SignInCreditsCallout'
 import { BackToAppLink } from '../components/BackToAppLink'
-import { ROUTE_LOGIN } from '../constants/routes'
+import { ROUTE_LOGIN, ROUTE_PRIVACY } from '../constants/routes'
 import { EDSTACK_CREDITS_URL } from '../constants/branding'
 import { useAuth } from '../context/AuthContext'
 
@@ -212,9 +212,9 @@ export function AccountPage() {
                 apps@appstax.ai
               </a>
               . See the{' '}
-              <a href="/privacy.html" className="text-blue hover:text-blue-hover">
+              <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
                 Privacy Policy
-              </a>{' '}
+              </Link>{' '}
               for details.
             </p>
           </>

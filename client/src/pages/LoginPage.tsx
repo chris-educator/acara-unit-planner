@@ -1,8 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Navigate, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { SignInCreditsCallout } from '../components/SignInCreditsCallout'
 import { BackToAppLink } from '../components/BackToAppLink'
-import { ROUTE_ACCOUNT } from '../constants/routes'
+import { ROUTE_ACCOUNT, ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
 export function LoginPage() {
@@ -185,17 +185,17 @@ export function LoginPage() {
       </div>
       <p className="mx-auto mt-6 w-full min-w-0 max-w-lg px-4 text-center text-xs text-text-muted sm:px-6">
         By signing in you agree to our{' '}
-        <a href="/terms.html" className="text-blue hover:text-blue-hover">
+        <Link to={ROUTE_TERMS} className="text-blue hover:text-blue-hover">
           Terms of Service
-        </a>{' '}
+        </Link>{' '}
         and{' '}
-        <a href="/privacy.html" className="text-blue hover:text-blue-hover">
+        <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
           Privacy Policy
-        </a>
+        </Link>
         . See how we handle school data in our{' '}
-        <a href="/teacher-data.html" className="text-blue hover:text-blue-hover">
+        <Link to={ROUTE_SCHOOL_DATA} className="text-blue hover:text-blue-hover">
           School data summary
-        </a>
+        </Link>
         .
       </p>
     </div>

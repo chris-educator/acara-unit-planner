@@ -1,9 +1,11 @@
 import type { MouseEvent, ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import {
   APP_PRIVACY_BLURB,
   appstaxBugReportMailto,
   appstaxCopyrightLine,
 } from '../constants/branding'
+import { ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
 import { AppstaxMailtoLink } from './AppstaxMailtoLink'
 
 function scrollToTop(e: MouseEvent<HTMLAnchorElement>) {
@@ -49,26 +51,26 @@ export function Footer({ extra }: FooterProps) {
           {APP_PRIVACY_BLURB}
         </p>
         <p className="mx-auto mt-1 text-center text-[11px] text-[#71717a]">
-          <a
-            href="/privacy.html"
+          <Link
+            to={ROUTE_PRIVACY}
             className="text-[#a1a1aa] underline-offset-2 hover:text-[#fafafa] hover:underline"
           >
             Privacy Policy
-          </a>
+          </Link>
           <span aria-hidden="true"> · </span>
-          <a
-            href="/terms.html"
+          <Link
+            to={ROUTE_TERMS}
             className="text-[#a1a1aa] underline-offset-2 hover:text-[#fafafa] hover:underline"
           >
             Terms of Service
-          </a>
+          </Link>
           <span aria-hidden="true"> · </span>
-          <a
-            href="/teacher-data.html"
+          <Link
+            to={ROUTE_SCHOOL_DATA}
             className="text-[#a1a1aa] underline-offset-2 hover:text-[#fafafa] hover:underline"
           >
             School Data
-          </a>
+          </Link>
         </p>
         {extra}
       </div>
