@@ -2,7 +2,7 @@
   "name": "acara-unit-planner",
   "private": true,
   "scripts": {
-    "dev:api": "uvicorn server.main:app --reload --port 8026",
+    "dev:api": "uvicorn server.main:app --reload --port 8028",
     "dev:client": "npm run dev --prefix client",
     "build": "npm run build --prefix client"
   }

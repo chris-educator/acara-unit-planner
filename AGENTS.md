@@ -15,7 +15,7 @@ Teachers configure topic, year, subject, week count (6–10), optional ACARA des
 ## Local dev
 
 ```bash
-npm run dev:api      # :8026 / check package scripts
+npm run dev:api      # :8028
 npm run dev:client   # :5202
 ```
 

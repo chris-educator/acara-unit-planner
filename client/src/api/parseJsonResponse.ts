@@ -9,7 +9,7 @@ export async function parseJsonResponse<T = Record<string, unknown>>(res: Respon
     (!contentType.includes('json') && trimmed.startsWith('<'))
   ) {
     throw new Error(
-      'The app returned a web page instead of API data. Start uvicorn on port 8000 and npm run dev in client/.',
+      'The app returned a web page instead of API data. Start the API with npm run dev:api (port 8028) and npm run dev:client (port 5202).',
     )
   }
 

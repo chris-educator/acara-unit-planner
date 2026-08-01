@@ -81,7 +81,7 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-bg">
-      <SignInCreditsCallout maxWidthClass="max-w-lg" />
+      <SignInCreditsCallout maxWidthClass="max-w-[39rem]" />
       <div className="mx-auto w-full min-w-0 max-w-lg flex-1 px-4 pb-10 pt-6 sm:px-6">
         <div className="mb-4 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="ui-page-heading">Sign in</h1>
