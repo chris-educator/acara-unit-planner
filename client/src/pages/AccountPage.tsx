@@ -3,8 +3,9 @@ import { Navigate, useSearchParams, Link } from 'react-router-dom'
 import { fetchMe, fulfillCheckout, isRetryableFulfillError } from '../api/billing'
 import { SignInCreditsCallout } from '../components/SignInCreditsCallout'
 import { BackToAppLink } from '../components/BackToAppLink'
-import { ROUTE_LOGIN, ROUTE_PRIVACY } from '../constants/routes'
 import { EDSTACK_CREDITS_URL } from '../constants/branding'
+import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
+import { ROUTE_LOGIN, ROUTE_PRIVACY } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
 function sleep(ms: number): Promise<void> {
@@ -92,8 +93,8 @@ export function AccountPage() {
 
   return (
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-bg">
-      <SignInCreditsCallout maxWidthClass="max-w-2xl" />
-      <div className="mx-auto w-full min-w-0 max-w-2xl flex-1 px-4 pb-10 pt-6 sm:px-6 md:px-8">
+      <SignInCreditsCallout fullWidth />
+      <div className={`${APP_CONTENT_RAIL_CLASS} flex-1 pb-10 pt-6`}>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="ui-page-heading">Account &amp; Credits</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />

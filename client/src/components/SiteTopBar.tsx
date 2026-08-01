@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { EDSTACK_HOME_URL } from '../constants/branding'
+import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { EdStackLogo } from './EdStackLogo'
 
 type SiteTopBarProps = {
@@ -9,7 +10,7 @@ type SiteTopBarProps = {
 
 export function SiteTopBar({
   children,
-  innerClassName = 'site-top-bar__inner mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-8',
+  innerClassName = `site-top-bar__inner ${APP_CONTENT_RAIL_CLASS}`,
 }: SiteTopBarProps) {
   return (
     <div className="site-top-bar shrink-0">

@@ -5,6 +5,7 @@ import {
   appstaxBugReportMailto,
   appstaxCopyrightLine,
 } from '../constants/branding'
+import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
 import { AppstaxMailtoLink } from './AppstaxMailtoLink'
 
@@ -30,7 +31,7 @@ type FooterProps = {
 export function Footer({ extra }: FooterProps) {
   return (
     <footer className="mt-auto shrink-0 border-t border-white/6 bg-[#09090b]">
-      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 md:px-8">
+      <div className={`${APP_CONTENT_RAIL_CLASS} py-4`}>
         <p className="text-center text-xs font-medium text-[#fafafa]">
           <a
             href="#top"
@@ -47,7 +48,7 @@ export function Footer({ extra }: FooterProps) {
             Report a Bug
           </AppstaxMailtoLink>
         </p>
-        <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] leading-relaxed text-[#a1a1aa]">
+        <p className="mx-auto mt-1.5 max-w-full text-center text-[11px] leading-relaxed text-[#a1a1aa]">
           {APP_PRIVACY_BLURB}
         </p>
         <p className="mx-auto mt-1 text-center text-[11px] text-[#71717a]">

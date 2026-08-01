@@ -251,7 +251,6 @@ export default function AppMain() {
       assistantReady={assistantReady}
       creditsCallout={
         <SignInCreditsCallout
-          maxWidthClass="max-w-6xl"
           linkSignIn
           fullWidth
           creditQuote={billingActive ? '12 credits per generate, 3 per refine' : null}

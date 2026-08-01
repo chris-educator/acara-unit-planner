@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SIGN_IN_CREDITS_CALLOUT_TEXT } from '../constants/branding'
+import { APP_CONTENT_MAX_CLASS, APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_LOGIN } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
@@ -14,7 +15,7 @@ type SignInCreditsCalloutProps = {
 }
 
 export function SignInCreditsCallout({
-  maxWidthClass = '',
+  maxWidthClass = APP_CONTENT_MAX_CLASS,
   linkSignIn = false,
   showCreditsWhenSignedIn = false,
   creditQuote = null,
@@ -23,7 +24,7 @@ export function SignInCreditsCallout({
 }: SignInCreditsCalloutProps) {
   const { me, config, loading } = useAuth()
   const shellClass = fullWidth
-    ? `mx-auto flex w-full justify-start px-4 pt-4 sm:px-6 md:px-8 ${maxWidthClass} ${className}`.trim()
+    ? `flex w-full justify-start pt-4 ${APP_CONTENT_RAIL_CLASS} ${className}`.trim()
     : `mx-auto flex w-full justify-center px-4 pt-4 sm:px-6 ${maxWidthClass} ${className}`.trim()
   const calloutClass = fullWidth
     ? 'sign-in-credits-callout sign-in-credits-callout--full'

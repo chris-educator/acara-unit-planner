@@ -6,6 +6,7 @@ import { SiteTopBar } from './SiteTopBar'
 import { SiteTopBarTools } from './SiteTopBarTools'
 import { AskAssistant } from './AskAssistant'
 import { APP_INTRO_LINES, APP_TAGLINE } from '../constants/branding'
+import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_ACCOUNT, ROUTE_HOME, ROUTE_LOGIN } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
@@ -51,21 +52,18 @@ export function Layout({
         />
       </SiteTopBar>
       {billingDegraded && signedIn ? (
-        <div
-          className="ui-callout-orange mx-auto w-full max-w-6xl px-4 pt-3 sm:px-6 md:px-8"
-          role="status"
-        >
+        <div className={`ui-callout-orange ${APP_CONTENT_RAIL_CLASS} pt-3`} role="status">
           Account services are temporarily unavailable. Your sign-in is still valid — credit balance
           and purchases may be delayed. Try again in a few minutes.
         </div>
       ) : null}
       {!isDocument && apiReady === false ? (
-        <div className="ui-callout mx-auto w-full max-w-6xl px-4 pt-3 sm:px-6 md:px-8" role="status">
+        <div className={`ui-callout ${APP_CONTENT_RAIL_CLASS} pt-3`} role="status">
           Term plan generation is not configured on this server. Contact your administrator.
         </div>
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
-        <div className="mx-auto w-full min-w-0 max-w-6xl space-y-3 px-4 sm:px-6 md:px-8">
+        <div className={`${APP_CONTENT_RAIL_CLASS} space-y-3`}>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link to={ROUTE_HOME} className="inline-block no-underline">
               <AppTitle as={isDocument ? 'span' : 'h1'} />
@@ -87,11 +85,9 @@ export function Layout({
                 AI-powered agents built-in for clever help, deep reasoning, and fast responses — use{' '}
                 <span className="ui-header__ask-text">Ask</span> in the top bar.
               </p>
-              <div className="min-w-0">
-                <p className="text-sm leading-relaxed text-text-muted whitespace-nowrap max-[1100px]:whitespace-normal">
-                  {APP_INTRO_LINES[0]} {APP_INTRO_LINES[1]}
-                </p>
-              </div>
+              <p className="min-w-0 max-w-full text-sm leading-relaxed text-text-muted">
+                {APP_INTRO_LINES[0]} {APP_INTRO_LINES[1]}
+              </p>
             </>
           )}
         </div>
@@ -99,9 +95,7 @@ export function Layout({
       <main className="relative z-0 flex min-h-0 flex-1 flex-col overflow-x-hidden">
         <div className="flex-1 overflow-y-auto">
           {creditsCallout}
-          <div className="mx-auto w-full min-w-0 max-w-6xl px-4 py-6 sm:px-6 md:px-8 md:py-10">
-            {children}
-          </div>
+          <div className={`${APP_CONTENT_RAIL_CLASS} py-6 md:py-10`}>{children}</div>
         </div>
         <Footer />
       </main>
