@@ -47,6 +47,7 @@ from src.ask_scope import (  # noqa: E402
     pick_redirect,
 )
 from src.config import (  # noqa: E402
+    GEMINI_MAX_OUTPUT_TOKENS_UNIT,
     MAX_ASSISTANT_MESSAGE_CHARS,
     MAX_ASSISTANT_MESSAGES,
     MAX_REQUEST_BYTES,
@@ -216,6 +217,9 @@ def health() -> dict:
         "assistant_ready": is_assistant_configured(),
         "model": get_llm_model(),
         "frontend_built": SERVE_FRONTEND,
+        "unit_max_output_tokens": GEMINI_MAX_OUTPUT_TOKENS_UNIT,
+        "release": os.getenv("RAILWAY_GIT_COMMIT_SHA", os.getenv("SENTRY_RELEASE", "")).strip()
+        or None,
     }
 
 
@@ -295,8 +299,30 @@ def _execute_unit_generate(body: GenerateUnitRequest, request: Request) -> dict[
                 remaining=credits_remaining,
             )
         message = str(exc)
-        if "truncat" in message.lower() or "fewer weeks" in message.lower():
+        lowered = message.lower()
+        if "truncat" in lowered or "fewer weeks" in lowered:
             raise HTTPException(status_code=502, detail=message) from None
+        # Surface short provider errors (auth/model/rate-limit) without stack traces.
+        safe = message.strip().splitlines()[0][:220] if message.strip() else ""
+        if safe and any(
+            token in lowered
+            for token in (
+                "authentication",
+                "api key",
+                "invalid",
+                "model",
+                "rate",
+                "quota",
+                "permission",
+                "overloaded",
+                "credit",
+            )
+        ):
+            logger.exception("Unit generation failed")
+            raise HTTPException(
+                status_code=502,
+                detail=f"Unit generation failed: {safe}",
+            ) from None
         logger.exception("Unit generation failed")
         raise HTTPException(
             status_code=502,

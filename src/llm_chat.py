@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from typing import Any
@@ -10,11 +11,13 @@ from typing import Any
 from google import genai
 from google.genai.types import GenerateContentConfig
 
-from src.config import GEMINI_MODEL, get_google_api_key
+from src.config import GEMINI_MODEL, get_google_api_key, is_google_api_key_configured
 from src.gemini_safety import classroom_gemini_safety_settings
 from src.gemini_usage import usage_from_response
 from src.llm_config import get_anthropic_api_key, get_llm_model, get_llm_provider
 from src.llm_usage import LlmUsage
+
+logger = logging.getLogger(__name__)
 
 
 def extract_json_text(raw: str) -> str:
@@ -39,7 +42,7 @@ def _usage_from_gemini(response: Any, *, operation: str) -> LlmUsage | None:
         total_tokens=gemini_usage.total_tokens,
         operation=operation,
         provider="gemini",
-        model=get_llm_model(),
+        model=get_llm_model() if get_llm_provider() == "gemini" else GEMINI_MODEL,
     )
 
 
@@ -50,7 +53,6 @@ def _call_anthropic(
     max_output_tokens: int,
     operation: str,
     temperature: float,
-    *,
     json_mode: bool = False,
 ) -> tuple[str, LlmUsage | None]:
     import anthropic
@@ -75,11 +77,21 @@ def _call_anthropic(
     # Claude Sonnet 5+ enables adaptive thinking by default. Thinking tokens share the
     # max_tokens budget and commonly truncate large JSON unit packs — disable for
     # structured generation; keep default thinking for free-form assistant chat.
-    if json_mode or operation in {"unit_pack", "unit_refine"}:
+    disable_thinking = json_mode or operation in {"unit_pack", "unit_refine"}
+    if disable_thinking:
         create_kwargs["thinking"] = {"type": "disabled"}
 
     client = anthropic.Anthropic(api_key=api_key, timeout=timeout_seconds)
-    response = client.messages.create(**create_kwargs)
+    try:
+        response = client.messages.create(**create_kwargs)
+    except Exception as exc:
+        # Older API/SDK combos may reject thinking=disabled — retry once without it.
+        if disable_thinking and "thinking" in str(exc).lower():
+            logger.warning("Anthropic rejected thinking=disabled; retrying without it: %s", exc)
+            create_kwargs.pop("thinking", None)
+            response = client.messages.create(**create_kwargs)
+        else:
+            raise
     parts: list[str] = []
     for block in response.content:
         if getattr(block, "type", None) == "text":
@@ -117,6 +129,7 @@ def _call_gemini(
         raise RuntimeError("GOOGLE_API_KEY is not configured on the server.")
 
     client = genai.Client(api_key=api_key)
+    # Never send an Anthropic model id to Gemini (e.g. during provider fallback).
     model = get_llm_model() if get_llm_provider() == "gemini" else GEMINI_MODEL
     config_kwargs: dict[str, Any] = {
         "system_instruction": system_instruction,
@@ -173,14 +186,32 @@ def generate_json_text(
     temperature: float = 0.2,
 ) -> tuple[str, LlmUsage | None]:
     if get_llm_provider() == "anthropic":
-        return _call_anthropic(
-            system_instruction=system_instruction,
-            user_content=user_content,
-            max_output_tokens=max_output_tokens,
-            operation=operation,
-            temperature=temperature,
-            json_mode=True,
-        )
+        try:
+            return _call_anthropic(
+                system_instruction=system_instruction,
+                user_content=user_content,
+                max_output_tokens=max_output_tokens,
+                operation=operation,
+                temperature=temperature,
+                json_mode=True,
+            )
+        except Exception as exc:
+            # Production has Gemini configured — fall back so teachers still get a plan.
+            if is_google_api_key_configured() and operation in {"unit_pack", "unit_refine"}:
+                logger.warning(
+                    "Anthropic JSON generation failed for %s (%s); falling back to Gemini",
+                    operation,
+                    exc,
+                )
+                return _call_gemini(
+                    system_instruction=system_instruction,
+                    user_content=user_content,
+                    max_output_tokens=max_output_tokens,
+                    operation=operation,
+                    temperature=temperature,
+                    json_mode=True,
+                )
+            raise
     return _call_gemini(
         system_instruction=system_instruction,
         user_content=user_content,
