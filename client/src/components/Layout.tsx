@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { AiProviderBadges } from './AiProviderBadges'
 import { AppTitle } from './AppTitle'
 import { Footer } from './Footer'
 import { SiteTopBar } from './SiteTopBar'
@@ -65,9 +66,12 @@ export function Layout({
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
         <div className="mx-auto w-full min-w-0 max-w-6xl space-y-3 px-4 sm:px-6 md:px-8">
-          <Link to={ROUTE_HOME} className="inline-block no-underline">
-            <AppTitle as={isDocument ? 'span' : 'h1'} />
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link to={ROUTE_HOME} className="inline-block no-underline">
+              <AppTitle as={isDocument ? 'span' : 'h1'} />
+            </Link>
+            <AiProviderBadges />
+          </div>
           {isDocument ? (
             <p className="text-sm leading-relaxed text-text-muted">
               Legal and school-data pages for ACARA Unit Planner. Use{' '}

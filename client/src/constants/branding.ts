@@ -8,6 +8,8 @@ export const APPSTAX_HOME_URL = 'https://appstax.ai'
 export const EDSTACK_CREDITS_URL = 'https://edstack.appstax.ai/credits'
 export const EDSTACK_HOME_URL = 'https://edstack.appstax.ai'
 export const EDSTACK_TOOLS_URL = 'https://edstack.appstax.ai/#stack'
+export const CLAUDE_HOME_URL = 'https://claude.ai'
+export const GEMINI_HOME_URL = 'https://gemini.google.com'
 
 export const APP_TITLE = 'ACARA Unit Planner'
 export const APP_TITLE_MUTED = 'ACARA '
