@@ -23,6 +23,8 @@ class UnitLesson(BaseModel):
     exit_ticket: str = Field(min_length=15)
     differentiation_support: str = Field(min_length=15)
     differentiation_extension: str = Field(min_length=15)
+    differentiation_eald: str = Field(default="", max_length=1200)
+    differentiation_adjustments: str = Field(default="", max_length=1200)
     timing_notes: str = Field(default="", max_length=120)
 
     @field_validator("learning_objectives", "materials_needed")
@@ -40,6 +42,8 @@ class UnitLesson(BaseModel):
         "title",
         "differentiation_support",
         "differentiation_extension",
+        "differentiation_eald",
+        "differentiation_adjustments",
         "timing_notes",
     )
     @classmethod
@@ -85,6 +89,8 @@ class UnitOutput(BaseModel):
     lesson_count: int = Field(ge=6, le=10)
     overview: str = Field(min_length=20, max_length=3000)
     success_criteria: list[str] = Field(min_length=2, max_length=10)
+    cross_curriculum_priorities: list[str] = Field(default_factory=list, max_length=3)
+    general_capabilities: list[str] = Field(default_factory=list, max_length=7)
     suggested_descriptors: list[DescriptorRef] = Field(default_factory=list)
     lessons: list[UnitLesson] = Field(min_length=6, max_length=10)
     unit_assessment: UnitAssessment
@@ -97,6 +103,11 @@ class UnitOutput(BaseModel):
             raise ValueError("At least two success criteria required")
         return cleaned
 
+    @field_validator("cross_curriculum_priorities", "general_capabilities")
+    @classmethod
+    def strip_optional_string_lists(cls, value: list[str]) -> list[str]:
+        return [item.strip() for item in value if item.strip()]
+
     @model_validator(mode="after")
     def validate_lesson_shape(self) -> "UnitOutput":
         if len(self.lessons) != self.lesson_count:
@@ -107,6 +118,13 @@ class UnitOutput(BaseModel):
         expected = list(range(1, self.lesson_count + 1))
         if numbers != expected:
             raise ValueError("lesson_number must run 1..lesson_count without gaps")
+        for lesson in self.lessons:
+            if len(lesson.differentiation_eald) < 15:
+                raise ValueError("Each week needs differentiation_eald (min 15 characters)")
+            if len(lesson.differentiation_adjustments) < 15:
+                raise ValueError(
+                    "Each week needs differentiation_adjustments (min 15 characters)"
+                )
         return self
 
 

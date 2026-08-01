@@ -11,6 +11,8 @@ export type UnitDraft = {
   lessonCount: number
   pedagogyFocus: string
   classContext: string
+  crossCurriculumPriorities?: string[]
+  generalCapabilities?: string[]
   selectedDescriptorIds: string[]
   activeLesson: number
   savedAt: string

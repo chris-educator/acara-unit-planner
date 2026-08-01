@@ -32,8 +32,8 @@ export function CurriculumLinksPanel({
     <section className="ui-card p-4 sm:p-6 no-print">
       <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum Links</h2>
       <p className="mt-2 text-sm text-text-muted">
-        Optional Australian Curriculum descriptors for {subject}. Select up to four to weave into
-        objectives (A–Z).
+        Optional alignment themes for {subject} — planning prompts to weave into objectives, not
+        official ACARA content description codes. Select up to four (A–Z).
       </p>
       <div className="mt-4 max-h-[min(28rem,50vh)] space-y-2 overflow-y-auto overscroll-contain pr-1">
         {sortedDescriptors.map((descriptor) => {

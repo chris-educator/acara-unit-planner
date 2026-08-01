@@ -106,13 +106,34 @@ export function UnitPreviewPanel({
         </div>
 
         {unit.suggested_descriptors.length ? (
-          <ul className="unit-descriptor-chips mt-4">
-            {unit.suggested_descriptors.map((d) => (
-              <li key={d.id} className="unit-descriptor-chip">
-                {d.label}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-4">
+            <p className="mb-2 text-xs text-text-muted">
+              Alignment themes (not official ACARA codes)
+            </p>
+            <ul className="unit-descriptor-chips">
+              {unit.suggested_descriptors.map((d) => (
+                <li key={d.id} className="unit-descriptor-chip">
+                  {d.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {(unit.cross_curriculum_priorities?.length || unit.general_capabilities?.length) ? (
+          <div className="mt-4 space-y-2 text-sm text-text-muted">
+            {unit.cross_curriculum_priorities?.length ? (
+              <p>
+                <span className="font-semibold text-text">Cross-curriculum priorities: </span>
+                {unit.cross_curriculum_priorities.join(' · ')}
+              </p>
+            ) : null}
+            {unit.general_capabilities?.length ? (
+              <p>
+                <span className="font-semibold text-text">General capabilities: </span>
+                {unit.general_capabilities.join(' · ')}
+              </p>
+            ) : null}
+          </div>
         ) : null}
       </section>
 
@@ -185,8 +206,8 @@ export function UnitPreviewPanel({
       </section>
 
       <section className="ui-card p-4 sm:p-6">
-        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Lessons</h3>
-        <nav className="unit-lesson-tabs no-print" aria-label="Lesson navigation">
+        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Weeks</h3>
+        <nav className="unit-lesson-tabs no-print" aria-label="Week navigation">
           {unit.lessons.map((lesson) => (
             <button
               key={lesson.lesson_number}

@@ -1,11 +1,14 @@
 """Tests for Australian curriculum helpers."""
 
 from src.acara import (
+    CROSS_CURRICULUM_PRIORITIES,
     DEFAULT_SUBJECT,
+    GENERAL_CAPABILITIES,
     KLA_OPTIONS,
     descriptors_for_ids,
     list_descriptors_for_kla,
     list_kla_options,
+    year_band_guidance,
 )
 
 
@@ -90,3 +93,20 @@ def test_unknown_subject_gets_generic_fallback():
     items = list_descriptors_for_kla("Invented Subject XYZ")
     assert len(items) >= 2
     assert all(item["kla"] == "Invented Subject XYZ" for item in items)
+
+
+def test_cross_curriculum_and_general_capabilities_constants():
+    assert len(CROSS_CURRICULUM_PRIORITIES) == 3
+    assert "Sustainability" in CROSS_CURRICULUM_PRIORITIES
+    assert "Literacy" in GENERAL_CAPABILITIES
+    assert "Digital Literacy" in GENERAL_CAPABILITIES
+
+
+def test_year_band_guidance_primary_and_middle():
+    primary = year_band_guidance("Year 5")
+    assert "Primary" in primary
+    assert "40–60" in primary or "40-60" in primary
+    early = year_band_guidance("Foundation")
+    assert "Early years" in early
+    middle = year_band_guidance("Year 8")
+    assert "Middle years" in middle

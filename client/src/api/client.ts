@@ -28,6 +28,8 @@ export type UnitLesson = {
   exit_ticket: string
   differentiation_support: string
   differentiation_extension: string
+  differentiation_eald?: string
+  differentiation_adjustments?: string
   timing_notes: string
 }
 
@@ -53,6 +55,8 @@ export type MicroUnit = {
   lesson_count: number
   overview: string
   success_criteria: string[]
+  cross_curriculum_priorities?: string[]
+  general_capabilities?: string[]
   suggested_descriptors: DescriptorRef[]
   lessons: UnitLesson[]
   unit_assessment: UnitAssessment
@@ -93,6 +97,8 @@ export async function generateMicroUnit(payload: {
   pedagogy_focus: string
   class_context: string
   descriptor_ids: string[]
+  cross_curriculum_priorities?: string[]
+  general_capabilities?: string[]
 }) {
   const res = await fetchWithTimeout(
     '/api/unit/generate',

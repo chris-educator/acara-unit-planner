@@ -138,18 +138,25 @@ if not SERVE_FRONTEND:
 
 class GenerateUnitRequest(BaseModel):
     topic: str = Field(min_length=2, max_length=200)
-    year_level: str = Field(default="Year 8", max_length=40)
+    year_level: str = Field(default="Year 5", max_length=40)
     subject: str = Field(default=DEFAULT_SUBJECT, max_length=120)
     lesson_count: int = Field(default=8, ge=6, le=10)
     school_name: str = Field(default="", max_length=120)
     pedagogy_focus: str = Field(default="", max_length=120)
     class_context: str = Field(default="", max_length=400)
     descriptor_ids: list[str] = Field(default_factory=list)
+    cross_curriculum_priorities: list[str] = Field(default_factory=list)
+    general_capabilities: list[str] = Field(default_factory=list)
 
     @field_validator("descriptor_ids")
     @classmethod
     def clamp_descriptor_ids(cls, value: list[str]) -> list[str]:
         return [item.strip() for item in value if item.strip()][:4]
+
+    @field_validator("cross_curriculum_priorities", "general_capabilities")
+    @classmethod
+    def strip_optional_lists(cls, value: list[str]) -> list[str]:
+        return [item.strip() for item in value if item.strip()][:7]
 
 
 class ExportUnitRequest(BaseModel):
@@ -237,6 +244,8 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
             pedagogy_focus=body.pedagogy_focus,
             class_context=body.class_context,
             curriculum_framework=DEFAULT_CURRICULUM_FRAMEWORK,
+            cross_curriculum_priorities=body.cross_curriculum_priorities,
+            general_capabilities=body.general_capabilities,
         )
         if outcome.error or not outcome.unit:
             raise RuntimeError(outcome.error or "Unit generation failed")

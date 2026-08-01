@@ -1,6 +1,8 @@
 import { SignInGatedButton } from './SignInGatedButton'
 import {
   CLASS_CONTEXT_PLACEHOLDER,
+  CROSS_CURRICULUM_PRIORITY_OPTIONS,
+  GENERAL_CAPABILITY_OPTIONS,
   LESSON_COUNT_OPTIONS,
   PEDAGOGY_FOCUS_OPTIONS,
   TOPIC_PLACEHOLDER,
@@ -16,6 +18,8 @@ type UnitSetupFormProps = {
   lessonCount: number
   pedagogyFocus: string
   classContext: string
+  crossCurriculumPriorities: string[]
+  generalCapabilities: string[]
   loading: boolean
   apiReady: boolean
   billingActive?: boolean
@@ -30,7 +34,13 @@ type UnitSetupFormProps = {
   onLessonCountChange: (value: number) => void
   onPedagogyFocusChange: (value: string) => void
   onClassContextChange: (value: string) => void
+  onCrossCurriculumPrioritiesChange: (values: string[]) => void
+  onGeneralCapabilitiesChange: (values: string[]) => void
   onClearDraft: () => void
+}
+
+function toggleInList(values: string[], option: string): string[] {
+  return values.includes(option) ? values.filter((item) => item !== option) : [...values, option]
 }
 
 export function UnitSetupForm({
@@ -42,6 +52,8 @@ export function UnitSetupForm({
   lessonCount,
   pedagogyFocus,
   classContext,
+  crossCurriculumPriorities,
+  generalCapabilities,
   loading,
   apiReady,
   billingActive = false,
@@ -56,6 +68,8 @@ export function UnitSetupForm({
   onLessonCountChange,
   onPedagogyFocusChange,
   onClassContextChange,
+  onCrossCurriculumPrioritiesChange,
+  onGeneralCapabilitiesChange,
   onClearDraft,
 }: UnitSetupFormProps) {
   const sortedSubjects = [...subjects].sort((a, b) =>
@@ -65,21 +79,12 @@ export function UnitSetupForm({
   return (
     <div className="space-y-6 no-print">
       <section className="ui-card p-4 sm:p-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
-            <p className="mt-2 text-sm text-text-muted">
-              Plan against Australian Curriculum (ACARA) learning areas and subjects. Defaults open
-              on Humanities and Social Sciences.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="ui-btn-ghost w-full text-xs sm:w-auto"
-            onClick={onClearDraft}
-          >
-            Clear All
-          </button>
+        <div className="min-w-0">
+          <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
+          <p className="mt-2 text-sm text-text-muted">
+            Plan against Australian Curriculum (ACARA) learning areas and subjects. Defaults open on
+            Year 5 Humanities and Social Sciences — change year and subject to match your class.
+          </p>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -193,6 +198,53 @@ export function UnitSetupForm({
             />
           </div>
         </div>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <fieldset className="min-w-0">
+            <legend className="ui-label">Cross-curriculum priorities (optional)</legend>
+            <p className="mt-1 text-xs text-text-muted">
+              Select any to weave through overview, objectives, and weekly activities.
+            </p>
+            <div className="mt-3 space-y-2">
+              {CROSS_CURRICULUM_PRIORITY_OPTIONS.map((option) => (
+                <label key={option} className="flex cursor-pointer items-start gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={crossCurriculumPriorities.includes(option)}
+                    onChange={() =>
+                      onCrossCurriculumPrioritiesChange(
+                        toggleInList(crossCurriculumPriorities, option),
+                      )
+                    }
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="min-w-0">
+            <legend className="ui-label">General capabilities (optional)</legend>
+            <p className="mt-1 text-xs text-text-muted">
+              Optional Australian Curriculum capabilities to emphasise in the plan.
+            </p>
+            <div className="mt-3 space-y-2">
+              {GENERAL_CAPABILITY_OPTIONS.map((option) => (
+                <label key={option} className="flex cursor-pointer items-start gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5"
+                    checked={generalCapabilities.includes(option)}
+                    onChange={() =>
+                      onGeneralCapabilitiesChange(toggleInList(generalCapabilities, option))
+                    }
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
       </section>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -212,6 +264,14 @@ export function UnitSetupForm({
               ? 'Generate Term Plan (15 credits)'
               : 'Generate Term Plan'}
         </SignInGatedButton>
+        <button
+          type="button"
+          className="ui-btn-primary w-full sm:w-auto"
+          onClick={onClearDraft}
+          disabled={loading}
+        >
+          Clear All
+        </button>
       </div>
     </div>
   )

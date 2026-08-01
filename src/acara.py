@@ -8,6 +8,54 @@ from dataclasses import dataclass
 DEFAULT_SUBJECT = "Humanities and Social Sciences"
 DEFAULT_CURRICULUM_FRAMEWORK = "Australian Curriculum (ACARA)"
 
+CROSS_CURRICULUM_PRIORITIES: tuple[str, ...] = (
+    "Aboriginal and Torres Strait Islander Histories and Cultures",
+    "Asia and Australia's Engagement with Asia",
+    "Sustainability",
+)
+
+GENERAL_CAPABILITIES: tuple[str, ...] = tuple(
+    sorted(
+        {
+            "Critical and Creative Thinking",
+            "Digital Literacy",
+            "Ethical Understanding",
+            "Intercultural Understanding",
+            "Literacy",
+            "Numeracy",
+            "Personal and Social Capability",
+        },
+        key=str.casefold,
+    )
+)
+
+
+def year_band_guidance(year_level: str) -> str:
+    """Age-appropriate planning guidance for generation prompts."""
+    key = (year_level or "").strip().casefold()
+    if key in {"foundation", "year 1", "year 2"}:
+        return (
+            "Early years (F–2): short practical sessions, strong oral language, concrete materials, "
+            "and play-based or hands-on exploration. Prefer integrated blocks over long secondary-style "
+            "periods. Timing notes like 'Week 1 · 3–4 × 20–40 min sessions' or integrated morning blocks."
+        )
+    if key in {"year 3", "year 4", "year 5", "year 6"}:
+        return (
+            "Primary (Years 3–6): age-appropriate vocabulary, collaborative and hands-on tasks, "
+            "and natural literacy/numeracy links. Timing notes like "
+            "'Week 1 · 3–4 × 40–60 min lessons' or integrated HASS/Science blocks."
+        )
+    if key in {"year 7", "year 8", "year 9"}:
+        return (
+            "Middle years (Years 7–9): growing disciplinary depth with clear formative checks. "
+            "Timing notes like 'Week 1 · ~3–4 × 40–60 min periods'."
+        )
+    return (
+        "Senior secondary (Years 10–12): subject depth and assessment readiness. "
+        "Timing notes like 'Week 1 · ~3–4 × 50–70 min periods'."
+    )
+
+
 # Australian Curriculum F–10 learning areas and subjects (Version 9).
 # A–Z — single source for /api/subjects and client fallbacks.
 KLA_OPTIONS: tuple[str, ...] = tuple(

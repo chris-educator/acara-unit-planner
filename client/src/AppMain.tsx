@@ -46,6 +46,12 @@ export default function AppMain() {
   const [lessonCount, setLessonCount] = useState(draft?.lessonCount ?? DEFAULT_LESSON_COUNT)
   const [pedagogyFocus, setPedagogyFocus] = useState(draft?.pedagogyFocus ?? '')
   const [classContext, setClassContext] = useState(draft?.classContext ?? '')
+  const [crossCurriculumPriorities, setCrossCurriculumPriorities] = useState<string[]>(
+    draft?.crossCurriculumPriorities ?? [],
+  )
+  const [generalCapabilities, setGeneralCapabilities] = useState<string[]>(
+    draft?.generalCapabilities ?? [],
+  )
   const [unit, setUnit] = useState<MicroUnit | null>(draft?.unit ?? null)
   const [activeLesson, setActiveLesson] = useState(draft?.activeLesson ?? 1)
   const [draftBanner, setDraftBanner] = useState(Boolean(draft?.unit))
@@ -109,6 +115,8 @@ export default function AppMain() {
       lessonCount,
       pedagogyFocus,
       classContext,
+      crossCurriculumPriorities,
+      generalCapabilities,
       selectedDescriptorIds: [...selectedDescriptors],
       activeLesson,
     })
@@ -121,6 +129,8 @@ export default function AppMain() {
     lessonCount,
     pedagogyFocus,
     classContext,
+    crossCurriculumPriorities,
+    generalCapabilities,
     selectedDescriptors,
     activeLesson,
   ])
@@ -145,6 +155,8 @@ export default function AppMain() {
     setLessonCount(DEFAULT_LESSON_COUNT)
     setPedagogyFocus('')
     setClassContext('')
+    setCrossCurriculumPriorities([])
+    setGeneralCapabilities([])
     setSelectedDescriptors(new Set())
     setUnit(null)
     setActiveLesson(1)
@@ -174,6 +186,8 @@ export default function AppMain() {
         pedagogy_focus: pedagogyFocus,
         class_context: classContext.trim(),
         descriptor_ids: [...selectedDescriptors],
+        cross_curriculum_priorities: crossCurriculumPriorities,
+        general_capabilities: generalCapabilities,
       })
       setUnit(data.unit)
       setActiveLesson(1)
@@ -271,6 +285,8 @@ export default function AppMain() {
               lessonCount={lessonCount}
               pedagogyFocus={pedagogyFocus}
               classContext={classContext}
+              crossCurriculumPriorities={crossCurriculumPriorities}
+              generalCapabilities={generalCapabilities}
               loading={loading}
               apiReady={apiReady === true}
               billingActive={billingActive}
@@ -285,6 +301,8 @@ export default function AppMain() {
               onLessonCountChange={setLessonCount}
               onPedagogyFocusChange={setPedagogyFocus}
               onClassContextChange={setClassContext}
+              onCrossCurriculumPrioritiesChange={setCrossCurriculumPriorities}
+              onGeneralCapabilitiesChange={setGeneralCapabilities}
               onClearDraft={clearAll}
             />
           </form>
@@ -315,12 +333,12 @@ export default function AppMain() {
                 <div className="unit-empty-state">
                   <p className="unit-empty-state__title">Your teacher pack appears here</p>
                   <p className="unit-empty-state__text">
-                    After generation you will get editable lessons with objectives, materials,
+                    After generation you will get editable weeks with objectives, materials,
                     differentiation, assessment tasks, and a marking rubric — plus docx, pdf, txt, or
                     zip export.
                   </p>
                   <ul className="unit-empty-state__list">
-                    <li>Lesson tabs for quick navigation</li>
+                    <li>Week tabs for quick navigation</li>
                     <li>Refine any section with AI</li>
                     <li>Auto-saved in this browser</li>
                   </ul>

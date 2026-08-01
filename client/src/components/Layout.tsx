@@ -63,12 +63,13 @@ export function Layout({ children, apiReady, assistantReady, creditsCallout }: L
             AI-powered agents built-in for clever help, deep reasoning, and fast responses — use{' '}
             <span className="ui-header__ask-text">Ask</span> in the top bar.
           </p>
-          <div className="max-w-3xl space-y-2">
-            {APP_INTRO_LINES.map((line) => (
-              <p key={line} className="text-sm leading-relaxed text-text-muted">
-                {line}
-              </p>
-            ))}
+          <div className="min-w-0 space-y-2">
+            <p className="text-sm leading-relaxed text-text-muted whitespace-nowrap max-[1100px]:whitespace-normal">
+              {APP_INTRO_LINES[0]}
+            </p>
+            <p className="text-sm leading-relaxed text-text-muted">
+              {APP_INTRO_LINES[1]}
+            </p>
           </div>
         </div>
       </header>

@@ -32,8 +32,12 @@ def _sample_unit() -> dict:
                 "exit_ticket": "Name one place and one feature.",
                 "differentiation_support": "Provide labelled icons.",
                 "differentiation_extension": "Add a simple key and route.",
+                "differentiation_eald": "Pre-teach map words with picture cards.",
+                "differentiation_adjustments": "Allow verbal labels instead of writing.",
             }
         ],
+        "cross_curriculum_priorities": ["Sustainability"],
+        "general_capabilities": ["Literacy", "Critical and Creative Thinking"],
         "unit_assessment": {
             "title": "Neighbourhood map task",
             "instructions": "Create a labelled map of a familiar local area.",
@@ -76,3 +80,6 @@ def test_unit_txt_includes_title():
     text = build_unit_txt(_sample_unit()).decode("utf-8")
     assert "Local Places" in text
     assert "Neighbourhood map task" in text
+    assert "Differentiation — EAL/D" in text
+    assert "Cross-curriculum priorities" in text
+    assert "Sustainability" in text

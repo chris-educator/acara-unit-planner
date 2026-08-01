@@ -96,7 +96,7 @@ export function LessonEditor({
   return (
     <div className="unit-lesson-editor">
       <div className="unit-lesson-editor__header">
-        <span className="unit-lesson-badge">Lesson {n}</span>
+        <span className="unit-lesson-badge">Week {n}</span>
         {lesson.timing_notes ? (
           <span className="unit-lesson-timing">{lesson.timing_notes}</span>
         ) : null}
@@ -105,11 +105,11 @@ export function LessonEditor({
       <div>
         <div className="unit-field-label-row">
           <label className="ui-label" htmlFor={`title-${n}`}>
-            Lesson Title
+            Week Title
           </label>
           <RefineWithAi
             apiReady={apiReady}
-            sectionLabel="lesson title"
+            sectionLabel="week title"
             onRefine={(instruction) => onRefine(lessonPath(base, 'title'), instruction)}
           />
         </div>
@@ -195,6 +195,26 @@ export function LessonEditor({
           `extension-${n}`,
           3,
         )}
+        {textField(
+          'Differentiation — EAL/D',
+          lesson.differentiation_eald ?? '',
+          (differentiation_eald) => onChange({ differentiation_eald }),
+          lessonPath(base, 'differentiation_eald'),
+          apiReady,
+          onRefine,
+          `eald-${n}`,
+          3,
+        )}
+        {textField(
+          'Differentiation — Adjustments',
+          lesson.differentiation_adjustments ?? '',
+          (differentiation_adjustments) => onChange({ differentiation_adjustments }),
+          lessonPath(base, 'differentiation_adjustments'),
+          apiReady,
+          onRefine,
+          `adjustments-${n}`,
+          3,
+        )}
       </div>
 
       <div>
@@ -206,7 +226,7 @@ export function LessonEditor({
           value={lesson.timing_notes}
           onChange={(e) => onChange({ timing_notes: e.target.value })}
           className="ui-input"
-          placeholder="e.g. 50 min · Starter 8 min · Main 32 min · Exit 10 min"
+          placeholder="e.g. Week 1 · 3–4 × 40–60 min lessons"
         />
       </div>
     </div>

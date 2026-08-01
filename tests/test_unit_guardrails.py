@@ -28,7 +28,13 @@ def _lesson(number: int, title: str) -> dict:
         "differentiation_extension": (
             "Invite advanced learners to evaluate a counter-example and justify their reasoning in writing."
         ),
-        "timing_notes": "50 min lesson",
+        "differentiation_eald": (
+            "Pre-teach key vocabulary with visuals and allow oral rehearsal before written responses."
+        ),
+        "differentiation_adjustments": (
+            "Offer alternative recording options and reduce task length while keeping the same learning goal."
+        ),
+        "timing_notes": "Week 1 · 3–4 × 40–60 min lessons",
     }
 
 
@@ -110,3 +116,12 @@ def test_rejects_short_main_activity():
     validated, err = validate_unit_output(payload)
     assert validated is None
     assert err is not None
+
+
+def test_rejects_missing_eald_differentiation():
+    payload = _sample()
+    payload["lessons"][0]["differentiation_eald"] = "Too short"
+    validated, err = validate_unit_output(payload)
+    assert validated is None
+    assert err is not None
+    assert "eald" in err.lower()

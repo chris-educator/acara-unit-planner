@@ -85,6 +85,12 @@ def _lesson_block(lesson: dict) -> list[str]:
             "",
             "Differentiation — extension",
             lesson.get("differentiation_extension", ""),
+            "",
+            "Differentiation — EAL/D",
+            lesson.get("differentiation_eald", ""),
+            "",
+            "Differentiation — adjustments",
+            lesson.get("differentiation_adjustments", ""),
         ]
     )
     return lines
@@ -101,9 +107,28 @@ def build_unit_txt(unit: dict, *, school_name: str = "") -> bytes:
             lines.append(f"• {item}")
         lines.append("")
 
+    ccps = unit.get("cross_curriculum_priorities") or []
+    if ccps:
+        lines.extend(["Cross-curriculum priorities", "-" * 28])
+        for item in ccps:
+            lines.append(f"• {item}")
+        lines.append("")
+
+    gcs = unit.get("general_capabilities") or []
+    if gcs:
+        lines.extend(["General capabilities", "-" * 20])
+        for item in gcs:
+            lines.append(f"• {item}")
+        lines.append("")
+
     descriptors = unit.get("suggested_descriptors") or []
     if descriptors:
-        lines.extend(["Suggested curriculum links", "-" * 26])
+        lines.extend(
+            [
+                "Suggested curriculum links (alignment themes — not official codes)",
+                "-" * 64,
+            ]
+        )
         for item in descriptors:
             lines.append(f"• {item.get('label', '')}: {item.get('summary', '')}")
         lines.append("")
@@ -183,9 +208,24 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
         for item in criteria:
             doc.add_paragraph(item, style="List Bullet")
 
+    ccps = unit.get("cross_curriculum_priorities") or []
+    if ccps:
+        doc.add_heading("Cross-curriculum priorities", level=1)
+        for item in ccps:
+            doc.add_paragraph(item, style="List Bullet")
+
+    gcs = unit.get("general_capabilities") or []
+    if gcs:
+        doc.add_heading("General capabilities", level=1)
+        for item in gcs:
+            doc.add_paragraph(item, style="List Bullet")
+
     descriptors = unit.get("suggested_descriptors") or []
     if descriptors:
         doc.add_heading("Suggested curriculum links", level=1)
+        doc.add_paragraph(
+            "Alignment themes for planning — not official ACARA content description codes."
+        ).italic = True
         for item in descriptors:
             doc.add_paragraph(
                 f"{item.get('label', '')} — {item.get('summary', '')}",
@@ -215,6 +255,10 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
         doc.add_paragraph(lesson.get("differentiation_support", ""))
         doc.add_heading("Differentiation — extension", level=2)
         doc.add_paragraph(lesson.get("differentiation_extension", ""))
+        doc.add_heading("Differentiation — EAL/D", level=2)
+        doc.add_paragraph(lesson.get("differentiation_eald", ""))
+        doc.add_heading("Differentiation — adjustments", level=2)
+        doc.add_paragraph(lesson.get("differentiation_adjustments", ""))
 
     assessment = unit.get("unit_assessment") or {}
     doc.add_heading(assessment.get("title", "Unit assessment"), level=1)
@@ -317,9 +361,23 @@ def build_unit_pdf(unit: dict, *, school_name: str = "") -> bytes:
         _pdf_heading(pdf, "Success criteria")
         _pdf_bullets(pdf, [str(item) for item in criteria])
 
+    ccps = unit.get("cross_curriculum_priorities") or []
+    if ccps:
+        _pdf_heading(pdf, "Cross-curriculum priorities")
+        _pdf_bullets(pdf, [str(item) for item in ccps])
+
+    gcs = unit.get("general_capabilities") or []
+    if gcs:
+        _pdf_heading(pdf, "General capabilities")
+        _pdf_bullets(pdf, [str(item) for item in gcs])
+
     descriptors = unit.get("suggested_descriptors") or []
     if descriptors:
         _pdf_heading(pdf, "Suggested curriculum links")
+        _pdf_body(
+            pdf,
+            "Alignment themes for planning - not official ACARA content description codes.",
+        )
         _pdf_bullets(
             pdf,
             [f"{item.get('label', '')} - {item.get('summary', '')}" for item in descriptors],
@@ -345,6 +403,8 @@ def build_unit_pdf(unit: dict, *, school_name: str = "") -> bytes:
             ("Exit ticket", "exit_ticket"),
             ("Differentiation - support", "differentiation_support"),
             ("Differentiation - extension", "differentiation_extension"),
+            ("Differentiation - EAL/D", "differentiation_eald"),
+            ("Differentiation - adjustments", "differentiation_adjustments"),
         ):
             _pdf_heading(pdf, label, size=11)
             _pdf_body(pdf, lesson.get(key, ""))
