@@ -307,10 +307,10 @@ export default function AppMain() {
               onToggleDescriptor={toggleDescriptor}
             />
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="unit-actions-row grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
               <SignInGatedButton
                 type="submit"
-                className="ui-btn-primary w-full sm:w-auto"
+                className="ui-btn-primary w-full"
                 requiresSignIn={requiresSignIn}
                 requiresEmailVerification={requiresEmailVerification}
                 signInTo={signInTo}
@@ -326,7 +326,7 @@ export default function AppMain() {
               </SignInGatedButton>
               <button
                 type="button"
-                className="ui-btn-primary w-full sm:w-auto"
+                className="ui-btn-primary w-full"
                 onClick={clearAll}
                 disabled={loading}
               >

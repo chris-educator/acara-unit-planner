@@ -1103,6 +1103,24 @@ html[data-theme='dark'] .app-how-to-guide__step {
   min-width: 0;
 }
 
+.unit-actions-row > .sign-in-gated-button,
+.unit-actions-row > .sign-in-gated-button--full,
+.unit-actions-row > .ui-btn-primary {
+  width: 100%;
+  min-width: 0;
+}
+
+.unit-actions-row > .sign-in-gated-button--full {
+  display: flex;
+}
+
+@media (min-width: 640px) {
+  .unit-actions-row > .sign-in-gated-button--full {
+    display: flex;
+    width: 100%;
+  }
+}
+
 .unit-workspace__placeholder {
   min-height: 20rem;
 }
