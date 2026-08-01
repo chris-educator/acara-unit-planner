@@ -17,7 +17,6 @@ import { SignInCreditsCallout } from './components/SignInCreditsCallout'
 import { UnitPreviewPanel } from './components/UnitPreviewPanel'
 import { UnitSetupForm } from './components/UnitSetupForm'
 import {
-  DEFAULT_CURRICULUM_FRAMEWORK,
   DEFAULT_LESSON_COUNT,
   DEFAULT_SUBJECT,
   DEFAULT_YEAR_LEVEL,
@@ -44,9 +43,6 @@ export default function AppMain() {
   const [schoolName, setSchoolName] = useState(draft?.schoolName ?? '')
   const [yearLevel, setYearLevel] = useState(draft?.yearLevel ?? DEFAULT_YEAR_LEVEL)
   const [subject, setSubject] = useState(draft?.subject ?? DEFAULT_SUBJECT)
-  const [curriculumFramework, setCurriculumFramework] = useState(
-    draft?.curriculumFramework ?? DEFAULT_CURRICULUM_FRAMEWORK,
-  )
   const [lessonCount, setLessonCount] = useState(draft?.lessonCount ?? DEFAULT_LESSON_COUNT)
   const [pedagogyFocus, setPedagogyFocus] = useState(draft?.pedagogyFocus ?? '')
   const [classContext, setClassContext] = useState(draft?.classContext ?? '')
@@ -76,10 +72,17 @@ export default function AppMain() {
         const sorted = [...data.subjects].sort((a, b) =>
           a.localeCompare(b, 'en-AU', { sensitivity: 'base' }),
         )
-        setSubjects(sorted.length ? sorted : [...SUBJECT_OPTIONS_FALLBACK])
+        const next = sorted.length ? sorted : [...SUBJECT_OPTIONS_FALLBACK]
+        setSubjects(next)
+        setSubject((current) => (next.includes(current) ? current : DEFAULT_SUBJECT))
       })
       .catch(() => {
         setSubjects([...SUBJECT_OPTIONS_FALLBACK])
+        setSubject((current) =>
+          (SUBJECT_OPTIONS_FALLBACK as readonly string[]).includes(current)
+            ? current
+            : DEFAULT_SUBJECT,
+        )
         setError('Could not load subject list — using Australian curriculum defaults.')
       })
   }, [])
@@ -103,7 +106,6 @@ export default function AppMain() {
       schoolName,
       yearLevel,
       subject,
-      curriculumFramework,
       lessonCount,
       pedagogyFocus,
       classContext,
@@ -116,7 +118,6 @@ export default function AppMain() {
     schoolName,
     yearLevel,
     subject,
-    curriculumFramework,
     lessonCount,
     pedagogyFocus,
     classContext,
@@ -141,7 +142,6 @@ export default function AppMain() {
     setSchoolName('')
     setYearLevel(DEFAULT_YEAR_LEVEL)
     setSubject(DEFAULT_SUBJECT)
-    setCurriculumFramework(DEFAULT_CURRICULUM_FRAMEWORK)
     setLessonCount(DEFAULT_LESSON_COUNT)
     setPedagogyFocus('')
     setClassContext('')
@@ -169,7 +169,6 @@ export default function AppMain() {
         topic: topic.trim(),
         year_level: yearLevel,
         subject,
-        curriculum_framework: curriculumFramework,
         lesson_count: lessonCount,
         school_name: schoolName.trim(),
         pedagogy_focus: pedagogyFocus,
@@ -269,7 +268,6 @@ export default function AppMain() {
               yearLevel={yearLevel}
               subject={subject}
               subjects={subjects.length ? subjects : [...SUBJECT_OPTIONS_FALLBACK]}
-              curriculumFramework={curriculumFramework}
               lessonCount={lessonCount}
               pedagogyFocus={pedagogyFocus}
               classContext={classContext}
@@ -284,7 +282,6 @@ export default function AppMain() {
               onSchoolNameChange={setSchoolName}
               onYearLevelChange={setYearLevel}
               onSubjectChange={setSubject}
-              onCurriculumFrameworkChange={setCurriculumFramework}
               onLessonCountChange={setLessonCount}
               onPedagogyFocusChange={setPedagogyFocus}
               onClassContextChange={setClassContext}
@@ -295,7 +292,6 @@ export default function AppMain() {
           <div className="unit-workspace__preview space-y-6">
             <CurriculumLinksPanel
               subject={subject}
-              curriculumFramework={curriculumFramework}
               descriptors={descriptors}
               selectedDescriptors={selectedDescriptors}
               onToggleDescriptor={toggleDescriptor}

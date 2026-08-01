@@ -124,42 +124,36 @@ html[data-theme='dark'] .ui-header__ask-text {
     gap: 0.75rem;
   }
 
-  /* EdStack top bar tools (canonical: feedback-generator) */
+  /* EdStack top bar tools — Ask · Account · Utility clusters */
   .site-top-bar__tools {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.5rem;
+    gap: 0.75rem;
     min-width: 0;
     flex: 1 1 auto;
   }
 
   .site-top-bar__group-primary,
   .site-top-bar__group-secondary {
-    display: contents;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
   }
 
-  /* Desktop — action order: Ask · Credits · Sign · Share · Theme */
-  .site-top-bar__ask {
-    order: 1;
+  .site-top-bar__group-primary {
+    gap: 0.75rem;
   }
 
-  .site-top-bar__credits {
-    order: 2;
-  }
-
-  .site-top-bar__sign-in,
-  .site-top-bar__sign-out {
-    order: 3;
-  }
-
-  .site-top-bar__share {
-    order: 4;
-  }
-
-  .site-top-bar__theme {
-    order: 5;
+  .site-top-bar__cluster {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
   }
 
   /* Uniform height for top-bar pills — theme switch excluded */
@@ -170,6 +164,12 @@ html[data-theme='dark'] .ui-header__ask-text {
     height: var(--site-top-bar-control-height);
     min-height: var(--site-top-bar-control-height);
     max-height: var(--site-top-bar-control-height);
+  }
+
+  .site-top-bar .share-menu__trigger {
+    width: var(--site-top-bar-control-height);
+    padding-inline: 0;
+    flex-shrink: 0;
   }
 
   .site-top-bar__action {
@@ -430,178 +430,97 @@ html[data-theme='dark'] .ui-header__ask-text {
     transform: translate(1.125rem, -50%);
   }
 
-  .site-top-bar__group-primary,
-  .site-top-bar__group-secondary {
-    display: contents;
-  }
-
   @media (max-width: 639px) {
     .site-top-bar {
       padding: 8px 0;
     }
 
     .site-top-bar__inner {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      grid-template-rows: auto auto;
-      align-items: stretch;
-      column-gap: 0.375rem;
-      row-gap: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
     }
 
     .site-top-bar__logo {
-      grid-column: 1;
-      grid-row: 1;
+      flex: 0 0 auto;
       align-self: center;
     }
 
     .site-top-bar__tools,
     .site-top-bar__actions {
-      display: contents;
+      display: flex;
+      flex: 1 1 auto;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .site-top-bar__group-primary,
+    .site-top-bar__group-secondary {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.375rem;
+      min-width: 0;
     }
 
     .site-top-bar__group-primary {
-      display: grid;
-      grid-column: 2;
-      grid-row: 1;
-      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-      gap: 0;
-      min-width: 0;
-      width: 100%;
+      gap: 0.5rem;
     }
 
-    .site-top-bar__inner:has(.site-top-bar__group-secondary) .site-top-bar__group-primary {
-      grid-column: 1 / -1;
-      grid-row: 2;
-    }
-
-    .site-top-bar__group-secondary {
-      display: grid;
-      grid-column: 2;
-      grid-row: 1;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0;
-      min-width: 0;
-      width: 100%;
-    }
-
-    .site-top-bar__group-primary > *,
-    .site-top-bar__group-secondary > * {
-      min-width: 0;
-    }
-
-    .site-top-bar__group-primary > .site-top-bar__action {
-      width: 100%;
-      justify-content: center;
-      padding-inline: 0.375rem;
-      font-size: 0.6875rem;
-      line-height: 1.125rem;
-      border-radius: 0;
-    }
-
-    .site-top-bar__group-primary > :first-child.site-top-bar__action,
-    .site-top-bar__group-primary > :first-child:not(.site-top-bar__theme) {
-      border-top-left-radius: 0.5rem;
-      border-bottom-left-radius: 0.5rem;
-    }
-
-    .site-top-bar__group-primary > .site-top-bar__theme:last-child,
-    .site-top-bar__group-primary > .site-top-bar__action:last-child {
-      border-top-right-radius: 0.5rem;
-      border-bottom-right-radius: 0.5rem;
-    }
-
-    /* When an action precedes Share in the mobile primary row, keep its right side square so Share can attach cleanly */
-    .site-top-bar__group-primary > .site-top-bar__action:has(+ .site-top-bar__share) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    .site-top-bar__group-primary > .site-top-bar__theme {
+    .site-top-bar__cluster {
       display: flex;
+      flex-wrap: nowrap;
       align-items: center;
-      align-self: center; /* do not stretch theme wrapper to full button row height */
-      justify-content: center;
-      width: 100%;
+      gap: 0.375rem;
       min-width: 0;
-      height: auto;
     }
 
-    .site-top-bar__group-primary > .skin-picker {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-      gap: 0;
-      width: 100%;
-      min-width: 0;
-      border-radius: 0.5rem;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .site-top-bar__group-primary > .skin-picker button {
-      width: 100%;
-      min-width: 0;
-      justify-content: center;
-      border-radius: 0;
-      font-size: 0.6875rem;
-      padding-inline: 0.25rem;
-    }
-
+    /* Ask sizes to its label — do not stretch across the row */
     .site-top-bar__group-secondary > .site-top-bar__ask {
       min-width: 0;
+      flex: 0 0 auto;
     }
 
     .site-top-bar__group-secondary > .site-top-bar__ask > button {
       box-sizing: border-box;
-      width: 100%;
+      width: auto;
       justify-content: center;
       height: var(--site-top-bar-control-height);
       min-height: var(--site-top-bar-control-height);
       max-height: var(--site-top-bar-control-height);
       font-size: 0.75rem;
+      padding-inline: 0.625rem;
       border-radius: 0.5rem;
     }
 
-    /* Share when placed in secondary (e.g. clock-stopwatch manual layout) gets locked height + full pill on mobile */
-    .site-top-bar__group-secondary > .site-top-bar__share {
-      width: auto; /* don't let the 1fr cell stretch the wrapper */
+    .site-top-bar__cluster--account > .site-top-bar__action {
+      padding-inline: 0.5rem;
+      font-size: 0.75rem;
     }
-    .site-top-bar__group-secondary > .site-top-bar__share .share-menu__trigger {
-      box-sizing: border-box;
-      height: var(--site-top-bar-control-height);
-      min-height: var(--site-top-bar-control-height);
-      max-height: var(--site-top-bar-control-height);
+
+    .site-top-bar__cluster--utility > .site-top-bar__share .share-menu__trigger {
       width: var(--site-top-bar-control-height);
       border-radius: 0.5rem;
     }
 
-    .site-top-bar__group-primary > .site-top-bar__share .share-menu__trigger {
-      box-sizing: border-box;
-      width: 100%;
-      height: var(--site-top-bar-control-height);
-      min-height: var(--site-top-bar-control-height);
-      max-height: var(--site-top-bar-control-height);
-      /* sides square by default to join adjacent pills; end caps set below */
-      border-radius: 0;
+    .site-top-bar__cluster--utility > .skin-picker {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+      min-width: 0;
     }
 
-    /* Share gets proper end rounding on mobile when first (standalone) or as the last pill before theme */
-    .site-top-bar__group-primary > .site-top-bar__share:first-child .share-menu__trigger {
-      border-radius: 0.5rem;
-    }
-    .site-top-bar__group-primary > .site-top-bar__share:not(:first-child) .share-menu__trigger {
-      border-top-right-radius: 0.5rem;
-      border-bottom-right-radius: 0.5rem;
-      /* left sides stay 0 to butt against preceding pill */
-    }
-
-    .site-top-bar__ask,
-    .site-top-bar__credits,
-    .site-top-bar__sign-in,
-    .site-top-bar__sign-out,
-    .site-top-bar__theme,
-    .site-top-bar__share {
-      order: unset;
+    .site-top-bar__cluster--utility > .skin-picker button {
+      min-width: 0;
+      justify-content: center;
+      font-size: 0.6875rem;
+      padding-inline: 0.25rem;
     }
 
     .site-top-bar__action {
@@ -888,6 +807,11 @@ html[data-theme='dark'] .ui-header__ask-text {
   }
 
   .sign-in-credits-callout {
+    display: inline-block;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    box-sizing: border-box;
+    white-space: nowrap;
     border-radius: 0.5rem;
     border: 1px solid rgb(0 132 255 / 0.34);
     background: rgb(0 132 255 / 0.15);
@@ -896,6 +820,14 @@ html[data-theme='dark'] .ui-header__ask-text {
     font-weight: 500;
     line-height: 1.5;
     color: var(--color-text);
+  }
+
+  @media (max-width: 420px) {
+    .sign-in-credits-callout:not(.sign-in-credits-callout--balance) {
+      white-space: normal;
+      width: auto;
+      max-width: calc(100vw - 2rem);
+    }
   }
 
   .sign-in-credits-callout__link {
@@ -915,7 +847,8 @@ html[data-theme='dark'] .ui-header__ask-text {
     align-items: baseline;
     gap: 0.15rem 0.5rem;
     width: fit-content;
-    max-width: 100%;
+    max-width: calc(100vw - 2rem);
+    white-space: normal;
   }
 
   @media (min-width: 640px) {

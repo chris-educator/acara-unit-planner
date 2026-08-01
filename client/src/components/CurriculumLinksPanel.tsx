@@ -2,7 +2,6 @@ import type { DescriptorRef } from '../api/client'
 
 type CurriculumLinksPanelProps = {
   subject: string
-  curriculumFramework: string
   descriptors: DescriptorRef[]
   selectedDescriptors: Set<string>
   onToggleDescriptor: (id: string) => void
@@ -10,7 +9,6 @@ type CurriculumLinksPanelProps = {
 
 export function CurriculumLinksPanel({
   subject,
-  curriculumFramework,
   descriptors,
   selectedDescriptors,
   onToggleDescriptor,
@@ -24,7 +22,7 @@ export function CurriculumLinksPanel({
       <section className="ui-card p-4 sm:p-6 no-print">
         <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum Links</h2>
         <p className="mt-2 text-sm text-text-muted">
-          Choose a subject on the left to load optional Australian curriculum descriptors.
+          Choose a subject on the left to load optional Australian Curriculum descriptors.
         </p>
       </section>
     )
@@ -34,8 +32,7 @@ export function CurriculumLinksPanel({
     <section className="ui-card p-4 sm:p-6 no-print">
       <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum Links</h2>
       <p className="mt-2 text-sm text-text-muted">
-        Optional Australian curriculum descriptors for {subject}
-        {curriculumFramework ? ` · ${curriculumFramework}` : ''}. Select up to four to weave into
+        Optional Australian Curriculum descriptors for {subject}. Select up to four to weave into
         objectives (A–Z).
       </p>
       <div className="mt-4 max-h-[min(28rem,50vh)] space-y-2 overflow-y-auto overscroll-contain pr-1">

@@ -17,15 +17,16 @@ type SiteTopBarToolsProps = {
   loginTo?: string
   onLogout?: () => void
   shareTriggerAriaLabel?: string
-  /** Rendered before credits / sign-in (e.g. skin picker). */
+  /** Rendered before Share / theme (e.g. skin picker). */
   primaryBeforeTheme?: ReactNode
   /** Rendered before Ask. */
   secondaryBeforeAsk?: ReactNode
 }
 
 /**
- * Standard EdStack top-bar controls — Ask · Credits · Sign · Share · Theme.
- * Desktop: flex order via CSS. Mobile: Ask beside logo (row 1), other controls full width (row 2).
+ * EdStack top-bar controls in three clusters:
+ * Ask · Account (Credits / Sign) · Utility (Share / Theme).
+ * Mobile keeps content-sized controls — no stretched empty pills.
  */
 export function SiteTopBarTools({
   showAsk = true,
@@ -42,31 +43,38 @@ export function SiteTopBarTools({
   secondaryBeforeAsk,
 }: SiteTopBarToolsProps) {
   const askControl = showAsk ? askSlot : null
-  const hasAskRow = askControl || secondaryBeforeAsk
+  const hasAskCluster = Boolean(askControl || secondaryBeforeAsk)
+
+  const accountControls = showBilling ? (
+    <div className="site-top-bar__cluster site-top-bar__cluster--account">
+      {signedIn ? (
+        <CreditsTopBarLink
+          credits={credits}
+          billingDegraded={billingDegraded}
+          to={accountTo}
+        />
+      ) : (
+        <SignInTopBarLink to={loginTo} />
+      )}
+      {signedIn && onLogout ? <SignOutButton onClick={onLogout} /> : null}
+    </div>
+  ) : null
 
   return (
     <>
-      {hasAskRow ? (
+      {hasAskCluster ? (
         <div className="site-top-bar__group-secondary">
           {secondaryBeforeAsk}
           {askControl}
         </div>
       ) : null}
       <div className="site-top-bar__group-primary">
-        {primaryBeforeTheme}
-        {showBilling && signedIn ? (
-          <CreditsTopBarLink
-            credits={credits}
-            billingDegraded={billingDegraded}
-            to={accountTo}
-          />
-        ) : null}
-        {showBilling && !signedIn ? <SignInTopBarLink to={loginTo} /> : null}
-        {showBilling && signedIn && onLogout ? (
-          <SignOutButton onClick={onLogout} />
-        ) : null}
-        <ShareMenu triggerAriaLabel={shareTriggerAriaLabel} />
-        <EdStackThemeSwitch />
+        {accountControls}
+        <div className="site-top-bar__cluster site-top-bar__cluster--utility">
+          {primaryBeforeTheme}
+          <ShareMenu triggerAriaLabel={shareTriggerAriaLabel} />
+          <EdStackThemeSwitch />
+        </div>
       </div>
     </>
   )

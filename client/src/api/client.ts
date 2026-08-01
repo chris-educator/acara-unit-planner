@@ -88,7 +88,6 @@ export async function generateMicroUnit(payload: {
   topic: string
   year_level: string
   subject: string
-  curriculum_framework?: string
   lesson_count: number
   school_name: string
   pedagogy_focus: string

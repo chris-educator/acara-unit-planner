@@ -43,6 +43,7 @@ def generate_unit_pack(
     model: str | None = None,
 ) -> UnitPackResult:
     del model
+    del curriculum_framework
 
     client_descriptors = descriptors_for_ids(descriptor_ids)
 
@@ -54,11 +55,10 @@ def generate_unit_pack(
         f"Topic: {topic.strip()}",
         f"Year level: {year_level.strip()}",
         f"Subject / learning area: {subject.strip()}",
-        f"Curriculum framework: {curriculum_framework.strip() or 'Australian Curriculum (ACARA)'}",
+        "Curriculum framework: Australian Curriculum (ACARA)",
         f"Lesson count: {lesson_count}",
         f"School name (optional header): {school_name.strip() or 'School name'}",
-        "Context: Plan for Australian schools. Align language and outcomes to the selected "
-        "Australian curriculum framework (and common overseas quals used in AU schools when selected).",
+        "Context: Plan for Australian schools. Align language and outcomes to the Australian Curriculum (ACARA).",
     ]
     if pedagogy_focus.strip():
         context_parts.append(f"Pedagogy focus: {pedagogy_focus.strip()}")

@@ -34,7 +34,6 @@ from server.edstack_auth_routes import (  # noqa: E402
 from src.acara import (  # noqa: E402
     DEFAULT_CURRICULUM_FRAMEWORK,
     DEFAULT_SUBJECT,
-    list_curriculum_frameworks,
     list_descriptors_for_kla,
     list_kla_options,
 )
@@ -141,7 +140,6 @@ class GenerateUnitRequest(BaseModel):
     topic: str = Field(min_length=2, max_length=200)
     year_level: str = Field(default="Year 8", max_length=40)
     subject: str = Field(default=DEFAULT_SUBJECT, max_length=120)
-    curriculum_framework: str = Field(default=DEFAULT_CURRICULUM_FRAMEWORK, max_length=120)
     lesson_count: int = Field(default=8, ge=6, le=10)
     school_name: str = Field(default="", max_length=120)
     pedagogy_focus: str = Field(default="", max_length=120)
@@ -206,11 +204,6 @@ def subjects() -> dict:
     return {"subjects": list_kla_options()}
 
 
-@app.get("/api/curriculum-frameworks")
-def curriculum_frameworks() -> dict:
-    return {"frameworks": list_curriculum_frameworks()}
-
-
 @app.get("/api/descriptors")
 def descriptors(subject: str = Query(..., min_length=2, max_length=120)) -> dict:
     items = list_descriptors_for_kla(subject)
@@ -243,7 +236,7 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
             school_name=body.school_name,
             pedagogy_focus=body.pedagogy_focus,
             class_context=body.class_context,
-            curriculum_framework=body.curriculum_framework,
+            curriculum_framework=DEFAULT_CURRICULUM_FRAMEWORK,
         )
         if outcome.error or not outcome.unit:
             raise RuntimeError(outcome.error or "Unit generation failed")

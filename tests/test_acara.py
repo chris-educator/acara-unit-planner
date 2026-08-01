@@ -3,9 +3,7 @@
 from src.acara import (
     DEFAULT_SUBJECT,
     KLA_OPTIONS,
-    CURRICULUM_FRAMEWORKS,
     descriptors_for_ids,
-    list_curriculum_frameworks,
     list_descriptors_for_kla,
     list_kla_options,
 )
@@ -20,13 +18,52 @@ def test_list_kla_options_sorted_and_includes_humanities():
     assert options == list(KLA_OPTIONS)
 
 
-def test_curriculum_frameworks_sorted_and_include_acara_and_ib():
-    frameworks = list_curriculum_frameworks()
-    assert frameworks == sorted(frameworks, key=str.casefold)
-    assert "Australian Curriculum (ACARA)" in frameworks
-    assert "International Baccalaureate (IB DP)" in frameworks
-    assert "Queensland Curriculum and Assessment Authority (QCAA)" in frameworks
-    assert frameworks == list(CURRICULUM_FRAMEWORKS)
+def test_kla_options_cover_acara_f10_learning_areas_and_languages():
+    options = set(list_kla_options())
+    required = {
+        "English",
+        "Mathematics",
+        "Science",
+        "Health and Physical Education",
+        "Humanities and Social Sciences",
+        "Civics and Citizenship",
+        "Economics and Business",
+        "Geography",
+        "History",
+        "The Arts",
+        "Dance",
+        "Drama",
+        "Media Arts",
+        "Music",
+        "Visual Arts",
+        "Technologies",
+        "Design and Technologies",
+        "Digital Technologies",
+        "Languages",
+        "Arabic",
+        "Auslan",
+        "Chinese",
+        "French",
+        "German",
+        "Hindi",
+        "Indonesian",
+        "Italian",
+        "Japanese",
+        "Korean",
+        "Modern Greek",
+        "Spanish",
+        "Turkish",
+        "Vietnamese",
+        "Aboriginal Languages and Torres Strait Islander Languages",
+        "Classical Greek",
+        "Latin",
+        "Work Studies",
+    }
+    missing = sorted(required - options)
+    assert not missing, f"Missing subjects: {missing}"
+    # ACARA F–10 only — no state senior electives
+    assert "Mathematical Methods" not in options
+    assert "Business Studies" not in options
 
 
 def test_descriptors_for_humanities_default():

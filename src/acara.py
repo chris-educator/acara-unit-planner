@@ -1,4 +1,4 @@
-"""Australian curriculum frameworks, subjects/KLAs, and descriptor picks."""
+"""Australian Curriculum (ACARA) subjects/KLAs and descriptor picks."""
 
 from __future__ import annotations
 
@@ -8,59 +8,28 @@ from dataclasses import dataclass
 DEFAULT_SUBJECT = "Humanities and Social Sciences"
 DEFAULT_CURRICULUM_FRAMEWORK = "Australian Curriculum (ACARA)"
 
-# Frameworks used in Australian schools (national, state/territory senior, and common overseas quals).
-# Kept A–Z for dropdowns.
-CURRICULUM_FRAMEWORKS: tuple[str, ...] = tuple(
-    sorted(
-        {
-            "ACT Board of Senior Secondary Studies (BSSS)",
-            "Australian Curriculum (ACARA)",
-            "Cambridge International (IGCSE / A Level)",
-            "Early Years Learning Framework (EYLF)",
-            "International Baccalaureate (IB DP)",
-            "International Baccalaureate (IB MYP)",
-            "International Baccalaureate (IB PYP)",
-            "NSW Education Standards Authority (NESA)",
-            "Northern Territory Certificate of Education and Training (NTCET)",
-            "Queensland Curriculum and Assessment Authority (QCAA)",
-            "South Australian Certificate of Education (SACE)",
-            "Tasmanian Assessment, Standards and Certification (TASC)",
-            "Victorian Curriculum and Assessment Authority (VCAA)",
-            "Western Australian Certificate of Education (WACE)",
-        },
-        key=str.casefold,
-    )
-)
-
-# Learning areas and subjects commonly offered in Australian schools (F–12 + senior electives).
+# Australian Curriculum F–10 learning areas and subjects (Version 9).
 # A–Z — single source for /api/subjects and client fallbacks.
 KLA_OPTIONS: tuple[str, ...] = tuple(
     sorted(
         {
-            "Accounting",
-            "Agricultural Science",
-            "Ancient History",
+            "Aboriginal Languages and Torres Strait Islander Languages",
             "Arabic",
-            "Biology",
-            "Business",
-            "Chemistry",
+            "Auslan",
             "Chinese",
             "Civics and Citizenship",
+            "Classical Greek",
             "Dance",
             "Design and Technologies",
             "Digital Technologies",
             "Drama",
-            "Earth and Environmental Science",
-            "Economics",
             "Economics and Business",
-            "Engineering",
             "English",
-            "English as an Additional Language or Dialect (EAL/D)",
-            "Food Technology",
             "French",
             "Geography",
             "German",
             "Health and Physical Education",
+            "Hindi",
             "History",
             "Humanities and Social Sciences",
             "Indonesian",
@@ -68,23 +37,17 @@ KLA_OPTIONS: tuple[str, ...] = tuple(
             "Japanese",
             "Korean",
             "Languages",
-            "Legal Studies",
-            "Literature",
-            "Marine Science",
+            "Latin",
             "Mathematics",
             "Media Arts",
-            "Modern History",
+            "Modern Greek",
             "Music",
-            "Outdoor Education",
-            "Philosophy",
-            "Physics",
-            "Psychology",
-            "Religion and Ethics",
             "Science",
             "Spanish",
-            "Studies of Religion",
-            "Textiles and Design",
+            "Technologies",
             "The Arts",
+            "Turkish",
+            "Vietnamese",
             "Visual Arts",
             "Work Studies",
         },
@@ -207,14 +170,24 @@ _RAW_DESCRIPTORS: tuple[DescriptorOption, ...] = (
     # Languages (generic + named)
     _d("lang-communicating", "Languages", "Communicating in the target language", "Exchange information and ideas in the target language for real purposes."),
     _d("lang-understanding", "Languages", "Understanding language and culture", "Explain how language and culture shape meaning and identity."),
+    _d("tech-design", "Technologies", "Design and digital solutions", "Create designed and digital solutions that meet needs and opportunities."),
+    _d("tech-systems", "Technologies", "Systems thinking in technologies", "Analyse how technologies systems interact with people and environments."),
     _d("arabic-comm", "Arabic", "Communicating in Arabic", "Interact and create texts in Arabic for familiar purposes."),
     _d("arabic-culture", "Arabic", "Arabic language and culture", "Explore connections between Arabic language and cultural practices."),
+    _d("auslan-comm", "Auslan", "Communicating in Auslan", "Interact and create signed texts in Auslan for familiar purposes."),
+    _d("auslan-culture", "Auslan", "Auslan and Deaf culture", "Explore connections between Auslan and Deaf community cultural practices."),
+    _d("atsi-lang-comm", "Aboriginal Languages and Torres Strait Islander Languages", "Communicating in Country/Place languages", "Interact and create texts in Aboriginal or Torres Strait Islander languages for familiar purposes."),
+    _d("atsi-lang-culture", "Aboriginal Languages and Torres Strait Islander Languages", "Language, Country and culture", "Explore connections between language, Country/Place, culture and identity."),
     _d("chinese-comm", "Chinese", "Communicating in Chinese", "Interact and create texts in Chinese for familiar purposes."),
     _d("chinese-culture", "Chinese", "Chinese language and culture", "Explore connections between Chinese language and cultural practices."),
+    _d("classgreek-comm", "Classical Greek", "Reading Classical Greek", "Read and interpret Classical Greek texts with attention to language and context."),
+    _d("classgreek-culture", "Classical Greek", "Classical Greek language and culture", "Explore connections between Classical Greek language and ancient cultures."),
     _d("french-comm", "French", "Communicating in French", "Interact and create texts in French for familiar purposes."),
     _d("french-culture", "French", "French language and culture", "Explore connections between French language and cultural practices."),
     _d("german-comm", "German", "Communicating in German", "Interact and create texts in German for familiar purposes."),
     _d("german-culture", "German", "German language and culture", "Explore connections between German language and cultural practices."),
+    _d("hindi-comm", "Hindi", "Communicating in Hindi", "Interact and create texts in Hindi for familiar purposes."),
+    _d("hindi-culture", "Hindi", "Hindi language and culture", "Explore connections between Hindi language and cultural practices."),
     _d("indo-comm", "Indonesian", "Communicating in Indonesian", "Interact and create texts in Indonesian for familiar purposes."),
     _d("indo-culture", "Indonesian", "Indonesian language and culture", "Explore connections between Indonesian language and cultural practices."),
     _d("italian-comm", "Italian", "Communicating in Italian", "Interact and create texts in Italian for familiar purposes."),
@@ -223,8 +196,27 @@ _RAW_DESCRIPTORS: tuple[DescriptorOption, ...] = (
     _d("japanese-culture", "Japanese", "Japanese language and culture", "Explore connections between Japanese language and cultural practices."),
     _d("korean-comm", "Korean", "Communicating in Korean", "Interact and create texts in Korean for familiar purposes."),
     _d("korean-culture", "Korean", "Korean language and culture", "Explore connections between Korean language and cultural practices."),
+    _d("latin-comm", "Latin", "Reading Latin", "Read and interpret Latin texts with attention to language and context."),
+    _d("latin-culture", "Latin", "Latin language and culture", "Explore connections between Latin language and classical cultures."),
+    _d("modgreek-comm", "Modern Greek", "Communicating in Modern Greek", "Interact and create texts in Modern Greek for familiar purposes."),
+    _d("modgreek-culture", "Modern Greek", "Modern Greek language and culture", "Explore connections between Modern Greek language and cultural practices."),
     _d("spanish-comm", "Spanish", "Communicating in Spanish", "Interact and create texts in Spanish for familiar purposes."),
     _d("spanish-culture", "Spanish", "Spanish language and culture", "Explore connections between Spanish language and cultural practices."),
+    _d("turkish-comm", "Turkish", "Communicating in Turkish", "Interact and create texts in Turkish for familiar purposes."),
+    _d("turkish-culture", "Turkish", "Turkish language and culture", "Explore connections between Turkish language and cultural practices."),
+    _d("viet-comm", "Vietnamese", "Communicating in Vietnamese", "Interact and create texts in Vietnamese for familiar purposes."),
+    _d("viet-culture", "Vietnamese", "Vietnamese language and culture", "Explore connections between Vietnamese language and cultural practices."),
+    # Senior English / Mathematics strands
+    _d("esseng-literacy", "Essential English", "Practical literacy and communication", "Use English effectively for everyday, workplace and community purposes."),
+    _d("esseng-texts", "Essential English", "Responding to and creating texts", "Comprehend and create texts suited to familiar audiences and contexts."),
+    _d("essmath-number", "Essential Mathematics", "Number and measurement in context", "Apply number and measurement skills to everyday and workplace problems."),
+    _d("essmath-data", "Essential Mathematics", "Data for decision-making", "Interpret data to support informed personal and workplace decisions."),
+    _d("genmath-modelling", "General Mathematics", "Mathematical modelling", "Use discrete mathematics and modelling to solve practical problems."),
+    _d("genmath-stats", "General Mathematics", "Statistics and networks", "Analyse statistical and network problems using appropriate techniques."),
+    _d("mathmeth-calculus", "Mathematical Methods", "Functions and calculus", "Apply functions, derivatives and integrals to model change."),
+    _d("mathmeth-stats", "Mathematical Methods", "Statistical analysis", "Analyse variation and uncertainty using probability and statistics."),
+    _d("specmath-proof", "Specialist Mathematics", "Proof and advanced techniques", "Develop rigorous mathematical arguments, proofs and extended models."),
+    _d("specmath-vectors", "Specialist Mathematics", "Vectors, complex numbers and matrices", "Apply vectors, complex numbers and matrices to mathematical problems."),
     # Religion / Philosophy / Work
     _d("rel-belief", "Religion and Ethics", "Beliefs, values and ethics", "Analyse how beliefs and ethical frameworks guide decisions and actions."),
     _d("rel-dialogue", "Religion and Ethics", "Interfaith understanding", "Compare religious and ethical perspectives respectfully using evidence."),
@@ -244,10 +236,6 @@ _GENERIC_FALLBACK: tuple[DescriptorOption, ...] = (
     _d("gen-evidence", "_generic", "Evidence and reasoning", "Use evidence to support explanations and justified conclusions."),
     _d("gen-communication", "_generic", "Communication of learning", "Communicate understanding clearly for purpose and audience."),
 )
-
-
-def list_curriculum_frameworks() -> list[str]:
-    return list(CURRICULUM_FRAMEWORKS)
 
 
 def list_kla_options() -> list[str]:

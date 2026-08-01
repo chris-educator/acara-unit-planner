@@ -1,7 +1,6 @@
 import { SignInGatedButton } from './SignInGatedButton'
 import {
   CLASS_CONTEXT_PLACEHOLDER,
-  CURRICULUM_FRAMEWORK_OPTIONS,
   LESSON_COUNT_OPTIONS,
   PEDAGOGY_FOCUS_OPTIONS,
   TOPIC_PLACEHOLDER,
@@ -14,7 +13,6 @@ type UnitSetupFormProps = {
   yearLevel: string
   subject: string
   subjects: string[]
-  curriculumFramework: string
   lessonCount: number
   pedagogyFocus: string
   classContext: string
@@ -29,7 +27,6 @@ type UnitSetupFormProps = {
   onSchoolNameChange: (value: string) => void
   onYearLevelChange: (value: string) => void
   onSubjectChange: (value: string) => void
-  onCurriculumFrameworkChange: (value: string) => void
   onLessonCountChange: (value: number) => void
   onPedagogyFocusChange: (value: string) => void
   onClassContextChange: (value: string) => void
@@ -42,7 +39,6 @@ export function UnitSetupForm({
   yearLevel,
   subject,
   subjects,
-  curriculumFramework,
   lessonCount,
   pedagogyFocus,
   classContext,
@@ -57,7 +53,6 @@ export function UnitSetupForm({
   onSchoolNameChange,
   onYearLevelChange,
   onSubjectChange,
-  onCurriculumFrameworkChange,
   onLessonCountChange,
   onPedagogyFocusChange,
   onClassContextChange,
@@ -74,9 +69,8 @@ export function UnitSetupForm({
           <div className="min-w-0">
             <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
             <p className="mt-2 text-sm text-text-muted">
-              Plan against Australian Curriculum frameworks and subjects taught in Australian
-              schools — including state senior syllabuses and common overseas quals (IB, Cambridge).
-              Defaults open on Humanities.
+              Plan against Australian Curriculum (ACARA) learning areas and subjects. Defaults open
+              on Humanities and Social Sciences.
             </p>
           </div>
           <button
@@ -88,25 +82,8 @@ export function UnitSetupForm({
           </button>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label className="ui-label" htmlFor="curriculum_framework">
-              Curriculum Framework
-            </label>
-            <select
-              id="curriculum_framework"
-              value={curriculumFramework}
-              onChange={(e) => onCurriculumFrameworkChange(e.target.value)}
-              className="ui-input"
-            >
-              {CURRICULUM_FRAMEWORK_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="sm:col-span-2">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="sm:col-span-2 lg:col-span-3">
             <label className="ui-label" htmlFor="topic">
               Unit Topic
             </label>
@@ -120,7 +97,7 @@ export function UnitSetupForm({
               required
             />
           </div>
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 lg:col-span-3">
             <label className="ui-label" htmlFor="school_name">
               School Name
             </label>
@@ -133,24 +110,7 @@ export function UnitSetupForm({
               className="ui-input"
             />
           </div>
-          <div>
-            <label className="ui-label" htmlFor="year_level">
-              Year Level
-            </label>
-            <select
-              id="year_level"
-              value={yearLevel}
-              onChange={(e) => onYearLevelChange(e.target.value)}
-              className="ui-input"
-            >
-              {YEAR_LEVEL_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
+          <div className="sm:col-span-2 lg:col-span-3 min-w-0">
             <label className="ui-label" htmlFor="subject">
               Subject / Learning Area
             </label>
@@ -158,7 +118,7 @@ export function UnitSetupForm({
               id="subject"
               value={subject}
               onChange={(e) => onSubjectChange(e.target.value)}
-              className="ui-input"
+              className="ui-input w-full min-w-0"
             >
               {sortedSubjects.map((option) => (
                 <option key={option} value={option}>
@@ -167,7 +127,24 @@ export function UnitSetupForm({
               ))}
             </select>
           </div>
-          <div>
+          <div className="min-w-0">
+            <label className="ui-label" htmlFor="year_level">
+              Year Level
+            </label>
+            <select
+              id="year_level"
+              value={yearLevel}
+              onChange={(e) => onYearLevelChange(e.target.value)}
+              className="ui-input w-full"
+            >
+              {YEAR_LEVEL_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="min-w-0">
             <label className="ui-label" htmlFor="lesson_count">
               Week Count
             </label>
@@ -175,7 +152,7 @@ export function UnitSetupForm({
               id="lesson_count"
               value={lessonCount}
               onChange={(e) => onLessonCountChange(Number(e.target.value))}
-              className="ui-input"
+              className="ui-input w-full"
             >
               {LESSON_COUNT_OPTIONS.map((count) => (
                 <option key={count} value={count}>
@@ -184,7 +161,7 @@ export function UnitSetupForm({
               ))}
             </select>
           </div>
-          <div>
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
             <label className="ui-label" htmlFor="pedagogy_focus">
               Pedagogy Focus
             </label>
@@ -192,7 +169,7 @@ export function UnitSetupForm({
               id="pedagogy_focus"
               value={pedagogyFocus}
               onChange={(e) => onPedagogyFocusChange(e.target.value)}
-              className="ui-input"
+              className="ui-input w-full"
             >
               <option value="">Default (balanced mix)</option>
               {PEDAGOGY_FOCUS_OPTIONS.map((option) => (
@@ -202,7 +179,7 @@ export function UnitSetupForm({
               ))}
             </select>
           </div>
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 lg:col-span-3">
             <label className="ui-label" htmlFor="class_context">
               Class Context
             </label>
@@ -212,7 +189,7 @@ export function UnitSetupForm({
               onChange={(e) => onClassContextChange(e.target.value)}
               placeholder={CLASS_CONTEXT_PLACEHOLDER}
               rows={2}
-              className="ui-input resize-y"
+              className="ui-input w-full resize-y"
             />
           </div>
         </div>
