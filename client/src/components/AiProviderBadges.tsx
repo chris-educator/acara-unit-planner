@@ -16,7 +16,7 @@ function ClaudeIcon(props: IconProps) {
 
 function GeminiIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true" {...props}>
+    <svg viewBox="0 0 24 24" width={18} height={18} aria-hidden="true" {...props}>
       <path
         fill="currentColor"
         d="M12 2c.45 3.8 2.1 7.2 6.5 9.5C14.1 13.8 12.45 17.2 12 22c-.45-4.8-2.1-8.2-6.5-10.5C9.9 9.2 11.55 5.8 12 2z"
