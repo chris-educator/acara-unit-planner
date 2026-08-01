@@ -56,7 +56,7 @@ from src.llm_config import (  # noqa: E402
     is_anthropic_configured,
     is_llm_configured,
 )
-from src.document_export import build_export_zip, build_unit_docx, build_unit_txt  # noqa: E402
+from src.document_export import build_export_zip, build_unit_docx, build_unit_pdf, build_unit_txt  # noqa: E402
 from src.unit_generator import generate_unit_pack  # noqa: E402
 from src.unit_guardrails import validate_unit_output  # noqa: E402
 from src.unit_refine import refine_unit_section  # noqa: E402
@@ -157,7 +157,7 @@ class GenerateUnitRequest(BaseModel):
 class ExportUnitRequest(BaseModel):
     school_name: str = Field(default="", max_length=120)
     unit: dict[str, Any]
-    format: Literal["zip", "docx", "txt"] = "zip"
+    format: Literal["zip", "docx", "pdf", "txt"] = "zip"
 
 
 class RefineSectionRequest(BaseModel):
@@ -358,6 +358,10 @@ def unit_export(body: ExportUnitRequest, request: Request) -> Response:
         content = build_unit_docx(validated, school_name=body.school_name)
         media_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         filename = f"{slug}-term-plan.docx"
+    elif body.format == "pdf":
+        content = build_unit_pdf(validated, school_name=body.school_name)
+        media_type = "application/pdf"
+        filename = f"{slug}-term-plan.pdf"
     else:
         content = build_unit_txt(validated, school_name=body.school_name)
         media_type = "text/plain; charset=utf-8"

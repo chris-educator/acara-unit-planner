@@ -4,13 +4,13 @@ Full-term unit plans with curriculum descriptor links for Australian teachers.
 
 ## Purpose
 
-Teachers configure topic, year, subject, week count (6–10), optional ACARA descriptor picks → generate term unit plan → preview/edit → export ZIP/DOCX/TXT.
+Teachers configure topic, year, subject, week count (6–10), optional ACARA descriptor picks → generate term unit plan → preview/edit → export ZIP/DOCX/PDF/TXT.
 
 ## Stack
 
 - `client/` — Vite, React, Tailwind (FBG teacher chrome)
 - `server/` — FastAPI
-- `src/` — ACARA picks, Anthropic/Gemini generation, guardrails, DOCX/ZIP export
+- `src/` — ACARA picks, Anthropic/Gemini generation, guardrails, DOCX/PDF/ZIP export
 
 ## Local dev
 

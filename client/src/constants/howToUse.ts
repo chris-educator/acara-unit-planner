@@ -23,7 +23,7 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
   {
     step: '4',
     title: 'Export',
-    detail: 'Download DOCX, ZIP, or TXT for your accreditation folder. Draft auto-saves locally.',
+    detail: 'Download docx, pdf, txt, or zip for your accreditation folder. Draft auto-saves locally.',
   },
 ]
 

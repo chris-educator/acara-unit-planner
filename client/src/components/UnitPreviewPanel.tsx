@@ -12,8 +12,8 @@ type UnitPreviewPanelProps = {
   onActiveLessonChange: (lessonNumber: number) => void
   onUnitChange: (unit: MicroUnit) => void
   onRefine: (sectionPath: string, instruction: string) => Promise<void>
-  onExport: (format: 'zip' | 'docx' | 'txt') => void
-  onPrint: () => void
+  onExport: (format: 'zip' | 'docx' | 'pdf' | 'txt') => void
+  onPrint?: () => void
 }
 
 function updateLesson(unit: MicroUnit, lessonNumber: number, patch: Partial<UnitLesson>): MicroUnit {
@@ -69,21 +69,39 @@ export function UnitPreviewPanel({
               type="button"
               className="ui-btn-secondary"
               disabled={exporting}
-              onClick={() => onExport('zip')}
+              onClick={() => onExport('docx')}
             >
-              {exporting ? 'Exporting…' : 'Export ZIP'}
+              docx
             </button>
             <button
               type="button"
               className="ui-btn-secondary"
               disabled={exporting}
-              onClick={() => onExport('docx')}
+              onClick={() => onExport('pdf')}
             >
-              DOCX
+              pdf
             </button>
-            <button type="button" className="ui-btn-secondary" onClick={onPrint}>
-              Print / PDF
+            <button
+              type="button"
+              className="ui-btn-secondary"
+              disabled={exporting}
+              onClick={() => onExport('txt')}
+            >
+              txt
             </button>
+            <button
+              type="button"
+              className="ui-btn-secondary"
+              disabled={exporting}
+              onClick={() => onExport('zip')}
+            >
+              zip
+            </button>
+            {onPrint ? (
+              <button type="button" className="ui-btn-ghost text-xs sm:col-span-1" onClick={onPrint}>
+                Print
+              </button>
+            ) : null}
           </div>
         </div>
 

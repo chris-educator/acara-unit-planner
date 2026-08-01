@@ -1,4 +1,4 @@
-"""Export term unit packs to DOCX, TXT, and ZIP."""
+"""Export term unit packs to DOCX, PDF, TXT, and ZIP."""
 
 from __future__ import annotations
 
@@ -9,8 +9,11 @@ from datetime import datetime, timezone
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt, RGBColor
+from fpdf import FPDF
+from fpdf.enums import XPos, YPos
 
 _MUTED = RGBColor(0x5C, 0x5C, 0x66)
+_PDF_CREATOR = "AppStax ACARA Unit Planner"
 
 
 def _generated_line() -> str:
@@ -20,6 +23,21 @@ def _generated_line() -> str:
 def _slug(text: str) -> str:
     slug = "".join(ch if ch.isalnum() or ch in "-_" else "-" for ch in text)[:50]
     return slug.strip("-") or "term-plan"
+
+
+def _safe_pdf_text(text: str) -> str:
+    return (
+        (text or "")
+        .replace("\u2014", "-")
+        .replace("\u2013", "-")
+        .replace("\u2019", "'")
+        .replace("\u2018", "'")
+        .replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("•", "-")
+        .encode("latin-1", "replace")
+        .decode("latin-1")
+    )
 
 
 def _header_lines(unit: dict, *, school_name: str = "") -> list[str]:
@@ -215,13 +233,157 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
     return buffer.getvalue()
 
 
+def _pdf_heading(pdf: FPDF, text: str, *, size: int = 13) -> None:
+    pdf.ln(3)
+    pdf.set_x(pdf.l_margin)
+    pdf.set_font("Helvetica", "B", size)
+    pdf.multi_cell(0, 7, _safe_pdf_text(text), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_font("Helvetica", "", 10)
+
+
+def _pdf_body(pdf: FPDF, text: str) -> None:
+    if not (text or "").strip():
+        return
+    pdf.set_x(pdf.l_margin)
+    pdf.multi_cell(0, 5, _safe_pdf_text(text), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(1)
+
+
+def _pdf_bullets(pdf: FPDF, items: list[str]) -> None:
+    for item in items:
+        pdf.set_x(pdf.l_margin)
+        pdf.multi_cell(0, 5, _safe_pdf_text(f"- {item}"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(1)
+
+
+def build_unit_pdf(unit: dict, *, school_name: str = "") -> bytes:
+    title = unit.get("unit_title", "Term Plan")
+    pdf = FPDF()
+    pdf.set_title(_safe_pdf_text(title))
+    pdf.set_author("AppStax")
+    pdf.set_creator(_PDF_CREATOR)
+    pdf.set_subject("ACARA term unit plan")
+    if hasattr(pdf, "set_lang"):
+        pdf.set_lang("en-AU")
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+
+    pdf.set_font("Helvetica", "B", 16)
+    pdf.multi_cell(0, 8, _safe_pdf_text(title), align="C", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(2)
+    pdf.set_font("Helvetica", "", 10)
+    if school_name.strip():
+        pdf.cell(
+            0,
+            5,
+            _safe_pdf_text(school_name.strip()),
+            new_x=XPos.LMARGIN,
+            new_y=YPos.NEXT,
+            align="C",
+        )
+    pdf.cell(
+        0,
+        5,
+        _safe_pdf_text(f"Topic: {unit.get('topic', '')}"),
+        new_x=XPos.LMARGIN,
+        new_y=YPos.NEXT,
+        align="C",
+    )
+    pdf.cell(
+        0,
+        5,
+        _safe_pdf_text(
+            f"Year level: {unit.get('year_level', '')}  |  Subject: {unit.get('subject', '')}"
+        ),
+        new_x=XPos.LMARGIN,
+        new_y=YPos.NEXT,
+        align="C",
+    )
+    pdf.cell(
+        0,
+        5,
+        _safe_pdf_text(_generated_line()),
+        new_x=XPos.LMARGIN,
+        new_y=YPos.NEXT,
+        align="C",
+    )
+    pdf.ln(4)
+
+    _pdf_heading(pdf, "Unit overview")
+    _pdf_body(pdf, unit.get("overview", ""))
+
+    criteria = unit.get("success_criteria") or []
+    if criteria:
+        _pdf_heading(pdf, "Success criteria")
+        _pdf_bullets(pdf, [str(item) for item in criteria])
+
+    descriptors = unit.get("suggested_descriptors") or []
+    if descriptors:
+        _pdf_heading(pdf, "Suggested curriculum links")
+        _pdf_bullets(
+            pdf,
+            [f"{item.get('label', '')} - {item.get('summary', '')}" for item in descriptors],
+        )
+
+    for lesson in unit.get("lessons") or []:
+        _pdf_heading(
+            pdf,
+            f"Week {lesson.get('lesson_number')}: {lesson.get('title', '')}",
+            size=12,
+        )
+        if lesson.get("timing_notes"):
+            pdf.set_font("Helvetica", "I", 10)
+            _pdf_body(pdf, lesson.get("timing_notes", ""))
+            pdf.set_font("Helvetica", "", 10)
+        _pdf_heading(pdf, "Learning objectives", size=11)
+        _pdf_bullets(pdf, [str(o) for o in (lesson.get("learning_objectives") or [])])
+        _pdf_heading(pdf, "Materials needed", size=11)
+        _pdf_bullets(pdf, [str(m) for m in (lesson.get("materials_needed") or [])])
+        for label, key in (
+            ("Starter", "starter"),
+            ("Main activity", "main_activity"),
+            ("Exit ticket", "exit_ticket"),
+            ("Differentiation - support", "differentiation_support"),
+            ("Differentiation - extension", "differentiation_extension"),
+        ):
+            _pdf_heading(pdf, label, size=11)
+            _pdf_body(pdf, lesson.get(key, ""))
+
+    assessment = unit.get("unit_assessment") or {}
+    _pdf_heading(pdf, assessment.get("title", "Unit assessment"))
+    _pdf_body(pdf, assessment.get("instructions", ""))
+    for index, task in enumerate(assessment.get("tasks") or [], start=1):
+        _pdf_body(pdf, f"{index}. {task}")
+
+    rubric = assessment.get("rubric") or []
+    if rubric:
+        _pdf_heading(pdf, "Assessment rubric", size=12)
+        for row in rubric:
+            pdf.set_font("Helvetica", "B", 10)
+            _pdf_body(pdf, row.get("criterion", ""))
+            pdf.set_font("Helvetica", "", 10)
+            _pdf_body(pdf, f"Developing: {row.get('developing', '')}")
+            _pdf_body(pdf, f"Meeting: {row.get('meeting', '')}")
+            _pdf_body(pdf, f"Exceeding: {row.get('exceeding', '')}")
+            pdf.ln(1)
+
+    out = pdf.output()
+    if isinstance(out, (bytes, bytearray)):
+        return bytes(out)
+    if isinstance(out, str):
+        return out.encode("latin-1")
+    raise TypeError(f"Unexpected fpdf output type: {type(out)!r}")
+
+
 def build_export_zip(unit: dict, *, school_name: str = "") -> bytes:
     slug = _slug(unit.get("unit_title", unit.get("topic", "term-plan")))
     docx_bytes = build_unit_docx(unit, school_name=school_name)
+    pdf_bytes = build_unit_pdf(unit, school_name=school_name)
     txt_bytes = build_unit_txt(unit, school_name=school_name)
 
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
         archive.writestr(f"{slug}-term-plan.docx", docx_bytes)
+        archive.writestr(f"{slug}-term-plan.pdf", pdf_bytes)
         archive.writestr(f"{slug}-term-plan.txt", txt_bytes)
     return buffer.getvalue()

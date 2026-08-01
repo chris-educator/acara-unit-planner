@@ -192,7 +192,7 @@ export default function AppMain() {
     }
   }
 
-  async function handleExport(format: 'zip' | 'docx' | 'txt') {
+  async function handleExport(format: 'zip' | 'docx' | 'pdf' | 'txt') {
     if (!unit) return
     setExporting(true)
     setError('')
@@ -320,7 +320,8 @@ export default function AppMain() {
                   <p className="unit-empty-state__title">Your teacher pack appears here</p>
                   <p className="unit-empty-state__text">
                     After generation you will get editable lessons with objectives, materials,
-                    differentiation, assessment tasks, and a marking rubric — plus ZIP or DOCX export.
+                    differentiation, assessment tasks, and a marking rubric — plus docx, pdf, txt, or
+                    zip export.
                   </p>
                   <ul className="unit-empty-state__list">
                     <li>Lesson tabs for quick navigation</li>

@@ -142,7 +142,7 @@ export async function refineUnitSection(payload: {
 export async function exportMicroUnit(payload: {
   unit: MicroUnit
   school_name: string
-  format: 'zip' | 'docx' | 'txt'
+  format: 'zip' | 'docx' | 'pdf' | 'txt'
 }) {
   const res = await fetchWithTimeout(
     '/api/unit/export',
