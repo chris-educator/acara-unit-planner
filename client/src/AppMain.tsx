@@ -14,6 +14,7 @@ import { CurriculumLinksPanel } from './components/CurriculumLinksPanel'
 import { HowToUseGuide } from './components/HowToUseGuide'
 import { Layout } from './components/Layout'
 import { SignInCreditsCallout } from './components/SignInCreditsCallout'
+import { SignInGatedButton } from './components/SignInGatedButton'
 import { UnitPreviewPanel } from './components/UnitPreviewPanel'
 import { UnitSetupForm } from './components/UnitSetupForm'
 import {
@@ -252,6 +253,7 @@ export default function AppMain() {
         <SignInCreditsCallout
           maxWidthClass="max-w-6xl"
           linkSignIn
+          fullWidth
           creditQuote={billingActive ? '15 credits per generate, 3 per refine' : null}
         />
       }
@@ -275,7 +277,7 @@ export default function AppMain() {
         ) : null}
 
         <div className="unit-workspace">
-          <form className="unit-workspace__setup no-print" onSubmit={handleGenerate}>
+          <form className="unit-workspace__form no-print" onSubmit={handleGenerate}>
             <UnitSetupForm
               topic={topic}
               schoolName={schoolName}
@@ -287,13 +289,6 @@ export default function AppMain() {
               classContext={classContext}
               crossCurriculumPriorities={crossCurriculumPriorities}
               generalCapabilities={generalCapabilities}
-              loading={loading}
-              apiReady={apiReady === true}
-              billingActive={billingActive}
-              requiresSignIn={requiresSignIn}
-              requiresEmailVerification={requiresEmailVerification}
-              signInTo={signInTo}
-              emailVerifyTo={emailVerifyTo}
               onTopicChange={setTopic}
               onSchoolNameChange={setSchoolName}
               onYearLevelChange={setYearLevel}
@@ -303,11 +298,8 @@ export default function AppMain() {
               onClassContextChange={setClassContext}
               onCrossCurriculumPrioritiesChange={setCrossCurriculumPriorities}
               onGeneralCapabilitiesChange={setGeneralCapabilities}
-              onClearDraft={clearAll}
             />
-          </form>
 
-          <div className="unit-workspace__preview space-y-6">
             <CurriculumLinksPanel
               subject={subject}
               descriptors={descriptors}
@@ -315,37 +307,64 @@ export default function AppMain() {
               onToggleDescriptor={toggleDescriptor}
             />
 
-            {unit ? (
-              <UnitPreviewPanel
-                unit={unit}
-                schoolName={schoolName}
-                activeLesson={activeLesson}
-                apiReady={apiReady === true}
-                exporting={exporting}
-                onActiveLessonChange={setActiveLesson}
-                onUnitChange={setUnit}
-                onRefine={handleRefine}
-                onExport={(format) => void handleExport(format)}
-                onPrint={handlePrint}
-              />
-            ) : (
-              <aside className="unit-workspace__placeholder no-print" aria-hidden={loading}>
-                <div className="unit-empty-state">
-                  <p className="unit-empty-state__title">Your teacher pack appears here</p>
-                  <p className="unit-empty-state__text">
-                    After generation you will get editable weeks with objectives, materials,
-                    differentiation, assessment tasks, and a marking rubric — plus docx, pdf, txt, or
-                    zip export.
-                  </p>
-                  <ul className="unit-empty-state__list">
-                    <li>Week tabs for quick navigation</li>
-                    <li>Refine any section with AI</li>
-                    <li>Auto-saved in this browser</li>
-                  </ul>
-                </div>
-              </aside>
-            )}
-          </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <SignInGatedButton
+                type="submit"
+                className="ui-btn-primary w-full sm:w-auto"
+                requiresSignIn={requiresSignIn}
+                requiresEmailVerification={requiresEmailVerification}
+                signInTo={signInTo}
+                emailVerifyTo={emailVerifyTo}
+                disabled={loading || apiReady !== true}
+                functionalTitle={!topic.trim() ? 'Enter a unit topic to generate.' : undefined}
+              >
+                {loading
+                  ? 'Building your term plan…'
+                  : billingActive
+                    ? 'Generate Term Plan (15 credits)'
+                    : 'Generate Term Plan'}
+              </SignInGatedButton>
+              <button
+                type="button"
+                className="ui-btn-primary w-full sm:w-auto"
+                onClick={clearAll}
+                disabled={loading}
+              >
+                Clear All
+              </button>
+            </div>
+          </form>
+
+          {unit ? (
+            <UnitPreviewPanel
+              unit={unit}
+              schoolName={schoolName}
+              activeLesson={activeLesson}
+              apiReady={apiReady === true}
+              exporting={exporting}
+              onActiveLessonChange={setActiveLesson}
+              onUnitChange={setUnit}
+              onRefine={handleRefine}
+              onExport={(format) => void handleExport(format)}
+              onPrint={handlePrint}
+            />
+          ) : (
+            <aside className="unit-workspace__placeholder no-print" aria-hidden={loading}>
+              <div className="unit-empty-state">
+                <p className="unit-empty-state__title">Your teacher pack appears here</p>
+                <p className="unit-empty-state__text">
+                  After generation you will get editable weeks with objectives, materials,
+                  differentiation, assessment tasks, and a marking rubric — plus docx, pdf, txt, or
+                  zip export.
+                </p>
+                <ul className="unit-empty-state__list">
+                  <li>Week tabs for quick navigation</li>
+                  <li>Refine any section with AI</li>
+                  <li>Auto-saved in this browser</li>
+                </ul>
+              </div>
+            </aside>
+          )}
         </div>
       </div>
     </Layout>
