@@ -83,11 +83,10 @@ export function Layout({
                 AI-powered agents built-in for clever help, deep reasoning, and fast responses — use{' '}
                 <span className="ui-header__ask-text">Ask</span> in the top bar.
               </p>
-              <div className="min-w-0 space-y-2">
+              <div className="min-w-0">
                 <p className="text-sm leading-relaxed text-text-muted whitespace-nowrap max-[1100px]:whitespace-normal">
-                  {APP_INTRO_LINES[0]}
+                  {APP_INTRO_LINES[0]} {APP_INTRO_LINES[1]}
                 </p>
-                <p className="text-sm leading-relaxed text-text-muted">{APP_INTRO_LINES[1]}</p>
               </div>
             </>
           )}
