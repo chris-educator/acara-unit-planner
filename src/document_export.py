@@ -68,6 +68,25 @@ def _lesson_block(lesson: dict) -> list[str]:
     lines.extend(["", "Materials needed"])
     for material in lesson.get("materials_needed") or []:
         lines.append(f"• {material}")
+    prep = lesson.get("teacher_prep") or []
+    if prep:
+        lines.extend(["", "Teacher prep"])
+        for item in prep:
+            lines.append(f"• {item}")
+    resources = lesson.get("suggested_resources") or []
+    if resources:
+        lines.extend(
+            [
+                "",
+                "Suggested resources (search queries — check suitability for your year level)",
+            ]
+        )
+        for item in resources:
+            portal = f" · {item.get('portal')}" if item.get("portal") else ""
+            lines.append(
+                f"• [{item.get('kind', '')}] {item.get('title', '')}{portal}: "
+                f"search “{item.get('search_query', '')}” — {item.get('why', '')}"
+            )
     lines.extend(
         [
             "",
@@ -96,6 +115,44 @@ def _lesson_block(lesson: dict) -> list[str]:
     return lines
 
 
+def _teacher_pack_txt_lines(unit: dict) -> list[str]:
+    lines: list[str] = []
+    sequence = unit.get("sequence_at_a_glance") or []
+    if sequence:
+        lines.extend(["Sequence at a glance", "-" * 22])
+        for item in sequence:
+            lines.append(f"• {item}")
+        lines.append("")
+
+    vocab = unit.get("key_vocabulary") or []
+    if vocab:
+        lines.extend(["Key vocabulary", "-" * 14])
+        for item in vocab:
+            lines.append(f"• {item.get('term', '')} — {item.get('gloss', '')}")
+        lines.append("")
+
+    misconceptions = unit.get("common_misconceptions") or []
+    if misconceptions:
+        lines.extend(["Common misconceptions", "-" * 21])
+        for item in misconceptions:
+            lines.append(f"• {item.get('misconception', '')}")
+            lines.append(f"  Address: {item.get('address', '')}")
+        lines.append("")
+
+    checklist = unit.get("term_materials_checklist") or []
+    if checklist:
+        lines.extend(["Term materials checklist", "-" * 25])
+        for item in checklist:
+            lines.append(f"• {item}")
+        lines.append("")
+
+    blurb = (unit.get("parent_carer_blurb") or "").strip()
+    if blurb:
+        lines.extend(["Parent / carer blurb", "-" * 20, blurb, ""])
+
+    return lines
+
+
 def build_unit_txt(unit: dict, *, school_name: str = "") -> bytes:
     lines = _header_lines(unit, school_name=school_name)
     lines.extend(["", "Unit overview", "-" * 14, unit.get("overview", ""), ""])
@@ -106,6 +163,8 @@ def build_unit_txt(unit: dict, *, school_name: str = "") -> bytes:
         for item in criteria:
             lines.append(f"• {item}")
         lines.append("")
+
+    lines.extend(_teacher_pack_txt_lines(unit))
 
     ccps = unit.get("cross_curriculum_priorities") or []
     if ccps:
@@ -208,6 +267,39 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
         for item in criteria:
             doc.add_paragraph(item, style="List Bullet")
 
+    sequence = unit.get("sequence_at_a_glance") or []
+    if sequence:
+        doc.add_heading("Sequence at a glance", level=1)
+        for item in sequence:
+            doc.add_paragraph(item, style="List Bullet")
+
+    vocab = unit.get("key_vocabulary") or []
+    if vocab:
+        doc.add_heading("Key vocabulary", level=1)
+        for item in vocab:
+            doc.add_paragraph(
+                f"{item.get('term', '')} — {item.get('gloss', '')}",
+                style="List Bullet",
+            )
+
+    misconceptions = unit.get("common_misconceptions") or []
+    if misconceptions:
+        doc.add_heading("Common misconceptions", level=1)
+        for item in misconceptions:
+            doc.add_paragraph(item.get("misconception", ""), style="List Bullet")
+            doc.add_paragraph(f"Address: {item.get('address', '')}")
+
+    checklist = unit.get("term_materials_checklist") or []
+    if checklist:
+        doc.add_heading("Term materials checklist", level=1)
+        for item in checklist:
+            doc.add_paragraph(item, style="List Bullet")
+
+    blurb = (unit.get("parent_carer_blurb") or "").strip()
+    if blurb:
+        doc.add_heading("Parent / carer blurb", level=1)
+        doc.add_paragraph(blurb)
+
     ccps = unit.get("cross_curriculum_priorities") or []
     if ccps:
         doc.add_heading("Cross-curriculum priorities", level=1)
@@ -245,6 +337,24 @@ def build_unit_docx(unit: dict, *, school_name: str = "") -> bytes:
         doc.add_heading("Materials needed", level=2)
         for material in lesson.get("materials_needed") or []:
             doc.add_paragraph(material, style="List Bullet")
+        prep = lesson.get("teacher_prep") or []
+        if prep:
+            doc.add_heading("Teacher prep", level=2)
+            for item in prep:
+                doc.add_paragraph(item, style="List Bullet")
+        resources = lesson.get("suggested_resources") or []
+        if resources:
+            doc.add_heading("Suggested resources", level=2)
+            doc.add_paragraph(
+                "Search queries are starting points — check suitability for your year level."
+            ).italic = True
+            for item in resources:
+                portal = f" ({item.get('portal')})" if item.get("portal") else ""
+                doc.add_paragraph(
+                    f"[{item.get('kind', '')}] {item.get('title', '')}{portal} — "
+                    f"search “{item.get('search_query', '')}”. {item.get('why', '')}",
+                    style="List Bullet",
+                )
         doc.add_heading("Starter", level=2)
         doc.add_paragraph(lesson.get("starter", ""))
         doc.add_heading("Main activity", level=2)
@@ -361,6 +471,36 @@ def build_unit_pdf(unit: dict, *, school_name: str = "") -> bytes:
         _pdf_heading(pdf, "Success criteria")
         _pdf_bullets(pdf, [str(item) for item in criteria])
 
+    sequence = unit.get("sequence_at_a_glance") or []
+    if sequence:
+        _pdf_heading(pdf, "Sequence at a glance")
+        _pdf_bullets(pdf, [str(item) for item in sequence])
+
+    vocab = unit.get("key_vocabulary") or []
+    if vocab:
+        _pdf_heading(pdf, "Key vocabulary")
+        _pdf_bullets(
+            pdf,
+            [f"{item.get('term', '')} - {item.get('gloss', '')}" for item in vocab],
+        )
+
+    misconceptions = unit.get("common_misconceptions") or []
+    if misconceptions:
+        _pdf_heading(pdf, "Common misconceptions")
+        for item in misconceptions:
+            _pdf_bullets(pdf, [str(item.get("misconception", ""))])
+            _pdf_body(pdf, f"Address: {item.get('address', '')}")
+
+    checklist = unit.get("term_materials_checklist") or []
+    if checklist:
+        _pdf_heading(pdf, "Term materials checklist")
+        _pdf_bullets(pdf, [str(item) for item in checklist])
+
+    blurb = (unit.get("parent_carer_blurb") or "").strip()
+    if blurb:
+        _pdf_heading(pdf, "Parent / carer blurb")
+        _pdf_body(pdf, blurb)
+
     ccps = unit.get("cross_curriculum_priorities") or []
     if ccps:
         _pdf_heading(pdf, "Cross-curriculum priorities")
@@ -397,6 +537,28 @@ def build_unit_pdf(unit: dict, *, school_name: str = "") -> bytes:
         _pdf_bullets(pdf, [str(o) for o in (lesson.get("learning_objectives") or [])])
         _pdf_heading(pdf, "Materials needed", size=11)
         _pdf_bullets(pdf, [str(m) for m in (lesson.get("materials_needed") or [])])
+        prep = lesson.get("teacher_prep") or []
+        if prep:
+            _pdf_heading(pdf, "Teacher prep", size=11)
+            _pdf_bullets(pdf, [str(item) for item in prep])
+        resources = lesson.get("suggested_resources") or []
+        if resources:
+            _pdf_heading(pdf, "Suggested resources", size=11)
+            _pdf_body(
+                pdf,
+                "Search queries are starting points - check suitability for your year level.",
+            )
+            _pdf_bullets(
+                pdf,
+                [
+                    (
+                        f"[{item.get('kind', '')}] {item.get('title', '')}"
+                        f"{(' (' + item.get('portal') + ')') if item.get('portal') else ''}"
+                        f" - search '{item.get('search_query', '')}'. {item.get('why', '')}"
+                    )
+                    for item in resources
+                ],
+            )
         for label, key in (
             ("Starter", "starter"),
             ("Main activity", "main_activity"),

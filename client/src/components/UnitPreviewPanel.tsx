@@ -1,4 +1,11 @@
-import type { MicroUnit, RubricCriterion, UnitLesson } from '../api/client'
+import type {
+  MicroUnit,
+  MisconceptionItem,
+  RubricCriterion,
+  UnitLesson,
+  VocabularyItem,
+} from '../api/client'
+import { RESOURCE_SEARCH_DISCLAIMER } from '../constants/resources'
 import { LessonEditor } from './LessonEditor'
 import { RefineWithAi } from './RefineWithAi'
 import { RubricTable } from './RubricTable'
@@ -201,6 +208,148 @@ export function UnitPreviewPanel({
             rows={4}
             className="ui-input resize-y font-mono text-sm"
             placeholder="One criterion per line"
+          />
+        </div>
+      </section>
+
+      <section className="ui-card p-4 sm:p-6">
+        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Teacher pack</h3>
+        <p className="mt-2 text-xs text-text-muted">{RESOURCE_SEARCH_DISCLAIMER}</p>
+
+        <div className="mt-4">
+          <div className="unit-field-label-row">
+            <label className="ui-label" htmlFor="sequence_at_a_glance">
+              Sequence at a glance (one line per week)
+            </label>
+            <RefineWithAi
+              apiReady={apiReady}
+              sectionLabel="sequence at a glance"
+              onRefine={(instruction) => onRefine('sequence_at_a_glance', instruction)}
+            />
+          </div>
+          <textarea
+            id="sequence_at_a_glance"
+            value={(unit.sequence_at_a_glance ?? []).join('\n')}
+            onChange={(e) =>
+              onUnitChange({
+                ...unit,
+                sequence_at_a_glance: e.target.value
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean),
+              })
+            }
+            rows={Math.max(4, unit.lesson_count)}
+            className="ui-input resize-y font-mono text-sm"
+            placeholder="Week 1 — …"
+          />
+        </div>
+
+        <div className="mt-4">
+          <label className="ui-label" htmlFor="key_vocabulary">
+            Key vocabulary (term — gloss, one per line)
+          </label>
+          <textarea
+            id="key_vocabulary"
+            value={(unit.key_vocabulary ?? [])
+              .map((item) => `${item.term} — ${item.gloss}`)
+              .join('\n')}
+            onChange={(e) =>
+              onUnitChange({
+                ...unit,
+                key_vocabulary: e.target.value
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((line): VocabularyItem => {
+                    const sep = line.includes(' — ') ? ' — ' : line.includes(' - ') ? ' - ' : null
+                    if (!sep) return { term: line, gloss: '' }
+                    const [term, ...rest] = line.split(sep)
+                    return { term: term.trim(), gloss: rest.join(sep).trim() }
+                  }),
+              })
+            }
+            rows={8}
+            className="ui-input resize-y font-mono text-sm"
+          />
+        </div>
+
+        <div className="mt-4">
+          <label className="ui-label" htmlFor="common_misconceptions">
+            Common misconceptions (misconception | how to address, one per line)
+          </label>
+          <textarea
+            id="common_misconceptions"
+            value={(unit.common_misconceptions ?? [])
+              .map((item) => `${item.misconception} | ${item.address}`)
+              .join('\n')}
+            onChange={(e) =>
+              onUnitChange({
+                ...unit,
+                common_misconceptions: e.target.value
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((line): MisconceptionItem => {
+                    const [misconception, ...rest] = line.split('|')
+                    return {
+                      misconception: misconception.trim(),
+                      address: rest.join('|').trim(),
+                    }
+                  }),
+              })
+            }
+            rows={5}
+            className="ui-input resize-y font-mono text-sm"
+          />
+        </div>
+
+        <div className="mt-4">
+          <div className="unit-field-label-row">
+            <label className="ui-label" htmlFor="term_materials_checklist">
+              Term materials checklist
+            </label>
+            <RefineWithAi
+              apiReady={apiReady}
+              sectionLabel="term materials checklist"
+              onRefine={(instruction) => onRefine('term_materials_checklist', instruction)}
+            />
+          </div>
+          <textarea
+            id="term_materials_checklist"
+            value={(unit.term_materials_checklist ?? []).join('\n')}
+            onChange={(e) =>
+              onUnitChange({
+                ...unit,
+                term_materials_checklist: e.target.value
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean),
+              })
+            }
+            rows={5}
+            className="ui-input resize-y font-mono text-sm"
+            placeholder="One item per line"
+          />
+        </div>
+
+        <div className="mt-4">
+          <div className="unit-field-label-row">
+            <label className="ui-label" htmlFor="parent_carer_blurb">
+              Parent / carer blurb
+            </label>
+            <RefineWithAi
+              apiReady={apiReady}
+              sectionLabel="parent carer blurb"
+              onRefine={(instruction) => onRefine('parent_carer_blurb', instruction)}
+            />
+          </div>
+          <textarea
+            id="parent_carer_blurb"
+            value={unit.parent_carer_blurb ?? ''}
+            onChange={(e) => onUnitChange({ ...unit, parent_carer_blurb: e.target.value })}
+            rows={3}
+            className="ui-input resize-y"
           />
         </div>
       </section>

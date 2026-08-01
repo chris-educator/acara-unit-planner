@@ -13,7 +13,7 @@ from dataclasses import dataclass
 # Explicit allow-list — mirrored in ASSISTANT_SYSTEM via SCOPE_PROMPT_BLOCK.
 ASK_IN_SCOPE = (
     "Navigating ACARA Unit Planner (setup form, preview, lesson tabs, export)",
-    "Feature how-to (week count 6–10, descriptors, pedagogy focus, class context, refine, print)",
+    "Feature how-to (week count 6–10, descriptors, pedagogy focus, class context, refine, print, teacher pack, resources)",
     "Credits, sign-in, email verification, and account questions for this app",
     "Troubleshooting (generation failed, export issues, draft restore, API readiness)",
     "Product meta (what Generate Term Plan vs Refine vs Ask does)",
@@ -71,6 +71,7 @@ _IN_SCOPE_HINTS: tuple[re.Pattern[str], ...] = tuple(
         r"\b(week|lesson) count\b",
         r"\b(generate term plan|ask the assistant|clear all|draft)\b",
         r"\b(pedagogy|class context|year level|subject|kla|custom instructions?|curated)\b",
+        r"\b(teacher pack|vocabulary|misconception|materials checklist|parent|resource|youtube|video)\b",
         r"\b(troubleshoot|not working|failed|error|timeout)\b",
     )
 )

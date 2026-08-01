@@ -18,7 +18,8 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
   {
     step: '3',
     title: 'Generate & refine',
-    detail: 'Review weekly plans and summative assessment. Refine any section for 3 credits.',
+    detail:
+      'Review the teacher pack (vocab, misconceptions, checklist), weekly prep and resource searches, then refine any section for 3 credits.',
   },
   {
     step: '4',
@@ -30,6 +31,7 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
 export const HOW_TO_USE_HINTS = [
   '6–10 week plans',
   '12 credits per plan',
+  'Teacher pack + resources',
   'Descriptor-aligned',
   'Accreditation export',
   'Ask in top bar',

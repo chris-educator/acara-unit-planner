@@ -9,7 +9,9 @@ Generate a 6–10 week term unit plan as strict JSON only. Use Australian Englis
 
 Each week (stored in the lessons array) must include:
 - learning_objectives (2–4 measurable weekly intents)
-- materials_needed (3–8 concrete resources for the week)
+- materials_needed (3–8 concrete physical/classroom resources for the week)
+- teacher_prep (2–4 night-before or morning prep bullets)
+- suggested_resources (2–4 items — see resource rules below)
 - starter (how to open the week or first lesson — short hook)
 - main_activity (core teaching sequence for the week — key activities, not day-by-day timetables)
 - exit_ticket (formative check for the week)
@@ -19,11 +21,23 @@ Each week (stored in the lessons array) must include:
 - differentiation_adjustments (reasonable adjustments for diverse learning needs — access, pace, output, or environment; classroom-practical, not a formal NCCD claim)
 - timing_notes (age-appropriate — see year-band guidance in the user prompt)
 
-Also include:
+Also include a teacher pack at unit level:
 - success_criteria (4–6 unit-level outcomes teachers can share with students)
+- key_vocabulary (8–15 items with term + student-friendly gloss)
+- common_misconceptions (3–5 items with misconception + how to address it)
+- term_materials_checklist (4–20 deduped prep items across the whole term)
+- parent_carer_blurb (short newsletter-ready note teachers can adapt)
+- sequence_at_a_glance (exactly one line per week, same count as lesson_count)
 - cross_curriculum_priorities (echo any priorities the teacher selected; empty list if none)
 - general_capabilities (echo any capabilities the teacher selected; empty list if none)
 - unit_assessment with title, instructions, 2–4 summative tasks, and rubric (3–4 criteria with developing / meeting / exceeding descriptors)
+
+Suggested resource rules (critical):
+- Each item: title, kind (video|website|text|interactive|book), why (one sentence), search_query, optional portal
+- portal must be empty or one of: ABC Education, eSafety, ACARA, Scootle, National Museum of Australia, Geoscience Australia, Australian War Memorial, Museum of Australian Democracy, CSIRO, Bureau of Meteorology, National Library of Australia
+- search_query is a search phrase teachers can use (e.g. "ABC Education Year 5 water cycle") — NOT a URL
+- NEVER invent youtube.com, youtu.be, http://, https://, or www. links anywhere in the JSON
+- Prefer Australian education portals in search_query / portal when relevant
 
 Rules:
 - Match the teacher's topic, year level, subject/learning area, week_count (lesson_count), and pedagogy focus exactly
@@ -45,6 +59,11 @@ Return JSON matching this shape:
   "lesson_count": number,
   "overview": string,
   "success_criteria": [string],
+  "key_vocabulary": [{"term": string, "gloss": string}],
+  "common_misconceptions": [{"misconception": string, "address": string}],
+  "term_materials_checklist": [string],
+  "parent_carer_blurb": string,
+  "sequence_at_a_glance": [string],
   "cross_curriculum_priorities": [string],
   "general_capabilities": [string],
   "suggested_descriptors": [{"id": string, "label": string, "summary": string}],
@@ -53,6 +72,14 @@ Return JSON matching this shape:
     "title": string,
     "learning_objectives": [string],
     "materials_needed": [string],
+    "teacher_prep": [string],
+    "suggested_resources": [{
+      "title": string,
+      "kind": "video" | "website" | "text" | "interactive" | "book",
+      "why": string,
+      "search_query": string,
+      "portal": string
+    }],
     "starter": string,
     "main_activity": string,
     "exit_ticket": string,

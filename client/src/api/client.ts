@@ -18,11 +18,33 @@ export type DescriptorRef = {
   summary: string
 }
 
+export type VocabularyItem = {
+  term: string
+  gloss: string
+}
+
+export type MisconceptionItem = {
+  misconception: string
+  address: string
+}
+
+export type SuggestedResourceKind = 'video' | 'website' | 'text' | 'interactive' | 'book'
+
+export type SuggestedResource = {
+  title: string
+  kind: SuggestedResourceKind
+  why: string
+  search_query: string
+  portal?: string
+}
+
 export type UnitLesson = {
   lesson_number: number
   title: string
   learning_objectives: string[]
   materials_needed: string[]
+  teacher_prep?: string[]
+  suggested_resources?: SuggestedResource[]
   starter: string
   main_activity: string
   exit_ticket: string
@@ -55,6 +77,11 @@ export type MicroUnit = {
   lesson_count: number
   overview: string
   success_criteria: string[]
+  key_vocabulary?: VocabularyItem[]
+  common_misconceptions?: MisconceptionItem[]
+  term_materials_checklist?: string[]
+  parent_carer_blurb?: string
+  sequence_at_a_glance?: string[]
   cross_curriculum_priorities?: string[]
   general_capabilities?: string[]
   suggested_descriptors: DescriptorRef[]

@@ -1,5 +1,6 @@
 import type { UnitLesson } from '../api/client'
 import { RefineWithAi } from './RefineWithAi'
+import { SuggestedResourcesEditor } from './SuggestedResourcesEditor'
 import { lessonPath } from '../utils/applySectionUpdate'
 
 type LessonEditorProps = {
@@ -140,6 +141,22 @@ export function LessonEditor({
         onRefine,
         `materials-${n}`,
       )}
+
+      {listField(
+        'Teacher Prep',
+        lesson.teacher_prep ?? [],
+        (teacher_prep) => onChange({ teacher_prep }),
+        lessonPath(base, 'teacher_prep'),
+        apiReady,
+        onRefine,
+        `prep-${n}`,
+      )}
+
+      <SuggestedResourcesEditor
+        resources={lesson.suggested_resources ?? []}
+        weekNumber={n}
+        onChange={(suggested_resources) => onChange({ suggested_resources })}
+      />
 
       {textField(
         'Starter',

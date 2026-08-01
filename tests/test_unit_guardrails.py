@@ -3,6 +3,25 @@
 from src.unit_guardrails import validate_unit_output
 
 
+def _resources() -> list[dict]:
+    return [
+        {
+            "title": "Water cycle overview clip search",
+            "kind": "video",
+            "why": "Short visual hook before labelling a diagram.",
+            "search_query": "ABC Education Year 5 water cycle",
+            "portal": "ABC Education",
+        },
+        {
+            "title": "Interactive diagram",
+            "kind": "interactive",
+            "why": "Lets students reorder stages and check understanding.",
+            "search_query": "Scootle water cycle interactive primary",
+            "portal": "Scootle",
+        },
+    ]
+
+
 def _lesson(number: int, title: str) -> dict:
     return {
         "lesson_number": number,
@@ -16,6 +35,11 @@ def _lesson(number: int, title: str) -> dict:
             "Projector or display",
             "Chart paper and markers",
         ],
+        "teacher_prep": [
+            "Print diagram handouts",
+            "Queue the search query on the class device",
+        ],
+        "suggested_resources": _resources(),
         "starter": "Quick retrieval quiz: students recall prior learning in pairs for five minutes.",
         "main_activity": (
             "Guided investigation where students analyse examples, record observations in "
@@ -54,6 +78,36 @@ def _sample(lesson_count: int = 6) -> dict:
             "Students explain one human impact on an ecosystem.",
             "Students use evidence from class tasks in their responses.",
         ],
+        "key_vocabulary": [
+            {"term": f"Term {i}", "gloss": f"Student-friendly meaning for term {i}."}
+            for i in range(1, 9)
+        ],
+        "common_misconceptions": [
+            {
+                "misconception": "Energy is created by producers.",
+                "address": "Clarify that producers transform light energy; energy is transferred, not created.",
+            },
+            {
+                "misconception": "All consumers are predators.",
+                "address": "Use examples of herbivores and decomposers alongside predators.",
+            },
+            {
+                "misconception": "Food webs are the same as food chains.",
+                "address": "Show branching connections and multiple pathways with a class diagram.",
+            },
+        ],
+        "term_materials_checklist": [
+            "Workbooks",
+            "Chart paper",
+            "Markers",
+            "Printed diagrams",
+            "Device and display",
+        ],
+        "parent_carer_blurb": (
+            "This term we explore how living things interact in ecosystems. Students will "
+            "build food webs and discuss how people affect local environments."
+        ),
+        "sequence_at_a_glance": [f"Week {i} — focus area {i}" for i in range(1, lesson_count + 1)],
         "suggested_descriptors": [
             {
                 "id": "sci-investigation",
@@ -92,6 +146,8 @@ def test_valid_unit_passes():
     assert err is None
     assert validated is not None
     assert validated["lesson_count"] == 6
+    assert len(validated["key_vocabulary"]) == 8
+    assert len(validated["lessons"][0]["suggested_resources"]) == 2
 
 
 def test_rejects_lesson_count_mismatch():
@@ -125,3 +181,22 @@ def test_rejects_missing_eald_differentiation():
     assert validated is None
     assert err is not None
     assert "eald" in err.lower()
+
+
+def test_rejects_invented_resource_urls():
+    payload = _sample()
+    payload["lessons"][0]["suggested_resources"][0]["search_query"] = (
+        "https://youtube.com/watch?v=abc123"
+    )
+    validated, err = validate_unit_output(payload)
+    assert validated is None
+    assert err is not None
+    assert "url" in err.lower()
+
+
+def test_rejects_missing_teacher_prep():
+    payload = _sample()
+    payload["lessons"][0]["teacher_prep"] = ["Only one"]
+    validated, err = validate_unit_output(payload)
+    assert validated is None
+    assert err is not None
