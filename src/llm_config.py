@@ -15,7 +15,7 @@ _PLACEHOLDER_KEYS = frozenset(
     }
 )
 
-DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-6"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5"
 DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"
 
 
