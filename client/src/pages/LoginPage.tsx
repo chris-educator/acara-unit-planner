@@ -2,7 +2,6 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { SignInCreditsCallout } from '../components/SignInCreditsCallout'
 import { BackToAppLink } from '../components/BackToAppLink'
-import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_ACCOUNT, ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
@@ -82,8 +81,8 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-bg">
-      <SignInCreditsCallout fullWidth />
-      <div className={`${APP_CONTENT_RAIL_CLASS} flex-1 pb-10 pt-6`}>
+      <SignInCreditsCallout />
+      <div className="mx-auto w-full min-w-0 max-w-lg flex-1 px-4 pb-10 pt-6 sm:px-6">
         <div className="mb-4 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <h1 className="ui-page-heading">Sign in</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
@@ -184,7 +183,7 @@ export function LoginPage() {
           </form>
         </div>
       </div>
-      <p className={`${APP_CONTENT_RAIL_CLASS} mt-6 text-center text-xs text-text-muted`}>
+      <p className="mx-auto mt-6 w-full min-w-0 max-w-lg px-4 text-center text-xs text-text-muted sm:px-6">
         By signing in you agree to our{' '}
         <Link to={ROUTE_TERMS} className="text-blue hover:text-blue-hover">
           Terms of Service
