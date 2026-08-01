@@ -70,7 +70,7 @@ _IN_SCOPE_HINTS: tuple[re.Pattern[str], ...] = tuple(
         r"\b(export|docx|zip|print|refine|descriptor|curriculum|credit|sign[- ]?in|login)\b",
         r"\b(week|lesson) count\b",
         r"\b(generate term plan|ask the assistant|clear all|draft)\b",
-        r"\b(pedagogy|class context|year level|subject|kla)\b",
+        r"\b(pedagogy|class context|year level|subject|kla|custom instructions?|curated)\b",
         r"\b(troubleshoot|not working|failed|error|timeout)\b",
     )
 )
