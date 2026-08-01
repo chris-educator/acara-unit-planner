@@ -187,7 +187,7 @@ export function AccountPage() {
               <p className="mt-6 text-3xl font-bold text-blue">{me?.credits ?? 0}</p>
               <p className="text-sm text-text-muted">credits remaining</p>
               <p className="mt-3 text-xs text-text-muted">
-                Each term plan generation costs 15 credits; refine costs 3 — see the quote before you
+                Each term plan generation costs 12 credits; refine costs 3 — see the quote before you
                 generate.
               </p>
             </div>

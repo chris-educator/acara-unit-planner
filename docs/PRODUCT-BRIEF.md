@@ -13,7 +13,7 @@ Teachers enter topic, year level, and ACARA-aligned descriptors → get a **6–
 
 | Action | Credits |
 |--------|---------|
-| Generate term plan | **15** |
+| Generate term plan | **12** |
 | Refine one section | **3** |
 
 ## vs Micro Unit Starter (B2)
@@ -22,7 +22,7 @@ Teachers enter topic, year level, and ACARA-aligned descriptors → get a **6–
 |--|-----|-----|
 | **Scope** | 3–5 lesson micro-unit | **6–10 week term** |
 | **Buyer** | Quick planning | Accreditation / faculty planning |
-| **Credits** | 10 generate | **15 generate** |
+| **Credits** | 10 generate | **12 generate** |
 
 ## Technical
 

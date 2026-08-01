@@ -29,7 +29,7 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
 
 export const HOW_TO_USE_HINTS = [
   '6–10 week plans',
-  '15 credits per plan',
+  '12 credits per plan',
   'Descriptor-aligned',
   'Accreditation export',
   'Ask in top bar',

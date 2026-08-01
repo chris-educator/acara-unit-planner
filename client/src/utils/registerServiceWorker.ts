@@ -9,6 +9,17 @@ export async function registerServiceWorker(): Promise<void> {
 
   if (!('serviceWorker' in navigator)) return
 
+  // Dev: never register, and clear any leftover SW so /api cannot be served as cached HTML.
+  if (import.meta.env.DEV) {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations()
+      await Promise.all(regs.map((reg) => reg.unregister()))
+    } catch {
+      /* ignore */
+    }
+    return
+  }
+
   const base = import.meta.env.BASE_URL ?? '/'
   const scope = base.endsWith('/') ? base : `${base}/`
   const swUrl = `${scope}sw.js`

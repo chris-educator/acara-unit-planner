@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-CREDITS_PER_TERM = 15
+CREDITS_PER_TERM = 12
 CREDITS_PER_REFINE = 3
 
 

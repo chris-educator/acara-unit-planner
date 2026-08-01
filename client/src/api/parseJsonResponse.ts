@@ -8,8 +8,14 @@ export async function parseJsonResponse<T = Record<string, unknown>>(res: Respon
     trimmed.startsWith('<html') ||
     (!contentType.includes('json') && trimmed.startsWith('<'))
   ) {
+    const local =
+      typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    const where = res.url ? ` (${res.url}, HTTP ${res.status})` : ` (HTTP ${res.status})`
     throw new Error(
-      'The app returned a web page instead of API data. Start the API with npm run dev:api (port 8028) and npm run dev:client (port 5202).',
+      local
+        ? `The app returned a web page instead of API data${where}. Open http://127.0.0.1:5202/ (not the API port alone) and keep npm run dev:api running on port 8028.`
+        : `The app returned a web page instead of API data${where}. Refresh and try again — if it persists, the API gateway may be blocking or timing out.`,
     )
   }
 

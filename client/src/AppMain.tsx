@@ -254,7 +254,7 @@ export default function AppMain() {
           maxWidthClass="max-w-6xl"
           linkSignIn
           fullWidth
-          creditQuote={billingActive ? '15 credits per generate, 3 per refine' : null}
+          creditQuote={billingActive ? '12 credits per generate, 3 per refine' : null}
         />
       }
     >
@@ -321,7 +321,7 @@ export default function AppMain() {
                 {loading
                   ? 'Building your term plan…'
                   : billingActive
-                    ? 'Generate Term Plan (15 credits)'
+                    ? 'Generate Term Plan (12 credits)'
                     : 'Generate Term Plan'}
               </SignInGatedButton>
               <button
