@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import asyncio
+import json
+import logging
 import os
 import sys
 from pathlib import Path
@@ -10,7 +13,7 @@ from typing import Any, Literal
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -66,11 +69,18 @@ from src.credits import credits_for_term_generate, credits_for_term_refine  # no
 
 init_sentry(service_name="acara-unit-planner")
 
+logger = logging.getLogger(__name__)
+
 UNIT_GENERATE_USER_ERROR = (
     "Unit generation failed. Try adjusting your topic, lesson count, or descriptors."
 )
 UNIT_REFINE_USER_ERROR = "Refinement could not complete. Try a shorter or clearer instruction."
 ASSISTANT_USER_ERROR = "The Assistant could not respond. Try again in a moment."
+
+# Keep the HTTP connection warm while Anthropic/Gemini builds a full term plan.
+# Cloudflare and similar proxies close idle origin responses around ~100s.
+GENERATE_KEEPALIVE_SECONDS = 20
+GENERATE_KEEPALIVE_PADDING = " " * 2048
 
 app = FastAPI(title="ACARA Unit Planner API")
 
@@ -220,12 +230,16 @@ def descriptors(subject: str = Query(..., min_length=2, max_length=120)) -> dict
 
 
 @app.post("/api/unit/generate")
-def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
+async def unit_generate(body: GenerateUnitRequest, request: Request) -> StreamingResponse:
     enforce_rate_limit(request, bucket="generate")
 
     if not is_llm_configured():
         raise HTTPException(status_code=503, detail="Primary LLM is not configured")
 
+    return await _unit_generate_stream(body, request)
+
+
+def _execute_unit_generate(body: GenerateUnitRequest, request: Request) -> dict[str, Any]:
     credit_cost = credits_for_term_generate()
     billing_user, credits_remaining, credits_debited = charge_or_skip(
         request,
@@ -250,7 +264,7 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
         if outcome.error or not outcome.unit:
             raise RuntimeError(outcome.error or "Unit generation failed")
 
-        response_body = {
+        response_body: dict[str, Any] = {
             "unit": outcome.unit,
             "usage": outcome.usage.to_dict() if outcome.usage else None,
         }
@@ -276,6 +290,59 @@ def unit_generate(body: GenerateUnitRequest, request: Request) -> dict:
             status_code=502,
             detail=UNIT_GENERATE_USER_ERROR,
         ) from None
+
+
+def _unit_generate_http_exception(exc: Exception) -> HTTPException:
+    if isinstance(exc, HTTPException):
+        return exc
+    logger.exception("Unit generation failed")
+    return HTTPException(status_code=502, detail=UNIT_GENERATE_USER_ERROR)
+
+
+async def _unit_generate_stream(
+    body: GenerateUnitRequest,
+    request: Request,
+) -> StreamingResponse:
+    async def event_generator():
+        task = asyncio.create_task(
+            asyncio.to_thread(_execute_unit_generate, body, request),
+        )
+        try:
+            while not task.done():
+                try:
+                    await asyncio.wait_for(
+                        asyncio.shield(task),
+                        timeout=GENERATE_KEEPALIVE_SECONDS,
+                    )
+                except asyncio.TimeoutError:
+                    yield (
+                        json.dumps({"type": "keepalive"})
+                        + GENERATE_KEEPALIVE_PADDING
+                        + "\n"
+                    )
+            payload = task.result()
+            yield json.dumps({"type": "complete", "data": payload}) + "\n"
+        except Exception as exc:
+            http_exc = _unit_generate_http_exception(exc)
+            yield (
+                json.dumps(
+                    {
+                        "type": "error",
+                        "status": http_exc.status_code,
+                        "detail": http_exc.detail,
+                    }
+                )
+                + "\n"
+            )
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="application/x-ndjson",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 @app.post("/api/unit/validate")

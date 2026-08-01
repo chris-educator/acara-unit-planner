@@ -88,6 +88,67 @@ export async function fetchDescriptors(subject: string) {
   return parseJsonResponse<{ descriptors: DescriptorRef[] }>(res)
 }
 
+type GenerateResponse = {
+  unit: MicroUnit
+  credits_remaining?: number
+  detail?: string
+}
+
+type GenerateStreamMessage =
+  | { type: 'keepalive' }
+  | { type: 'complete'; data: GenerateResponse }
+  | { type: 'error'; status?: number; detail?: unknown }
+
+function generateErrorMessage(status: number, detail: unknown): string {
+  if (typeof detail === 'string' && detail.trim()) return detail
+  if (detail && typeof detail === 'object' && 'detail' in detail) {
+    const nested = (detail as { detail?: unknown }).detail
+    if (typeof nested === 'string' && nested.trim()) return nested
+  }
+  if (status === 502 || status === 504 || status === 524) {
+    return 'Generation timed out before the server finished. Try fewer weeks (6–8) or a simpler topic, then generate again.'
+  }
+  if (status === 503) {
+    return 'Term plan generation is temporarily unavailable. Please try again in a moment.'
+  }
+  if (status === 401) {
+    return 'Sign in required.'
+  }
+  return `Unit generation failed (${status || 'network error'}). Please try again.`
+}
+
+async function readGenerateNdjsonStream(res: Response): Promise<GenerateResponse> {
+  if (!res.body) {
+    throw new Error('Generation failed before the server returned a response.')
+  }
+
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() ?? ''
+
+    for (const line of lines) {
+      if (!line.trim()) continue
+      const message = JSON.parse(line) as GenerateStreamMessage
+      if (message.type === 'keepalive') continue
+      if (message.type === 'complete' && message.data) {
+        return message.data
+      }
+      if (message.type === 'error') {
+        throw new Error(generateErrorMessage(message.status ?? 500, message.detail))
+      }
+    }
+  }
+
+  throw new Error('Generation ended before the server returned a term plan.')
+}
+
 export async function generateMicroUnit(payload: {
   topic: string
   year_level: string
@@ -105,17 +166,36 @@ export async function generateMicroUnit(payload: {
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(payload),
     },
     GENERATE_TIMEOUT_MS,
   )
-  const data = await parseJsonResponse<{ unit: MicroUnit; credits_remaining?: number; detail?: string }>(
-    res,
-  )
-  if (!res.ok) {
-    throw new Error(data.detail ?? 'Unit generation failed')
+  const contentType = res.headers.get('content-type') ?? ''
+  if (contentType.includes('ndjson')) {
+    try {
+      return await readGenerateNdjsonStream(res)
+    } catch (err) {
+      if (err instanceof SyntaxError) {
+        throw new Error(generateErrorMessage(res.status, null))
+      }
+      throw err
+    }
   }
-  return data
+
+  // Fallback for non-stream responses (e.g. early HTTP errors before the stream starts).
+  try {
+    const data = await parseJsonResponse<GenerateResponse>(res)
+    if (!res.ok) {
+      throw new Error(generateErrorMessage(res.status, data))
+    }
+    return data
+  } catch (err) {
+    if (err instanceof Error && /web page instead of API data/i.test(err.message)) {
+      throw new Error(generateErrorMessage(res.status || 502, null))
+    }
+    throw err
+  }
 }
 
 export async function refineUnitSection(payload: {

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from typing import Any
 
@@ -56,7 +57,12 @@ def _call_anthropic(
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is not configured on the server.")
 
-    client = anthropic.Anthropic(api_key=api_key)
+    try:
+        timeout_seconds = float(os.getenv("ANTHROPIC_TIMEOUT_SECONDS", "300"))
+    except ValueError:
+        timeout_seconds = 300.0
+
+    client = anthropic.Anthropic(api_key=api_key, timeout=timeout_seconds)
     response = client.messages.create(
         model=get_llm_model(),
         max_tokens=max_output_tokens,
