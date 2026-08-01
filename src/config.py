@@ -23,9 +23,11 @@ MAX_GENERATION_ATTEMPTS = 3
 DEFAULT_DURATION_MINUTES = 60
 DEFAULT_TOTAL_MARKS = 50
 
-# Hard caps on Gemini output — prevents runaway token bills.
+# Hard caps on LLM output — prevents runaway token bills.
+# Term packs are large (6–10 weeks × 4 differentiation fields); 8192 often truncates
+# under Claude Sonnet 5's tokenizer, so default higher for unit generation.
 GEMINI_MAX_OUTPUT_TOKENS_UNIT = max(
-    512, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_UNIT", "8192"))
+    512, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_UNIT", "16384"))
 )
 GEMINI_MAX_OUTPUT_TOKENS_REFINE = max(
     128, int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS_REFINE", "1024"))

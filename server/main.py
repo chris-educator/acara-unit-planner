@@ -74,6 +74,9 @@ logger = logging.getLogger(__name__)
 UNIT_GENERATE_USER_ERROR = (
     "Unit generation failed. Try adjusting your topic, lesson count, or descriptors."
 )
+UNIT_GENERATE_VALIDATION_HINT = (
+    "The AI returned a plan that did not pass validation. Try fewer weeks (6–8) or a simpler topic, then generate again."
+)
 UNIT_REFINE_USER_ERROR = "Refinement could not complete. Try a shorter or clearer instruction."
 ASSISTANT_USER_ERROR = "The Assistant could not respond. Try again in a moment."
 
@@ -262,7 +265,12 @@ def _execute_unit_generate(body: GenerateUnitRequest, request: Request) -> dict[
             general_capabilities=body.general_capabilities,
         )
         if outcome.error or not outcome.unit:
-            raise RuntimeError(outcome.error or "Unit generation failed")
+            logger.warning("Unit generation validation failed: %s", outcome.error)
+            detail = UNIT_GENERATE_VALIDATION_HINT
+            err = (outcome.error or "").lower()
+            if "truncat" in err or "fewer weeks" in err:
+                detail = outcome.error or detail
+            raise HTTPException(status_code=502, detail=detail)
 
         response_body: dict[str, Any] = {
             "unit": outcome.unit,
@@ -278,7 +286,7 @@ def _execute_unit_generate(body: GenerateUnitRequest, request: Request) -> dict[
         return response_body
     except HTTPException:
         raise
-    except Exception:
+    except Exception as exc:
         if credits_debited and billing_user:
             refund(
                 billing_user.id,
@@ -286,6 +294,10 @@ def _execute_unit_generate(body: GenerateUnitRequest, request: Request) -> dict[
                 reason="unit_generate_refund",
                 remaining=credits_remaining,
             )
+        message = str(exc)
+        if "truncat" in message.lower() or "fewer weeks" in message.lower():
+            raise HTTPException(status_code=502, detail=message) from None
+        logger.exception("Unit generation failed")
         raise HTTPException(
             status_code=502,
             detail=UNIT_GENERATE_USER_ERROR,

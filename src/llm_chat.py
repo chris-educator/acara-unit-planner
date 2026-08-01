@@ -50,6 +50,8 @@ def _call_anthropic(
     max_output_tokens: int,
     operation: str,
     temperature: float,
+    *,
+    json_mode: bool = False,
 ) -> tuple[str, LlmUsage | None]:
     import anthropic
 
@@ -62,14 +64,22 @@ def _call_anthropic(
     except ValueError:
         timeout_seconds = 300.0
 
+    model = get_llm_model()
+    create_kwargs: dict[str, Any] = {
+        "model": model,
+        "max_tokens": max_output_tokens,
+        "temperature": temperature,
+        "system": system_instruction,
+        "messages": [{"role": "user", "content": user_content}],
+    }
+    # Claude Sonnet 5+ enables adaptive thinking by default. Thinking tokens share the
+    # max_tokens budget and commonly truncate large JSON unit packs — disable for
+    # structured generation; keep default thinking for free-form assistant chat.
+    if json_mode or operation in {"unit_pack", "unit_refine"}:
+        create_kwargs["thinking"] = {"type": "disabled"}
+
     client = anthropic.Anthropic(api_key=api_key, timeout=timeout_seconds)
-    response = client.messages.create(
-        model=get_llm_model(),
-        max_tokens=max_output_tokens,
-        temperature=temperature,
-        system=system_instruction,
-        messages=[{"role": "user", "content": user_content}],
-    )
+    response = client.messages.create(**create_kwargs)
     parts: list[str] = []
     for block in response.content:
         if getattr(block, "type", None) == "text":
@@ -77,6 +87,11 @@ def _call_anthropic(
     raw_text = "".join(parts).strip()
     if not raw_text:
         raise ValueError("Anthropic API response did not include text content.")
+    if getattr(response, "stop_reason", None) == "max_tokens":
+        raise ValueError(
+            "Model output was truncated before the term plan finished. "
+            "Try fewer weeks (6–8) or try again."
+        )
     usage_meta = response.usage
     return raw_text, LlmUsage(
         prompt_tokens=int(usage_meta.input_tokens),
@@ -84,7 +99,7 @@ def _call_anthropic(
         total_tokens=int(usage_meta.input_tokens) + int(usage_meta.output_tokens),
         operation=operation,
         provider="anthropic",
-        model=get_llm_model(),
+        model=model,
     )
 
 
@@ -137,6 +152,7 @@ def generate_text(
             max_output_tokens=max_output_tokens,
             operation=operation,
             temperature=temperature,
+            json_mode=False,
         )
     return _call_gemini(
         system_instruction=system_instruction,
@@ -163,6 +179,7 @@ def generate_json_text(
             max_output_tokens=max_output_tokens,
             operation=operation,
             temperature=temperature,
+            json_mode=True,
         )
     return _call_gemini(
         system_instruction=system_instruction,
