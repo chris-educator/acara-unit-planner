@@ -25,7 +25,7 @@ export const APP_TAGLINE =
 
 export const APP_INTRO_LINES = [
   'Enter topic, year level, and pedagogy focus — link up to four curriculum descriptors so each week stays syllabus-aligned.',
-  '12 credits per term plan, and 3 credits to refine a section. Export docx, pdf, txt, or zip.',
+  '12 credits per term plan, and 2 credits to refine a section. Export docx, pdf, txt, or zip.',
 ] as const
 
 export const APPSTAX_SUPPORT_EMAIL = 'apps@appstax.ai'

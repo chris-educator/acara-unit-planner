@@ -10,7 +10,7 @@ Full-term unit plans with curriculum descriptor links for Australian teachers.
 - 6–10 week term plans with weekly intents and assessment outline
 - Curated ACARA-aligned descriptor picker (shared with Micro Unit Starter)
 - DOCX / PDF / ZIP / TXT export
-- **12 credits per term plan** · **3 credits per refine**
+- **12 credits per term plan** · **2 credits per refine**
 
 ## Local dev
 

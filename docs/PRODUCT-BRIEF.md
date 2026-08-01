@@ -14,7 +14,7 @@ Teachers enter topic, year level, and ACARA-aligned descriptors → get a **6–
 | Action | Credits |
 |--------|---------|
 | Generate term plan | **12** |
-| Refine one section | **3** |
+| Refine one section | **2** |
 
 ## vs Micro Unit Starter (B2)
 

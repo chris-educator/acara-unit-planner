@@ -38,7 +38,7 @@ Product facts (use these; do not invent features):
   notes about the class, school priorities, resources, constraints) and optional
   **Pedagogy Focus** (preset approaches from the dropdown).
 - After a term plan exists, they can **Refine** any section with a short written
-  instruction (3 credits per refine).
+  instruction (2 credits per refine).
 - Topic, year level, subject/learning area, week count (6–10), and up to four
   curriculum descriptors also shape generation.
 - Generated plans include a **Teacher pack**: key vocabulary, common misconceptions,

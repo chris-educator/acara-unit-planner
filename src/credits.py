@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 CREDITS_PER_TERM = 12
-CREDITS_PER_REFINE = 3
+CREDITS_PER_REFINE = 2
 
 
 def credits_for_term_generate() -> int:

@@ -101,7 +101,7 @@ export function RefineWithAi({ apiReady, sectionLabel, onRefine }: RefineWithAiP
                   {loading
                     ? 'Refining…'
                     : billingActive
-                      ? 'Apply Refinement (3 credits)'
+                      ? 'Apply Refinement (2 credits)'
                       : 'Apply Refinement'}
                 </SignInGatedButton>
                 <button

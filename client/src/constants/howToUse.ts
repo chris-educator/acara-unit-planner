@@ -19,7 +19,7 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
     step: '3',
     title: 'Generate & refine',
     detail:
-      'Review the teacher pack (vocab, misconceptions, checklist), weekly prep and resource searches, then refine any section for 3 credits.',
+      'Review the teacher pack (vocab, misconceptions, checklist), weekly prep and resource searches, then refine any section for 2 credits.',
   },
   {
     step: '4',

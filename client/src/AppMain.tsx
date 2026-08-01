@@ -253,7 +253,7 @@ export default function AppMain() {
         <SignInCreditsCallout
           linkSignIn
           fullWidth
-          creditQuote={billingActive ? '12 credits per generate, 3 per refine' : null}
+          creditQuote={billingActive ? '12 credits per generate, 2 per refine' : null}
         />
       }
     >

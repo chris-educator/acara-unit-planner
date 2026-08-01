@@ -24,7 +24,7 @@ export function TermsPage() {
       <h2>Accounts and credits</h2>
       <p>
         When billing is enabled, generating a term plan consumes 12 credits and refining a section
-        consumes 3 credits via your EdStack account. Export and preview do not require credits.
+        consumes 2 credits via your EdStack account. Export and preview do not require credits.
       </p>
 
       <h2>Acceptable use</h2>

@@ -24,7 +24,7 @@ npm run dev:client   # :5202
 - **Host:** https://acara.appstax.ai
 - **Health:** `GET /api/health`
 - **Deploy:** Dockerfile + `railway.toml`
-- **Credits:** 12 per term plan · 3 per refine (`EDSTACK_APP_ID=acara-unit-planner`)
+- **Credits:** 12 per term plan · 2 per refine (`EDSTACK_APP_ID=acara-unit-planner`)
 
 ## Product rules
 
