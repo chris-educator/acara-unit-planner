@@ -89,7 +89,7 @@ export function AskAssistant({
         <div className="ask-assistant-panel__header flex shrink-0 items-start justify-between gap-3 border-b border-border px-4 py-3.5 sm:px-5">
           <div className="min-w-0 flex-1">
             <h3 id="ask-assistant-title" className="ui-section-heading mb-1">
-              Ask Ed the Assistant
+              Ed the Assistant
             </h3>
             <p id="ask-assistant-subtitle" className="text-xs leading-snug text-text-muted">
               {subtitle}
@@ -125,7 +125,7 @@ export function AskAssistant({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Ask Ed the Assistant"
+        aria-label="Ask Ed"
         aria-expanded={open}
         aria-haspopup="dialog"
         className={[
