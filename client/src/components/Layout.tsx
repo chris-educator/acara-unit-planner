@@ -5,7 +5,6 @@ import { Footer } from './Footer'
 import { SiteTopBar } from './SiteTopBar'
 import { SiteTopBarTools } from './SiteTopBarTools'
 import { AskAssistant } from './AskAssistant'
-import { APP_INTRO_LINES, APP_TAGLINE } from '../constants/branding'
 import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_ACCOUNT, ROUTE_HOME, ROUTE_LOGIN } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
@@ -63,7 +62,7 @@ export function Layout({
         </div>
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
-        <div className={`${APP_CONTENT_RAIL_CLASS} space-y-3`}>
+        <div className={`${APP_CONTENT_RAIL_CLASS}${isDocument ? ' space-y-3' : ''}`}>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link to={ROUTE_HOME} className="inline-block no-underline">
               <AppTitle as={isDocument ? 'span' : 'h1'} />
@@ -76,20 +75,7 @@ export function Layout({
               <span className="ui-header__ask-text">Ask</span> in the top bar, or go back to the
               planner any time.
             </p>
-          ) : (
-            <>
-              <p className="ui-header__lead max-w-full text-sm leading-relaxed text-text-muted">
-                {APP_TAGLINE}{' '}
-                <span className="ui-header__ask-text">Ask the Assistant</span>
-                <span aria-hidden="true"> — </span>
-                AI-powered agents built-in for clever help, deep reasoning, and fast responses — use{' '}
-                <span className="ui-header__ask-text">Ask</span> in the top bar.
-              </p>
-              <p className="min-w-0 max-w-full text-sm leading-relaxed text-text-muted">
-                {APP_INTRO_LINES[0]} {APP_INTRO_LINES[1]}
-              </p>
-            </>
-          )}
+          ) : null}
         </div>
       </header>
       <main className="relative z-0 flex min-h-0 flex-1 flex-col overflow-x-hidden">

@@ -23,11 +23,6 @@ export const APP_BUG_REPORT_NAME = 'ACARA Unit Planner'
 export const APP_TAGLINE =
   'Build a 6–10 week term unit plan with curriculum descriptor links, weekly intents, formative checks, and summative assessment — export for accreditation folders.'
 
-export const APP_INTRO_LINES = [
-  'Enter topic, year level, and pedagogy focus — link up to four curriculum descriptors so each week stays syllabus-aligned.',
-  '12 credits per term plan, and 2 credits to refine a section. Export docx, pdf, txt, or zip.',
-] as const
-
 export const APPSTAX_SUPPORT_EMAIL = 'apps@appstax.ai'
 
 export function appstaxMailto(options: { subject?: string; body?: string } = {}) {

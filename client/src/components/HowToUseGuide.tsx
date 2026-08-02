@@ -9,9 +9,15 @@ export function HowToUseGuide() {
           How to Use ACARA Unit Planner
         </h2>
         <p className="app-how-to-guide__lead">
-          Plan a 6–10 week term with curriculum-linked weekly intents and assessment — not just activities. Use{' '}
-          <strong className="font-semibold text-text">Ask</strong> in the top bar for planning help,
-          or <strong className="font-semibold text-text">Refine</strong> on any section after generation.
+          {
+            'Build a 6–10 week term unit plan with curriculum descriptor links, weekly intents, formative checks, and summative assessment — not just a list of activities. Enter topic, year level, and pedagogy focus, then link up to four curriculum descriptors so each week stays syllabus-aligned. Generation costs 12 credits per term plan and 2 credits to refine a section; export docx, pdf, txt, or zip for accreditation folders. Use '
+          }
+          <strong className="font-semibold text-text">Ask</strong>
+          {
+            ' in the top bar for planning help — Ask will not write the unit itself — or use '
+          }
+          <strong className="font-semibold text-text">Refine</strong>
+          {' on any section after generation.'}
         </p>
       </div>
 

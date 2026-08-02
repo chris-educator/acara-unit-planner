@@ -980,10 +980,15 @@ html[data-theme='dark'] .app-how-to-guide {
 }
 
 .app-how-to-guide__lead {
+  display: block;
   margin: 0.5rem 0 0;
-  max-width: 42rem;
+  max-width: none;
+  width: 100%;
   font-size: 0.875rem;
   line-height: 1.6;
+  text-align: justify;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
   color: var(--color-text-muted);
 }
 
