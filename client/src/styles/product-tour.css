@@ -341,15 +341,21 @@ html[data-theme='dark'] .product-tour-panel__notice {
 
 .footer-tour-link {
   border: none;
-  background: none;
+  background: transparent;
   padding: 0;
+  margin: 0;
   font: inherit;
-  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
   cursor: pointer;
   text-decoration: inherit;
+  /* Match sibling footer <a>/<Link> colour — do not inherit muted parent text */
+  color: #d4d4d8;
 }
 
 .footer-tour-link:hover,
 .footer-tour-link:focus-visible {
+  color: #fafafa;
   text-decoration: underline;
 }

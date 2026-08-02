@@ -15,7 +15,7 @@ function scrollToTop(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 const footerLinkClass =
-  'text-[#a1a1aa] underline-offset-2 hover:text-[#fafafa] hover:underline'
+  'text-[#d4d4d8] underline-offset-2 hover:text-[#fafafa] hover:underline'
 
 function FooterTourLink({ className }: { className: string }) {
   const { replayTour } = useOnboarding()
@@ -44,7 +44,7 @@ export function Footer({ extra }: FooterProps) {
             {appstaxCopyrightLine()} · Powered by AI
           </a>
         </p>
-        <p className="mx-auto mt-1 text-center text-[11px] text-[#71717a]">
+        <p className="mx-auto mt-1 text-center text-[11px] text-[#a1a1aa]">
           <Link to={ROUTE_PRIVACY} className={footerLinkClass}>
             Privacy Policy
           </Link>
