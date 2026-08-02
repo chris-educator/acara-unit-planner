@@ -1,9 +1,9 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Link, Navigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 import { SignInCreditsCallout } from '../components/SignInCreditsCallout'
 import { BackToAppLink } from '../components/BackToAppLink'
 import { APP_CONTENT_PAD_CLASS } from '../constants/layout'
-import { ROUTE_ACCOUNT, ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
+import { ROUTE_ACCOUNT } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
 
 export function LoginPage() {
@@ -184,21 +184,6 @@ export function LoginPage() {
           </form>
         </div>
       </div>
-      <p className={`mx-auto mt-6 w-full min-w-0 max-w-lg ${APP_CONTENT_PAD_CLASS} text-center text-xs text-text-muted`}>
-        By signing in you agree to our{' '}
-        <Link to={ROUTE_TERMS} className="text-blue hover:text-blue-hover">
-          Terms of service
-        </Link>{' '}
-        and{' '}
-        <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
-          Privacy policy
-        </Link>
-        . See how we handle school data in our{' '}
-        <Link to={ROUTE_SCHOOL_DATA} className="text-blue hover:text-blue-hover">
-          School data summary
-        </Link>
-        .
-      </p>
     </div>
   )
 }
