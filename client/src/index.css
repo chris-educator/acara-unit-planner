@@ -952,6 +952,7 @@ html[data-theme='dark'] .app-how-to-guide {
 }
 
 .app-how-to-guide__header {
+  width: 100%;
   margin-bottom: 1rem;
 }
 
@@ -981,14 +982,16 @@ html[data-theme='dark'] .app-how-to-guide {
 
 .app-how-to-guide__lead {
   display: block;
+  box-sizing: border-box;
   margin: 0.5rem 0 0;
-  max-width: none;
+  max-width: none !important;
   width: 100%;
   font-size: 0.875rem;
   line-height: 1.6;
-  text-align: justify;
-  text-wrap: pretty;
-  overflow-wrap: break-word;
+  text-align: left;
+  text-wrap: wrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
   color: var(--color-text-muted);
 }
 
