@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { AiProviderBadges } from './AiProviderBadges'
+import { ApiStatus } from './ApiStatus'
 import { AppTitle } from './AppTitle'
 import { Footer } from './Footer'
 import { SiteTopBar } from './SiteTopBar'
@@ -67,7 +68,16 @@ export function Layout({
             <Link to={ROUTE_HOME} className="inline-block min-w-0 no-underline">
               <AppTitle as={isDocument ? 'span' : 'h1'} />
             </Link>
-            {!isDocument ? <AiProviderBadges /> : null}
+            {!isDocument ? (
+              <div
+                className="ml-auto flex flex-wrap items-center justify-end gap-2"
+                role="group"
+                aria-label="AI status and providers"
+              >
+                <ApiStatus apiReady={apiReady} assistantReady={assistantReady} />
+                <AiProviderBadges />
+              </div>
+            ) : null}
           </div>
           {isDocument ? (
             <p className="text-sm leading-relaxed text-text-muted">
