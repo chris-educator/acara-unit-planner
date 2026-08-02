@@ -907,7 +907,6 @@ html[data-theme='dark'] .ui-header__ask-text {
     }
 
     .header-ai-cluster .api-status,
-    .header-ai-cluster .quick-tour-btn,
     .header-ai-cluster a {
       display: inline-flex !important;
       width: 100% !important;
@@ -1262,9 +1261,7 @@ html[data-theme='dark'] .app-how-to-guide__step {
 }
 
 .app-how-to-guide__footer {
-  margin-top: 1rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid rgb(34 197 94 / 0.18);
+  /* Layout + tour CTA: see styles/product-tour.css */
 }
 
 .app-how-to-guide__hints {

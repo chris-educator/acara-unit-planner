@@ -1,4 +1,5 @@
 import { HOW_TO_USE_HINTS, HOW_TO_USE_STEPS } from '../constants/howToUse'
+import { QuickTourButton } from './QuickTourButton'
 
 export function HowToUseGuide() {
   return (
@@ -46,6 +47,9 @@ export function HowToUseGuide() {
               {hint}
             </li>
           ))}
+          <li className="app-how-to-guide__tour-action">
+            <QuickTourButton />
+          </li>
         </ul>
       </div>
     </section>

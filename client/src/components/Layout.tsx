@@ -4,7 +4,6 @@ import { ApiStatus } from './ApiStatus'
 import { AppTitle } from './AppTitle'
 import { Footer } from './Footer'
 import { ProductTour } from './ProductTour'
-import { QuickTourButton } from './QuickTourButton'
 import { SiteTopBar } from './SiteTopBar'
 import { SiteTopBarTools } from './SiteTopBarTools'
 import { AskAssistant } from './AskAssistant'
@@ -84,7 +83,6 @@ export function Layout({
                 aria-label="AI status and providers"
               >
                 <ApiStatus apiReady={apiReady} assistantReady={assistantReady} />
-                <QuickTourButton />
                 <AiProviderBadges />
               </div>
             ) : null}

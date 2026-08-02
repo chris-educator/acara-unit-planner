@@ -119,11 +119,23 @@ export function ProductTour() {
   useEffect(() => {
     if (!tourActive) return
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') skipTour()
+      if (event.key === 'Escape') {
+        skipTour()
+        return
+      }
+      if (event.key === 'ArrowRight' || event.key === 'Enter') {
+        event.preventDefault()
+        nextTourStep()
+        return
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        prevTourStep()
+      }
     }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
-  }, [tourActive, skipTour])
+  }, [tourActive, skipTour, nextTourStep, prevTourStep])
 
   if (!tourActive || !currentTourStep) return null
 
@@ -151,6 +163,7 @@ export function ProductTour() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="tour-step-title"
+        aria-describedby="tour-step-body"
         className="product-tour-panel"
         data-placement={tooltip?.placement ?? 'center'}
         style={
@@ -159,19 +172,46 @@ export function ProductTour() {
             : { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
         }
       >
-        <p className="product-tour-panel__step">Step {tourStepIndex + 1} of {tourStepCount}</p>
+        <div className="product-tour-panel__top">
+          <p className="product-tour-panel__step">
+            {tourStepIndex + 1} of {tourStepCount}
+          </p>
+          <button
+            type="button"
+            onClick={skipTour}
+            className="product-tour-panel__close"
+            aria-label="Close tour"
+          >
+            ×
+          </button>
+        </div>
+
+        <ul className="product-tour-panel__dots" aria-hidden="true">
+          {Array.from({ length: tourStepCount }, (_, i) => (
+            <li
+              key={i}
+              className="product-tour-panel__dot"
+              data-active={i === tourStepIndex ? 'true' : undefined}
+              data-done={i < tourStepIndex ? 'true' : undefined}
+            />
+          ))}
+        </ul>
+
         <h3 id="tour-step-title" className="product-tour-panel__title">
           {currentTourStep.title}
         </h3>
-        <p className="product-tour-panel__body">{currentTourStep.body}</p>
+        <p id="tour-step-body" className="product-tour-panel__body">
+          {currentTourStep.body}
+        </p>
         {targetMissing ? (
           <p className="product-tour-panel__notice" role="status">
-            Still loading this step — wait a moment, or tap Next to continue.
+            This bit is still loading. Wait a second, or tap Next to keep going.
           </p>
         ) : null}
+        <p className="product-tour-panel__hint">Tip: use the arrow keys, or press Esc to leave.</p>
         <div className="product-tour-panel__actions">
           <button type="button" onClick={skipTour} className="product-tour-panel__skip">
-            Skip tour
+            Skip for now
           </button>
           <div className="product-tour-panel__nav">
             <button
@@ -183,7 +223,7 @@ export function ProductTour() {
               Back
             </button>
             <button type="button" onClick={nextTourStep} className="ui-btn-primary">
-              {isLast ? 'Finish' : 'Next'}
+              {isLast ? 'All done' : 'Next'}
             </button>
           </div>
         </div>

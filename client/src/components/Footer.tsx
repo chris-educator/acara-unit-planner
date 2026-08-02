@@ -6,6 +6,7 @@ import {
 } from '../constants/branding'
 import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_PRIVACY, ROUTE_SCHOOL_DATA, ROUTE_TERMS } from '../constants/routes'
+import { useOnboarding } from '../context/OnboardingContext'
 import { AppstaxMailtoLink } from './AppstaxMailtoLink'
 
 function scrollToTop(e: MouseEvent<HTMLAnchorElement>) {
@@ -15,6 +16,15 @@ function scrollToTop(e: MouseEvent<HTMLAnchorElement>) {
 
 const footerLinkClass =
   'text-[#a1a1aa] underline-offset-2 hover:text-[#fafafa] hover:underline'
+
+function FooterTourLink({ className }: { className: string }) {
+  const { replayTour } = useOnboarding()
+  return (
+    <button type="button" onClick={replayTour} className={`footer-tour-link ${className}`}>
+      Take a Tour
+    </button>
+  )
+}
 
 type FooterProps = {
   /** Optional extra line(s) below legal links (app-specific). */
@@ -39,17 +49,19 @@ export function Footer({ extra }: FooterProps) {
             Privacy Policy
           </Link>
           <span aria-hidden="true"> · </span>
-          <Link to={ROUTE_TERMS} className={footerLinkClass}>
-            Terms of Service
-          </Link>
+          <AppstaxMailtoLink href={appstaxBugReportMailto()} className={footerLinkClass}>
+            Report a Bug
+          </AppstaxMailtoLink>
           <span aria-hidden="true"> · </span>
           <Link to={ROUTE_SCHOOL_DATA} className={footerLinkClass}>
             School Data
           </Link>
           <span aria-hidden="true"> · </span>
-          <AppstaxMailtoLink href={appstaxBugReportMailto()} className={footerLinkClass}>
-            Report a Bug
-          </AppstaxMailtoLink>
+          <FooterTourLink className={footerLinkClass} />
+          <span aria-hidden="true"> · </span>
+          <Link to={ROUTE_TERMS} className={footerLinkClass}>
+            Terms of Service
+          </Link>
         </p>
         {extra}
       </div>

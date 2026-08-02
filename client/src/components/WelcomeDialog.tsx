@@ -23,14 +23,15 @@ export function WelcomeDialog() {
         className="product-tour-welcome-panel"
         onClick={(e) => e.stopPropagation()}
       >
+        <p className="product-tour-welcome-panel__eyebrow">First look</p>
         <h2 id="welcome-dialog-title" className="product-tour-welcome-panel__title">
           Welcome to{' '}
           <span className="text-text-muted">ACARA </span>
           <span className="text-blue">Unit Planner</span>
         </h2>
         <p id="welcome-dialog-desc" className="product-tour-welcome-panel__body">
-          Build a 6–10 week term unit with curriculum links, weekly intents, formative checks, and
-          summative assessment. Take a quick tour when you are ready, or explore on your own.
+          Build a 6–10 week term unit with curriculum links, weekly intents, and assessment ready
+          for export. A short tour shows the main steps — or skip and explore on your own.
         </p>
         <div className="product-tour-welcome-panel__actions">
           <button
