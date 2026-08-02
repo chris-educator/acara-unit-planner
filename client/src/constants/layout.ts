@@ -1,7 +1,7 @@
 /**
  * Shared horizontal content rail for ACARA Unit Planner chrome
  * (top bar, header, main, footer, callouts, account/login shells).
- * Matches EdStack marketing rail (1180px).
+ * Matches EdStack marketing rail (1180px) — identical to Feedback and NCCD.
  */
 export const APP_CONTENT_MAX_CLASS = 'max-w-[1180px]'
 
