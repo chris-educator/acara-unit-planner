@@ -71,7 +71,7 @@ export function UnitPreviewPanel({
               {schoolName.trim() ? ` · ${schoolName.trim()}` : ''}
             </p>
           </div>
-          <div className="unit-export-actions no-print">
+          <div className="unit-export-actions no-print" data-tour="unit-export">
             <button
               type="button"
               className="ui-btn-secondary"

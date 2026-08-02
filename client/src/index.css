@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./styles/product-tour.css";
 
 :root {
   --color-primary: #0084ff;
@@ -906,12 +907,43 @@ html[data-theme='dark'] .ui-header__ask-text {
     }
 
     .header-ai-cluster .api-status,
+    .header-ai-cluster .quick-tour-btn,
     .header-ai-cluster a {
       display: inline-flex !important;
       width: 100% !important;
       justify-content: center !important;
       box-sizing: border-box !important;
     }
+  }
+
+  .quick-tour-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--color-primary, #0084ff);
+    color: var(--color-on-primary, #fff);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .quick-tour-btn:hover {
+    background: var(--color-primary-hover, #006fd6);
+  }
+
+  .quick-tour-btn:focus-visible {
+    outline: 2px solid var(--color-primary, #0084ff);
+    outline-offset: 2px;
   }
 
   /* Unit & Task — global curriculum context (matches FBG hero card + EdStack green accent) */

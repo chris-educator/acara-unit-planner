@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { AuthProvider } from './context/AuthContext'
+import { OnboardingProvider } from './context/OnboardingContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { initSentry } from './monitoring/sentry'
 import { BROWSER_TAB_TITLE } from './constants/branding'
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
-          <App />
+          <OnboardingProvider>
+            <App />
+          </OnboardingProvider>
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>

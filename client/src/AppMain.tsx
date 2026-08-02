@@ -309,7 +309,7 @@ export default function AppMain() {
               onToggleDescriptor={toggleDescriptor}
             />
 
-            <div className="unit-actions-row grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="unit-actions-row grid w-full grid-cols-1 gap-3 sm:grid-cols-2" data-tour="generate">
               <SignInGatedButton
                 type="submit"
                 className="ui-btn-primary w-full"
@@ -337,6 +337,7 @@ export default function AppMain() {
             </div>
           </form>
 
+          <div data-tour="unit-preview">
           {unit ? (
             <UnitPreviewPanel
               unit={unit}
@@ -367,6 +368,7 @@ export default function AppMain() {
               </div>
             </aside>
           )}
+          </div>
         </div>
       </div>
     </Layout>

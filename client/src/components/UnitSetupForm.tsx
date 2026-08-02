@@ -60,7 +60,7 @@ export function UnitSetupForm({
   )
 
   return (
-    <section className="ui-card p-4 sm:p-6 no-print">
+    <section className="ui-card p-4 sm:p-6 no-print" data-tour="unit-setup">
       <div className="min-w-0">
         <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
         <p className="mt-2 text-sm text-text-muted">

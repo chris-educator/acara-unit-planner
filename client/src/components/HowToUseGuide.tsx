@@ -2,7 +2,11 @@ import { HOW_TO_USE_HINTS, HOW_TO_USE_STEPS } from '../constants/howToUse'
 
 export function HowToUseGuide() {
   return (
-    <section className="app-how-to-guide no-print" aria-labelledby="how-to-use-heading">
+    <section
+      className="app-how-to-guide no-print"
+      aria-labelledby="how-to-use-heading"
+      data-tour="how-to-use"
+    >
       <div className="app-how-to-guide__header">
         <span className="app-how-to-guide__badge">Quick Guide</span>
         <h2 id="how-to-use-heading" className="app-how-to-guide__title">

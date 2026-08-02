@@ -3,9 +3,12 @@ import { AiProviderBadges } from './AiProviderBadges'
 import { ApiStatus } from './ApiStatus'
 import { AppTitle } from './AppTitle'
 import { Footer } from './Footer'
+import { ProductTour } from './ProductTour'
+import { QuickTourButton } from './QuickTourButton'
 import { SiteTopBar } from './SiteTopBar'
 import { SiteTopBarTools } from './SiteTopBarTools'
 import { AskAssistant } from './AskAssistant'
+import { WelcomeDialog } from './WelcomeDialog'
 import { APP_CONTENT_RAIL_CLASS } from '../constants/layout'
 import { ROUTE_ACCOUNT, ROUTE_HOME, ROUTE_LOGIN } from '../constants/routes'
 import { useAuth } from '../context/AuthContext'
@@ -39,6 +42,12 @@ export function Layout({
       id="top"
       className="flex min-h-screen min-h-[100dvh] w-full max-w-full flex-col bg-bg"
     >
+      {!isDocument ? (
+        <>
+          <WelcomeDialog />
+          <ProductTour />
+        </>
+      ) : null}
       <SiteTopBar>
         <SiteTopBarTools
           askSlot={<AskAssistant apiReady={assistantReady} />}
@@ -75,6 +84,7 @@ export function Layout({
                 aria-label="AI status and providers"
               >
                 <ApiStatus apiReady={apiReady} assistantReady={assistantReady} />
+                <QuickTourButton />
                 <AiProviderBadges />
               </div>
             ) : null}
