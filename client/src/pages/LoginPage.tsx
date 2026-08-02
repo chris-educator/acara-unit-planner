@@ -187,11 +187,11 @@ export function LoginPage() {
       <p className={`mx-auto mt-6 w-full min-w-0 max-w-lg ${APP_CONTENT_PAD_CLASS} text-center text-xs text-text-muted`}>
         By signing in you agree to our{' '}
         <Link to={ROUTE_TERMS} className="text-blue hover:text-blue-hover">
-          Terms of Service
+          Terms of service
         </Link>{' '}
         and{' '}
         <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
-          Privacy Policy
+          Privacy policy
         </Link>
         . See how we handle school data in our{' '}
         <Link to={ROUTE_SCHOOL_DATA} className="text-blue hover:text-blue-hover">

@@ -10,7 +10,7 @@ export function SignInTopBarLink({ to }: SignInTopBarLinkProps) {
   const children = (
     <>
       <KeyIcon className="h-4 w-4 shrink-0" />
-      <span className="site-top-bar__action-label">Sign In</span>
+      <span className="site-top-bar__action-label">Sign in</span>
     </>
   )
 

@@ -42,7 +42,7 @@ export function WelcomeDialog() {
             Maybe later
           </button>
           <button type="button" onClick={startTour} className="ui-btn-primary w-full sm:w-auto">
-            Take a quick tour
+            Take a Quick Tour
           </button>
         </div>
       </div>

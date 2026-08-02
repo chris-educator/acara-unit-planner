@@ -23,8 +23,8 @@ def test_assistant_not_ready_without_keys(monkeypatch):
 
 
 def test_assistant_system_mentions_class_context():
-    assert "Class Context" in ASSISTANT_SYSTEM
-    assert "Pedagogy Focus" in ASSISTANT_SYSTEM
+    assert "Class context" in ASSISTANT_SYSTEM
+    assert "Pedagogy focus" in ASSISTANT_SYSTEM
     assert "Refine" in ASSISTANT_SYSTEM
     assert "Teacher pack" in ASSISTANT_SYSTEM
     assert "YouTube" in ASSISTANT_SYSTEM

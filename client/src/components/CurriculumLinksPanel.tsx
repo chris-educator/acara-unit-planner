@@ -25,7 +25,7 @@ export function CurriculumLinksPanel({
   if (!sortedDescriptors.length) {
     return (
       <section className="ui-card p-4 sm:p-6 no-print" data-tour="curriculum-links">
-        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum Links</h2>
+        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum links</h2>
         <p className="mt-2 text-sm text-text-muted">
           Choose a subject on the left to load optional Australian Curriculum descriptors.
         </p>
@@ -35,7 +35,7 @@ export function CurriculumLinksPanel({
 
   return (
     <section className="ui-card p-4 sm:p-6 no-print" data-tour="curriculum-links">
-      <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum Links</h2>
+      <h2 className="ui-section-heading border-l-2 border-blue pl-3">Curriculum links</h2>
       <p className="mt-2 text-sm text-text-muted">
         Optional alignment themes for {subject} — planning prompts to weave into objectives, not
         official ACARA content description codes. Select up to four (A–Z).

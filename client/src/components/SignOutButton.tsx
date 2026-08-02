@@ -13,7 +13,7 @@ export function SignOutButton({ onClick }: SignOutButtonProps) {
       aria-label="Sign out"
     >
       <KeyIcon className="h-4 w-4 shrink-0" />
-      <span className="site-top-bar__action-label">Sign Out</span>
+      <span className="site-top-bar__action-label">Sign out</span>
     </button>
   )
 }

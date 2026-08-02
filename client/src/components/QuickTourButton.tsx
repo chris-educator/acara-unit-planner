@@ -1,6 +1,6 @@
 import { useOnboarding } from '../context/OnboardingContext'
 
-/** Blue Quick Guide CTA to start or replay the product tour. */
+/** Blue Quick guide CTA to start or replay the product tour. */
 export function QuickTourButton({ className = '' }: { className?: string }) {
   const { replayTour } = useOnboarding()
 
@@ -9,9 +9,9 @@ export function QuickTourButton({ className = '' }: { className?: string }) {
       type="button"
       onClick={replayTour}
       className={`quick-tour-btn${className ? ` ${className}` : ''}`}
-      aria-label="Take a quick tour"
+      aria-label="Take a Quick Tour"
     >
-      Take a quick tour
+      Take a Quick Tour
     </button>
   )
 }

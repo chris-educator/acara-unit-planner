@@ -96,7 +96,7 @@ export function AccountPage() {
       <SignInCreditsCallout maxWidthClass="max-w-2xl" />
       <div className={`mx-auto w-full min-w-0 max-w-2xl flex-1 ${APP_CONTENT_PAD_CLASS} pb-10 pt-6`}>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <h1 className="ui-page-heading">Account &amp; Credits</h1>
+          <h1 className="ui-page-heading">Account &amp; credits</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
 
@@ -182,7 +182,7 @@ export function AccountPage() {
                   onClick={() => logout()}
                   className="shrink-0 text-base font-semibold text-blue hover:text-blue-hover"
                 >
-                  Sign Out
+                  Sign out
                 </button>
               </div>
               <p className="mt-6 text-3xl font-bold text-blue">{me?.credits ?? 0}</p>
@@ -214,7 +214,7 @@ export function AccountPage() {
               </a>
               . See the{' '}
               <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
-                Privacy Policy
+                Privacy policy
               </Link>{' '}
               for details.
             </p>

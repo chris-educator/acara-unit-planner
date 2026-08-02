@@ -5,7 +5,7 @@ import { PolicyShell } from './PolicyShell'
 export function SchoolDataPage() {
   return (
     <PolicyShell
-      title="School Data Handling"
+      title="School data handling"
       meta="ACARA Unit Planner · AppStax · For schools · Last updated: 1 August 2026"
       activePath="/school-data"
     >
@@ -13,7 +13,7 @@ export function SchoolDataPage() {
         ACARA Unit Planner does not store generated units on AppStax servers. Contact{' '}
         <a href="mailto:apps@appstax.ai">apps@appstax.ai</a> for contractual questions. This page is
         a practical summary for school leaders — see also the{' '}
-        <Link to={ROUTE_PRIVACY}>Privacy Policy</Link>.
+        <Link to={ROUTE_PRIVACY}>Privacy policy</Link>.
       </p>
 
       <h2>Data inventory</h2>
@@ -88,10 +88,10 @@ export function SchoolDataPage() {
       <p className="policy-page__external">
         Portfolio summary:{' '}
         <a href="https://edstack.appstax.ai/school-data" target="_blank" rel="noopener noreferrer">
-          EdStack School Data
+          EdStack school data
         </a>
         {' · '}
-        <Link to={ROUTE_TERMS}>Terms of Service</Link>
+        <Link to={ROUTE_TERMS}>Terms of service</Link>
       </p>
     </PolicyShell>
   )

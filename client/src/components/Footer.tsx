@@ -21,7 +21,7 @@ function FooterTourLink({ className }: { className: string }) {
   const { replayTour } = useOnboarding()
   return (
     <button type="button" onClick={replayTour} className={`footer-tour-link ${className}`}>
-      Take a Tour
+      Take a tour
     </button>
   )
 }
@@ -46,21 +46,21 @@ export function Footer({ extra }: FooterProps) {
         </p>
         <p className="mx-auto mt-1 text-center text-[11px] text-[#a1a1aa]">
           <Link to={ROUTE_PRIVACY} className={footerLinkClass}>
-            Privacy Policy
+            Privacy policy
           </Link>
           <span aria-hidden="true"> · </span>
           <AppstaxMailtoLink href={appstaxBugReportMailto()} className={footerLinkClass}>
-            Report a Bug
+            Report a bug
           </AppstaxMailtoLink>
           <span aria-hidden="true"> · </span>
           <Link to={ROUTE_SCHOOL_DATA} className={footerLinkClass}>
-            School Data
+            School data
           </Link>
           <span aria-hidden="true"> · </span>
           <FooterTourLink className={footerLinkClass} />
           <span aria-hidden="true"> · </span>
           <Link to={ROUTE_TERMS} className={footerLinkClass}>
-            Terms of Service
+            Terms of service
           </Link>
         </p>
         {extra}

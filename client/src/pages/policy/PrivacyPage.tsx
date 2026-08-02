@@ -5,7 +5,7 @@ import { PolicyShell } from './PolicyShell'
 export function PrivacyPage() {
   return (
     <PolicyShell
-      title="Privacy Policy"
+      title="Privacy policy"
       meta="ACARA Unit Planner · AppStax · Last updated: 1 August 2026"
       activePath="/privacy"
     >
@@ -60,7 +60,7 @@ export function PrivacyPage() {
 
       <h2>Schools</h2>
       <p>
-        See our <Link to={ROUTE_SCHOOL_DATA}>School Data</Link> handling summary. Use{' '}
+        See our <Link to={ROUTE_SCHOOL_DATA}>School data</Link> handling summary. Use{' '}
         <strong>Flag this reply</strong> in the Assistant, or email{' '}
         <a href="mailto:apps@appstax.ai">apps@appstax.ai</a>, about concerning AI output.
       </p>
@@ -82,10 +82,10 @@ export function PrivacyPage() {
       <p className="policy-page__external">
         Portfolio policy:{' '}
         <a href="https://edstack.appstax.ai/privacy" target="_blank" rel="noopener noreferrer">
-          EdStack Privacy
+          EdStack privacy
         </a>
         {' · '}
-        <Link to={ROUTE_TERMS}>Terms of Service</Link>
+        <Link to={ROUTE_TERMS}>Terms of service</Link>
       </p>
     </PolicyShell>
   )

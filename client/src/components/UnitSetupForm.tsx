@@ -62,7 +62,7 @@ export function UnitSetupForm({
   return (
     <section className="ui-card p-4 sm:p-6 no-print" data-tour="unit-setup">
       <div className="min-w-0">
-        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
+        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit setup</h2>
         <p className="mt-2 text-sm text-text-muted">
           Plan against Australian Curriculum (ACARA) learning areas and subjects. Defaults open on
           Year 5 Humanities and Social Sciences — change year and subject to match your class.
@@ -72,7 +72,7 @@ export function UnitSetupForm({
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="topic">
-            Unit Topic
+            Unit topic
           </label>
           <input
             id="topic"
@@ -86,7 +86,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="school_name">
-            School Name
+            School name
           </label>
           <input
             id="school_name"
@@ -99,7 +99,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3 min-w-0">
           <label className="ui-label" htmlFor="subject">
-            Subject / Learning Area
+            Subject / learning area
           </label>
           <select
             id="subject"
@@ -116,7 +116,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0">
           <label className="ui-label" htmlFor="year_level">
-            Year Level
+            Year level
           </label>
           <select
             id="year_level"
@@ -133,7 +133,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0">
           <label className="ui-label" htmlFor="lesson_count">
-            Week Count
+            Week count
           </label>
           <select
             id="lesson_count"
@@ -150,7 +150,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0 sm:col-span-2 lg:col-span-1">
           <label className="ui-label" htmlFor="pedagogy_focus">
-            Pedagogy Focus
+            Pedagogy focus
           </label>
           <select
             id="pedagogy_focus"
@@ -168,7 +168,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="class_context">
-            Class Context
+            Class context
           </label>
           <textarea
             id="class_context"

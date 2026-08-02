@@ -147,7 +147,7 @@ export function UnitPreviewPanel({
       <section className="ui-card p-4 sm:p-6">
         <div className="unit-field-label-row">
           <label className="ui-label" htmlFor="unit_title">
-            Unit Title
+            Unit title
           </label>
           <RefineWithAi
             apiReady={apiReady}
@@ -165,7 +165,7 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="overview">
-              Unit Overview
+              Unit overview
             </label>
             <RefineWithAi
               apiReady={apiReady}
@@ -185,7 +185,7 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="success_criteria">
-              Success Criteria
+              Success criteria
             </label>
             <RefineWithAi
               apiReady={apiReady}
@@ -382,11 +382,11 @@ export function UnitPreviewPanel({
       </section>
 
       <section className="ui-card p-4 sm:p-6">
-        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Unit Assessment</h3>
+        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Unit assessment</h3>
         <div className="mt-4 space-y-4">
           <div>
             <label className="ui-label" htmlFor="assessment-title">
-              Assessment Title
+              Assessment title
             </label>
             <input
               id="assessment-title"

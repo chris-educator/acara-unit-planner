@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-# Default subject for Unit Setup — Australian Humanities focus.
+# Default subject for Unit setup — Australian Humanities focus.
 DEFAULT_SUBJECT = "Humanities and Social Sciences"
 DEFAULT_CURRICULUM_FRAMEWORK = "Australian Curriculum (ACARA)"
 

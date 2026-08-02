@@ -51,21 +51,21 @@ export const PAGE_SEO = {
     index: false,
   },
   privacy: {
-    title: `Privacy Policy | ${SITE_NAME}`,
+    title: `Privacy policy | ${SITE_NAME}`,
     description:
       'How ACARA Unit Planner handles teacher data, AI processing, and EdStack accounts.',
     path: '/privacy',
     keywords: SEO_KEYWORDS,
   },
   terms: {
-    title: `Terms of Service | ${SITE_NAME}`,
+    title: `Terms of service | ${SITE_NAME}`,
     description:
       'Terms for using ACARA Unit Planner: accounts, credits, acceptable use, and AI limitations.',
     path: '/terms',
     keywords: SEO_KEYWORDS,
   },
   schoolData: {
-    title: `School Data Handling | ${SITE_NAME}`,
+    title: `School data handling | ${SITE_NAME}`,
     description:
       'School-facing summary of how ACARA Unit Planner handles teacher and classroom planning data.',
     path: '/school-data',

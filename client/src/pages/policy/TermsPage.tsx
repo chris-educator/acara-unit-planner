@@ -5,7 +5,7 @@ import { PolicyShell } from './PolicyShell'
 export function TermsPage() {
   return (
     <PolicyShell
-      title="Terms of Service"
+      title="Terms of service"
       meta="ACARA Unit Planner · AppStax · Last updated: 1 August 2026"
       activePath="/terms"
     >
@@ -52,12 +52,12 @@ export function TermsPage() {
       <p className="policy-page__external">
         Portfolio terms:{' '}
         <a href="https://edstack.appstax.ai/terms" target="_blank" rel="noopener noreferrer">
-          EdStack Terms
+          EdStack terms
         </a>
         {' · '}
-        <Link to={ROUTE_PRIVACY}>Privacy Policy</Link>
+        <Link to={ROUTE_PRIVACY}>Privacy policy</Link>
         {' · '}
-        <Link to={ROUTE_SCHOOL_DATA}>School Data</Link>
+        <Link to={ROUTE_SCHOOL_DATA}>School data</Link>
       </p>
     </PolicyShell>
   )

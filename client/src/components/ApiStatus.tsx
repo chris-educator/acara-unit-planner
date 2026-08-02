@@ -19,7 +19,7 @@ export function ApiStatus({ apiReady, assistantReady = null }: ApiStatusProps) {
     : ready
       ? partial
         ? 'AI ready · Ask unavailable'
-        : 'AI Ready'
+        : 'AI ready'
       : 'API not configured'
 
   const tone = checking ? 'api-status--checking' : ready ? 'api-status--ready' : 'api-status--warn'
