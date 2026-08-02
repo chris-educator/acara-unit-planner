@@ -6,7 +6,7 @@ export const ROUTE_TERMS = '/terms'
 export const ROUTE_SCHOOL_DATA = '/school-data'
 
 export const POLICY_LINKS = [
-  { path: ROUTE_PRIVACY, label: 'Privacy policy' },
-  { path: ROUTE_TERMS, label: 'Terms of service' },
-  { path: ROUTE_SCHOOL_DATA, label: 'School data' },
+  { path: ROUTE_PRIVACY, label: 'Privacy Policy' },
+  { path: ROUTE_TERMS, label: 'Terms of Service' },
+  { path: ROUTE_SCHOOL_DATA, label: 'School Data' },
 ] as const
