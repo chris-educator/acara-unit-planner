@@ -83,6 +83,38 @@ html[data-theme='dark'] .sign-in-credits-callout {
   color: var(--color-text);
 }
 
+html {
+  color-scheme: light dark;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.app-main-scroll {
+  scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong, #cbd5e1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-subtle, #94a3b8);
+}
+
 body {
   margin: 0;
   min-height: 100dvh;
@@ -90,6 +122,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .ui-header__ask-text {

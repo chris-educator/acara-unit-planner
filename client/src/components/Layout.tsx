@@ -37,7 +37,7 @@ export function Layout({
   return (
     <div
       id="top"
-      className="flex min-h-screen min-h-[100dvh] w-full max-w-[100vw] flex-col bg-bg"
+      className="flex min-h-screen min-h-[100dvh] w-full max-w-full flex-col bg-bg"
     >
       <SiteTopBar>
         <SiteTopBarTools
@@ -89,7 +89,7 @@ export function Layout({
         </div>
       </header>
       <main className="relative z-0 flex min-h-0 flex-1 flex-col overflow-x-hidden">
-        <div className="flex-1 overflow-y-auto">
+        <div className="app-main-scroll flex-1 overflow-y-auto">
           {creditsCallout}
           <div className={`${APP_CONTENT_RAIL_CLASS} py-6 md:py-10`}>{children}</div>
         </div>
