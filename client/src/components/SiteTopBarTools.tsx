@@ -26,7 +26,7 @@ type SiteTopBarToolsProps = {
 /**
  * EdStack top-bar controls in three clusters:
  * Ask · Account (Credits / Sign) · Utility (Share / Theme).
- * Mobile: logo alone on row 1; all controls on row 2.
+ * Mobile: logo left · icon controls right-aligned on one row.
  */
 export function SiteTopBarTools({
   showAsk = true,
