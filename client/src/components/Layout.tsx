@@ -63,8 +63,8 @@ export function Layout({
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
         <div className={`${APP_CONTENT_RAIL_CLASS}${isDocument ? ' space-y-3' : ''}`}>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link to={ROUTE_HOME} className="inline-block no-underline">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+            <Link to={ROUTE_HOME} className="inline-block min-w-0 no-underline">
               <AppTitle as={isDocument ? 'span' : 'h1'} />
             </Link>
             {!isDocument ? <AiProviderBadges /> : null}
