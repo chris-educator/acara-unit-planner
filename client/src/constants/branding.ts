@@ -54,7 +54,4 @@ export function appstaxCopyrightLine(year = new Date().getFullYear()) {
   return `© ${year} AppStax · Limited only by Imagination · Brisbane · Australia`
 }
 
-export const APP_PRIVACY_BLURB =
-  'Term plan configuration is processed for generation, not stored on AppStax servers. Your draft stays in this browser until you clear it. Sign in for EdStack credits when billing is enabled.'
-
 export const THEME_STORAGE_KEY = 'acara-unit-planner-theme'
