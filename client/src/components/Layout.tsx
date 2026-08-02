@@ -64,9 +64,12 @@ export function Layout({
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
         <div className={`${APP_CONTENT_RAIL_CLASS} space-y-3`}>
-          <Link to={ROUTE_HOME} className="inline-block no-underline">
-            <AppTitle as={isDocument ? 'span' : 'h1'} />
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link to={ROUTE_HOME} className="inline-block no-underline">
+              <AppTitle as={isDocument ? 'span' : 'h1'} />
+            </Link>
+            {!isDocument ? <AiProviderBadges /> : null}
+          </div>
           {isDocument ? (
             <p className="text-sm leading-relaxed text-text-muted">
               Legal and school-data pages for ACARA Unit Planner. Use{' '}
@@ -85,7 +88,6 @@ export function Layout({
               <p className="min-w-0 max-w-full text-sm leading-relaxed text-text-muted">
                 {APP_INTRO_LINES[0]} {APP_INTRO_LINES[1]}
               </p>
-              <AiProviderBadges />
             </>
           )}
         </div>
