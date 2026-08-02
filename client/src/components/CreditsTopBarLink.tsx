@@ -12,13 +12,18 @@ export function CreditsTopBarLink({
   to,
 }: CreditsTopBarLinkProps) {
   const label = billingDegraded ? '…' : credits
+  const title = billingDegraded ? 'Credits temporarily unavailable' : `Credits: ${credits}`
   return (
     <Link
       to={to}
       className="site-top-bar__action site-top-bar__credits shrink-0"
-      title={billingDegraded ? 'Credits temporarily unavailable' : `Credits: ${credits}`}
+      title={title}
+      aria-label={title}
     >
-      Credits {label}
+      <span className="site-top-bar__credits-cr" aria-hidden="true">
+        cr
+      </span>
+      <span className="site-top-bar__credits-full site-top-bar__action-label">Credits {label}</span>
     </Link>
   )
 }
