@@ -17,7 +17,7 @@ export function HowToUseGuide() {
           {
             'Build a 6–10 week term unit plan with curriculum descriptor links, weekly intents, formative checks, and summative assessment — not just a list of activities. Enter topic, year level, and pedagogy focus, then link up to four curriculum descriptors so each week stays syllabus-aligned. Generation costs 12 credits per term plan and 2 credits to refine a section; export docx, pdf, txt, or zip for accreditation folders. Use '
           }
-          <strong className="font-semibold text-text">Ask</strong>
+          <strong className="font-semibold text-text">Ask Ed</strong>
           {
             ' in the top bar for planning help — Ask will not write the unit itself — or use '
           }

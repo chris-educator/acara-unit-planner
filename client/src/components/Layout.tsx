@@ -16,7 +16,7 @@ type LayoutProps = {
   children: React.ReactNode
   /** Primary LLM readiness for Generate / Refine (`null` = still checking / hide banner). */
   apiReady: boolean | null
-  /** Gemini readiness for Ask the Assistant. */
+  /** Gemini readiness for Ask Ed the Assistant. */
   assistantReady: boolean
   creditsCallout?: React.ReactNode
   /** `document` keeps SiteTopBar + Footer with a compact title for policy pages. */
@@ -90,7 +90,7 @@ export function Layout({
           {isDocument ? (
             <p className="text-sm leading-relaxed text-text-muted">
               Legal and school-data pages for ACARA Unit Planner. Use{' '}
-              <span className="ui-header__ask-text">Ask</span> in the top bar, or go back to the
+              <span className="ui-header__ask-text">Ask Ed</span> in the top bar, or go back to the
               planner any time.
             </p>
           ) : null}

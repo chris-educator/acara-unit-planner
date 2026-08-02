@@ -73,7 +73,7 @@ export function AskAssistant({
       <button
         type="button"
         tabIndex={-1}
-        aria-label="Close Assistant"
+        aria-label="Close Ask Ed"
         className={ASK_ASSISTANT_BACKDROP_CLASS}
         onClick={close}
       />
@@ -89,7 +89,7 @@ export function AskAssistant({
         <div className="ask-assistant-panel__header flex shrink-0 items-start justify-between gap-3 border-b border-border px-4 py-3.5 sm:px-5">
           <div className="min-w-0 flex-1">
             <h3 id="ask-assistant-title" className="ui-section-heading mb-1">
-              Ask the Assistant
+              Ask Ed the Assistant
             </h3>
             <p id="ask-assistant-subtitle" className="text-xs leading-snug text-text-muted">
               {subtitle}
@@ -98,7 +98,7 @@ export function AskAssistant({
           <button
             type="button"
             onClick={close}
-            aria-label="Close assistant"
+            aria-label="Close Ask Ed"
             className="ask-assistant-close shrink-0 rounded-lg p-2 text-text-muted transition-colors hover:bg-surface-raised hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
           >
             <CloseIcon className="h-5 w-5" />
@@ -125,7 +125,7 @@ export function AskAssistant({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Ask the Assistant"
+        aria-label="Ask Ed the Assistant"
         aria-expanded={open}
         aria-haspopup="dialog"
         className={[
@@ -134,7 +134,7 @@ export function AskAssistant({
         ].join(' ')}
       >
         <AskChatIcon className="h-4 w-4 shrink-0" />
-        <span className="site-top-bar__ask-btn-label">Ask</span>
+        <span className="site-top-bar__ask-btn-label">Ask Ed</span>
       </button>
 
       {popout && (isMobileLayout ? createPortal(popout, document.body) : popout)}

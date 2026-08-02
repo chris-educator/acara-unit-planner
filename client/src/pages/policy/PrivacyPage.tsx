@@ -12,7 +12,7 @@ export function PrivacyPage() {
       <p>
         ACARA Unit Planner (<a href="https://acara.appstax.ai">acara.appstax.ai</a>) is a
         teacher-facing EdStack app published by AppStax. This policy describes how we handle
-        information when you configure units, generate or refine term plans, use Ask the Assistant,
+        information when you configure units, generate or refine term plans, use Ask Ed the Assistant,
         or sign in for EdStack credits.
       </p>
 
@@ -34,7 +34,7 @@ export function PrivacyPage() {
           providers for that request only; we do not keep a server-side copy.
         </li>
         <li>
-          <strong>Ask the Assistant</strong> — chat messages are processed by AI services per
+          <strong>Ask Ed the Assistant</strong> — chat messages are processed by AI services per
           request; we do not store chat history on AppStax servers.
         </li>
         <li>

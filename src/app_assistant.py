@@ -177,7 +177,7 @@ def chat_with_assistant(
     gemini_model: str = GEMINI_MODEL,
 ) -> str:
     """
-    Ask the Assistant — prefer Gemini 3.6 Flash for speed; fall back to Anthropic.
+    Ask Ed the Assistant — prefer Gemini 3.6 Flash for speed; fall back to Anthropic.
     Either provider alone is enough; both connected when both keys are set.
     """
     payload = _normalize_messages(messages)
@@ -186,7 +186,7 @@ def chat_with_assistant(
 
     if not gemini_ready and not anthropic_ready:
         raise RuntimeError(
-            "Ask the Assistant requires GOOGLE_API_KEY (Gemini) or ANTHROPIC_API_KEY."
+            "Ask Ed the Assistant requires GOOGLE_API_KEY (Gemini) or ANTHROPIC_API_KEY."
         )
 
     if gemini_ready:
