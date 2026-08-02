@@ -1,0 +1,26 @@
+---
+description: EdStack in-app Privacy / Terms / School Data pages — match ACARA Unit Planner formatting
+alwaysApply: true
+---
+
+# EdStack legal pages (Privacy · Terms · School Data)
+
+When adding or updating Privacy, Terms, or School Data pages in any EdStack app, **match ACARA Unit Planner** (`acara-unit-planner`) — do not ship bare static HTML with inline dark styles.
+
+## Required pattern (canonical: ACARA)
+
+1. React routes: `/privacy`, `/terms`, `/school-data`
+2. Redirect legacy static paths: `/privacy.html`, `/terms.html`, `/teacher-data.html` → SPA routes
+3. Shared shell: `pages/policy/PolicyShell.tsx` with:
+   - `Layout` `variant="document"`
+   - `BackToAppLink` (primary)
+   - `policy-page` article (eyebrow EdStack link, title, meta, body, footer with support email + related links)
+4. Copy `POLICY_LINKS` + routes from ACARA `constants/routes.ts`
+5. Copy `.policy-page*` CSS from ACARA `client/src/index.css`
+6. Footer uses React Router `<Link>` to policy routes (not `.html` hrefs)
+7. SEO entries in `siteMeta` / `SeoRoute` for privacy, terms, schoolData
+8. Document header: compact title (AppTitle as span) + short legal blurb; no AI badges
+
+## Content
+
+Keep app-specific facts (product name, URL, what is stored, credits, student data rules). Reuse ACARA section structure and portfolio links (`edstack.appstax.ai/privacy|terms|school-data`).
