@@ -26,11 +26,15 @@ function GeminiIcon(props: IconProps) {
 }
 
 const badgeBase =
-  'inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-semibold text-white no-underline shadow-sm transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+  'inline-flex w-full items-center justify-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-semibold text-white no-underline shadow-sm transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto'
 
 export function AiProviderBadges() {
   return (
-    <div className="flex flex-wrap items-center gap-2" role="group" aria-label="AI providers">
+    <div
+      className="ai-provider-badges flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end"
+      role="group"
+      aria-label="AI providers"
+    >
       <a
         href={CLAUDE_HOME_URL}
         target="_blank"

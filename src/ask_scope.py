@@ -28,16 +28,16 @@ ASK_OUT_OF_SCOPE = (
 )
 
 REDIRECT_TEMPLATES = (
-    "I'm just here to help you use ACARA Unit Planner — setup, descriptors, Refine, and export. "
+    "I can help with ACARA Unit Planner: setup, descriptors, Refine, and export. "
     "For a full term plan, use Generate Term Plan on the main page.",
-    "That sits outside app help. Use Generate Term Plan (or Refine on a section) for planning "
-    "content — I can explain how those buttons work if you like.",
-    "I stay on how to use this app. Jump to Generate Term Plan for the unit itself, or ask me "
+    "That sits outside app help. Use Generate Term Plan or Refine for planning content. "
+    "I can explain how those buttons work if you like.",
+    "I stay on how to use this app. Use Generate Term Plan for the unit itself, or ask me "
     "about week count, curriculum links, or exporting.",
 )
 
 ESCALATED_REDIRECT = (
-    "I've already redirected this a few times — I can't help with that request here. "
+    "I have redirected this a few times already and cannot help with that request here. "
     "Please use Generate Term Plan or Refine on the main page, or email apps@appstax.ai "
     "if something in the app is broken."
 )

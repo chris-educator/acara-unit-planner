@@ -64,13 +64,13 @@ export function Layout({
       ) : null}
       <header className="ui-header relative z-40 shrink-0 py-4">
         <div className={`${APP_CONTENT_RAIL_CLASS}${isDocument ? ' space-y-3' : ''}`}>
-          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <Link to={ROUTE_HOME} className="inline-block min-w-0 no-underline">
               <AppTitle as={isDocument ? 'span' : 'h1'} />
             </Link>
             {!isDocument ? (
               <div
-                className="ml-auto flex flex-wrap items-center justify-end gap-2"
+                className="header-ai-cluster flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end"
                 role="group"
                 aria-label="AI status and providers"
               >

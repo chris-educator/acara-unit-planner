@@ -13,7 +13,7 @@ type AppAssistantChatProps = {
 
 export function AppAssistantChat({
   apiReady,
-  welcomeMessage = "Hi — I'm Ask the Assistant. Ask about week count, curriculum links, Refine, or exporting your term plan.",
+  welcomeMessage = 'Ask about weeks, curriculum links, Refine, or export.',
   inputPlaceholder = 'e.g. How many weeks should I include for a revision unit?',
 }: AppAssistantChatProps) {
   const { requiresSignIn, requiresEmailVerification, signInTo, emailVerifyTo } = useBillingGate()
@@ -67,7 +67,7 @@ export function AppAssistantChat({
           <div
             key={`${msg.role}-${i}-${msg.content.slice(0, 24)}`}
             className={[
-              'ask-assistant-bubble max-w-[92%] rounded-2xl px-4 py-3 text-sm leading-relaxed break-words',
+              'ask-assistant-bubble max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed break-words',
               msg.role === 'user'
                 ? 'ask-assistant-bubble--user ml-auto bg-blue text-btn-label shadow-sm'
                 : 'ask-assistant-bubble--assistant border border-border border-l-4 border-l-blue bg-surface-raised text-text',
@@ -82,10 +82,6 @@ export function AppAssistantChat({
                 >
                   Flag this reply
                 </AppstaxMailtoLink>
-                <span className="mx-1" aria-hidden="true">
-                  ·
-                </span>
-                Report concerning assistant output.
               </p>
             )}
           </div>
@@ -136,7 +132,7 @@ export function AppAssistantChat({
             placeholder={
               apiReady
                 ? inputPlaceholder
-                : 'Assistant unavailable — configure API keys on the server'
+                : 'Assistant unavailable. Configure API keys on the server.'
             }
             className="ui-input min-h-[4.5rem] flex-1 resize-none disabled:opacity-50"
           />

@@ -29,7 +29,7 @@ function useMobileAskLayout() {
 
 export function AskAssistant({
   apiReady,
-  subtitle = 'Help with unit setup, curriculum links, lesson editing, and export.',
+  subtitle = 'Setup, curriculum links, Refine, and export.',
   welcomeMessage,
   inputPlaceholder,
 }: AskAssistantProps) {
