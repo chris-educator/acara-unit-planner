@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import type { DescriptorRef } from '../api/client'
 
 type CurriculumLinksPanelProps = {
@@ -13,8 +14,12 @@ export function CurriculumLinksPanel({
   selectedDescriptors,
   onToggleDescriptor,
 }: CurriculumLinksPanelProps) {
-  const sortedDescriptors = [...descriptors].sort((a, b) =>
-    a.label.localeCompare(b.label, 'en-AU', { sensitivity: 'base' }),
+  const sortedDescriptors = useMemo(
+    () =>
+      [...descriptors].sort((a, b) =>
+        a.label.localeCompare(b.label, 'en-AU', { sensitivity: 'base' }),
+      ),
+    [descriptors],
   )
 
   if (!sortedDescriptors.length) {
@@ -35,7 +40,8 @@ export function CurriculumLinksPanel({
         Optional alignment themes for {subject} — planning prompts to weave into objectives, not
         official ACARA content description codes. Select up to four (A–Z).
       </p>
-      <div className="mt-4 max-h-[min(28rem,50vh)] space-y-2 overflow-y-auto overscroll-contain pr-1">
+      {/* No nested scroll — lists are short; nested overflow fought page scroll and caused freezes. */}
+      <div className="mt-4 space-y-2">
         {sortedDescriptors.map((descriptor) => {
           const checked = selectedDescriptors.has(descriptor.id)
           const disabled = !checked && selectedDescriptors.size >= 4

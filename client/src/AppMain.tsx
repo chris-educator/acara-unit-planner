@@ -107,20 +107,23 @@ export default function AppMain() {
   }, [subject])
 
   useEffect(() => {
-    saveUnitDraft({
-      unit,
-      topic,
-      schoolName,
-      yearLevel,
-      subject,
-      lessonCount,
-      pedagogyFocus,
-      classContext,
-      crossCurriculumPriorities,
-      generalCapabilities,
-      selectedDescriptorIds: [...selectedDescriptors],
-      activeLesson,
-    })
+    const timer = window.setTimeout(() => {
+      saveUnitDraft({
+        unit,
+        topic,
+        schoolName,
+        yearLevel,
+        subject,
+        lessonCount,
+        pedagogyFocus,
+        classContext,
+        crossCurriculumPriorities,
+        generalCapabilities,
+        selectedDescriptorIds: [...selectedDescriptors],
+        activeLesson,
+      })
+    }, 250)
+    return () => window.clearTimeout(timer)
   }, [
     unit,
     topic,
