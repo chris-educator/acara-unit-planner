@@ -958,8 +958,8 @@ html[data-theme='dark'] .ui-header__ask-text {
 
   .ui-callout-orange {
     border-radius: 0.5rem;
-    border: 1px solid color-mix(in srgb, #ea580c 80%, white);
-    background: color-mix(in srgb, #f97316 80%, white);
+    border: 1px solid color-mix(in srgb, #ea580c 58%, #f97316);
+    background: color-mix(in srgb, #f97316 40%, white);
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -968,8 +968,8 @@ html[data-theme='dark'] .ui-header__ask-text {
 
 
 html[data-theme='dark'] .ui-callout-orange {
-  border-color: color-mix(in srgb, #fb923c 45%, var(--color-border));
-  background: color-mix(in srgb, #ea580c 24%, var(--color-surface-raised));
+  border-color: color-mix(in srgb, #f97316 50%, var(--color-border));
+  background: color-mix(in srgb, #ea580c 28%, var(--color-surface-raised));
   color: var(--color-text);
 }
 
