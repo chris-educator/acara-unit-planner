@@ -338,7 +338,24 @@ export default function AppMain() {
           </form>
 
           <div data-tour="unit-preview">
-          {unit ? (
+          {loading ? (
+            <aside
+              className="unit-workspace__placeholder no-print ui-card p-4 sm:p-6"
+              aria-busy="true"
+              aria-label="Building term plan"
+            >
+              <p className="text-center text-sm font-semibold text-text" role="status">
+                Building your term plan — this may take a minute or so — please don&apos;t refresh
+                the page.
+              </p>
+              <div className="mt-6 animate-pulse space-y-4" aria-hidden>
+                <div className="h-4 w-1/3 rounded bg-surface-raised" />
+                <div className="h-3 w-full rounded bg-surface-raised" />
+                <div className="h-3 w-5/6 rounded bg-surface-raised" />
+                <div className="h-3 w-4/6 rounded bg-surface-raised" />
+              </div>
+            </aside>
+          ) : unit ? (
             <UnitPreviewPanel
               unit={unit}
               schoolName={schoolName}
@@ -352,7 +369,7 @@ export default function AppMain() {
               onPrint={handlePrint}
             />
           ) : (
-            <aside className="unit-workspace__placeholder no-print" aria-hidden={loading}>
+            <aside className="unit-workspace__placeholder no-print">
               <div className="unit-empty-state">
                 <p className="unit-empty-state__title">Your teacher pack appears here</p>
                 <p className="unit-empty-state__text">
