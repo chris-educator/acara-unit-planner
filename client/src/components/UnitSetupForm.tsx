@@ -72,7 +72,7 @@ export function UnitSetupForm({
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="topic">
-            Unit topic
+            Unit Topic
           </label>
           <input
             id="topic"
@@ -86,7 +86,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="school_name">
-            School name
+            School Name
           </label>
           <input
             id="school_name"
@@ -99,7 +99,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3 min-w-0">
           <label className="ui-label" htmlFor="subject">
-            Subject / learning area
+            Subject / Learning Area
           </label>
           <select
             id="subject"
@@ -116,7 +116,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0">
           <label className="ui-label" htmlFor="year_level">
-            Year level
+            Year Level
           </label>
           <select
             id="year_level"
@@ -133,7 +133,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0">
           <label className="ui-label" htmlFor="lesson_count">
-            Week count
+            Week Count
           </label>
           <select
             id="lesson_count"
@@ -150,7 +150,7 @@ export function UnitSetupForm({
         </div>
         <div className="min-w-0 sm:col-span-2 lg:col-span-1">
           <label className="ui-label" htmlFor="pedagogy_focus">
-            Pedagogy focus
+            Pedagogy Focus
           </label>
           <select
             id="pedagogy_focus"
@@ -158,7 +158,7 @@ export function UnitSetupForm({
             onChange={(e) => onPedagogyFocusChange(e.target.value)}
             className="ui-input w-full"
           >
-            <option value="">Default (balanced mix)</option>
+            <option value="">Default (Balanced Mix)</option>
             {PEDAGOGY_FOCUS_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -183,7 +183,7 @@ export function UnitSetupForm({
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <fieldset className="min-w-0">
-          <legend className="ui-label">Cross-Curriculum Priorities (optional)</legend>
+          <legend className="ui-label">Cross-Curriculum Priorities (Optional)</legend>
           <p className="mt-1 text-xs text-text-muted">
             Select any to weave through overview, objectives, and weekly activities.
           </p>
@@ -206,7 +206,7 @@ export function UnitSetupForm({
           </div>
         </fieldset>
         <fieldset className="min-w-0">
-          <legend className="ui-label">General capabilities (optional)</legend>
+          <legend className="ui-label">General Capabilities (Optional)</legend>
           <p className="mt-1 text-xs text-text-muted">
             Optional Australian Curriculum capabilities to emphasise in the plan.
           </p>

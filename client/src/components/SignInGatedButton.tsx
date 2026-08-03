@@ -24,8 +24,8 @@ export function SignInGatedButton({
   requiresEmailVerification = false,
   signInTo,
   emailVerifyTo,
-  signInPrompt = 'Sign in to continue.',
-  emailVerifyPrompt = 'Verify your email to continue.',
+  signInPrompt = 'Sign In to Continue.',
+  emailVerifyPrompt = 'Verify Your Email to Continue.',
   disabled = false,
   onAuthorizedClick,
   className = '',
@@ -38,7 +38,7 @@ export function SignInGatedButton({
   const authBlocked = requiresSignIn || requiresEmailVerification
   const prompt = requiresEmailVerification ? emailVerifyPrompt : signInPrompt
   const destination = requiresEmailVerification ? (emailVerifyTo ?? signInTo) : signInTo
-  const actionLabel = requiresEmailVerification ? 'Go to account →' : 'Sign in →'
+  const actionLabel = requiresEmailVerification ? 'Go to Account →' : 'Sign In →'
   const buttonType = authBlocked ? 'button' : type
   const isHtmlDisabled = disabled && !authBlocked
 

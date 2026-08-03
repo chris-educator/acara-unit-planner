@@ -14,7 +14,7 @@ export function EdStackThemeSwitch() {
       ].join(' ')}
       role="switch"
       aria-checked={isDark}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       onClick={() => setPreference(isDark ? 'light' : 'dark')}
     >
       <span className="edstack-theme-switch__track" aria-hidden>

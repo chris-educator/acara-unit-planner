@@ -25,13 +25,13 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'ask-assistant',
     target: '[data-tour="ask-assistant"]',
-    title: 'Ask for help anytime',
+    title: 'Ask for Help Anytime',
     body: 'Open Ask in the top bar for setup tips, curriculum links, Refine, or export help. Ask will not write the unit for you.',
   },
   {
     id: 'unit-setup',
     target: '[data-tour="unit-setup"]',
-    title: 'Set up the Unit',
+    title: 'Set Up the Unit',
     body: 'Enter topic, year level, subject, week count, and pedagogy focus. School name and class context show on the export if you add them.',
   },
   {
@@ -49,7 +49,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'unit-preview',
     target: '[data-tour="unit-preview"]',
-    title: 'Preview, refine, and export',
+    title: 'Preview, Refine, and Export',
     body: 'After generation, edit weeks here, refine any section with AI, then download docx, pdf, txt, or zip.',
   },
 ]

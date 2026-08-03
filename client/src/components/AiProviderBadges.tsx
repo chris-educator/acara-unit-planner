@@ -33,7 +33,7 @@ export function AiProviderBadges() {
     <div
       className="ai-provider-badges flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end"
       role="group"
-      aria-label="AI providers"
+      aria-label="AI Providers"
     >
       <a
         href={CLAUDE_HOME_URL}

@@ -180,7 +180,7 @@ export function ProductTour() {
             type="button"
             onClick={skipTour}
             className="product-tour-panel__close"
-            aria-label="Close tour"
+            aria-label="Close Tour"
           >
             ×
           </button>
@@ -211,7 +211,7 @@ export function ProductTour() {
         <p className="product-tour-panel__hint">Tip: use the arrow keys, or press Esc to leave.</p>
         <div className="product-tour-panel__actions">
           <button type="button" onClick={skipTour} className="product-tour-panel__skip">
-            Skip for now
+            Skip for Now
           </button>
           <div className="product-tour-panel__nav">
             <button
@@ -223,7 +223,7 @@ export function ProductTour() {
               Back
             </button>
             <button type="button" onClick={nextTourStep} className="ui-btn-primary">
-              {isLast ? 'All done' : 'Next'}
+              {isLast ? 'All Done' : 'Next'}
             </button>
           </div>
         </div>

@@ -12,7 +12,7 @@ export function CreditsTopBarLink({
   to,
 }: CreditsTopBarLinkProps) {
   const label = billingDegraded ? '…' : credits
-  const title = billingDegraded ? 'Credits temporarily unavailable' : `Credits: ${credits}`
+  const title = billingDegraded ? 'Credits Temporarily Unavailable' : `Credits: ${credits}`
   return (
     <Link
       to={to}

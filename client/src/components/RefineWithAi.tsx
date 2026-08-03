@@ -47,7 +47,7 @@ export function RefineWithAi({ apiReady, sectionLabel, onRefine }: RefineWithAiP
         className="unit-refine-trigger"
         disabled={!apiReady}
         onClick={() => setOpen(true)}
-        title={apiReady ? `Refine ${sectionLabel} with AI` : 'AI unavailable'}
+        title={apiReady ? `Refine ${sectionLabel} with AI` : 'AI Unavailable'}
       >
         Refine
       </button>
@@ -101,8 +101,8 @@ export function RefineWithAi({ apiReady, sectionLabel, onRefine }: RefineWithAiP
                   {loading
                     ? 'Refining…'
                     : billingActive
-                      ? 'Apply refinement (2 credits)'
-                      : 'Apply refinement'}
+                      ? 'Apply Refinement (2 Credits)'
+                      : 'Apply Refinement'}
                 </SignInGatedButton>
                 <button
                   type="button"

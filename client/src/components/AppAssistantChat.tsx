@@ -81,7 +81,7 @@ export function AppAssistantChat({
                   href={appstaxFlagAssistantReplyMailto({ assistantMessage: msg.content })}
                   className="underline-offset-2 hover:text-text hover:underline"
                 >
-                  Flag this reply
+                  Flag This Reply
                 </AppstaxMailtoLink>
               </p>
             )}
@@ -116,7 +116,7 @@ export function AppAssistantChat({
 
       <div className="ask-assistant-composer mt-3 shrink-0 flex flex-col gap-2 sm:mt-4 sm:flex-row sm:items-end">
         <label className="flex min-w-0 flex-1 flex-col gap-1">
-          <span className="sr-only">Message for the assistant</span>
+          <span className="sr-only">Message for the Assistant</span>
           <textarea
             ref={inputRef}
             data-ask-autofocus="true"

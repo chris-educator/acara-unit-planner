@@ -62,7 +62,7 @@ export function UnitPreviewPanel({
       <section className="ui-card p-4 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue">Your unit</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue">Your Unit</p>
             <h2 className="mt-1 font-heading text-xl font-bold text-text sm:text-2xl">
               {unit.unit_title}
             </h2>
@@ -130,13 +130,13 @@ export function UnitPreviewPanel({
           <div className="mt-4 space-y-2 text-sm text-text-muted">
             {unit.cross_curriculum_priorities?.length ? (
               <p>
-                <span className="font-semibold text-text">Cross-curriculum priorities: </span>
+                <span className="font-semibold text-text">Cross-Curriculum Priorities: </span>
                 {unit.cross_curriculum_priorities.join(' · ')}
               </p>
             ) : null}
             {unit.general_capabilities?.length ? (
               <p>
-                <span className="font-semibold text-text">General capabilities: </span>
+                <span className="font-semibold text-text">General Capabilities: </span>
                 {unit.general_capabilities.join(' · ')}
               </p>
             ) : null}
@@ -147,11 +147,11 @@ export function UnitPreviewPanel({
       <section className="ui-card p-4 sm:p-6">
         <div className="unit-field-label-row">
           <label className="ui-label" htmlFor="unit_title">
-            Unit title
+            Unit Title
           </label>
           <RefineWithAi
             apiReady={apiReady}
-            sectionLabel="unit title"
+            sectionLabel="Unit Title"
             onRefine={(instruction) => onRefine('unit_title', instruction)}
           />
         </div>
@@ -165,11 +165,11 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="overview">
-              Unit overview
+              Unit Overview
             </label>
             <RefineWithAi
               apiReady={apiReady}
-              sectionLabel="unit overview"
+              sectionLabel="Unit Overview"
               onRefine={(instruction) => onRefine('overview', instruction)}
             />
           </div>
@@ -185,11 +185,11 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="success_criteria">
-              Success criteria
+              Success Criteria
             </label>
             <RefineWithAi
               apiReady={apiReady}
-              sectionLabel="success criteria"
+              sectionLabel="Success Criteria"
               onRefine={(instruction) => onRefine('success_criteria', instruction)}
             />
           </div>
@@ -219,11 +219,11 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="sequence_at_a_glance">
-              Sequence at a glance (one line per week)
+              Sequence at a Glance (One Line per Week)
             </label>
             <RefineWithAi
               apiReady={apiReady}
-              sectionLabel="sequence at a glance"
+              sectionLabel="Sequence at a Glance"
               onRefine={(instruction) => onRefine('sequence_at_a_glance', instruction)}
             />
           </div>
@@ -247,7 +247,7 @@ export function UnitPreviewPanel({
 
         <div className="mt-4">
           <label className="ui-label" htmlFor="key_vocabulary">
-            Key vocabulary (term — gloss, one per line)
+            Key Vocabulary (Term — Gloss, One per Line)
           </label>
           <textarea
             id="key_vocabulary"
@@ -276,7 +276,7 @@ export function UnitPreviewPanel({
 
         <div className="mt-4">
           <label className="ui-label" htmlFor="common_misconceptions">
-            Common misconceptions (misconception | how to address, one per line)
+            Common Misconceptions (Misconception | How to Address, One per Line)
           </label>
           <textarea
             id="common_misconceptions"
@@ -307,11 +307,11 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="term_materials_checklist">
-              Term materials checklist
+              Term Materials Checklist
             </label>
             <RefineWithAi
               apiReady={apiReady}
-              sectionLabel="term materials checklist"
+              sectionLabel="Term Materials Checklist"
               onRefine={(instruction) => onRefine('term_materials_checklist', instruction)}
             />
           </div>
@@ -336,11 +336,11 @@ export function UnitPreviewPanel({
         <div className="mt-4">
           <div className="unit-field-label-row">
             <label className="ui-label" htmlFor="parent_carer_blurb">
-              Parent / carer blurb
+              Parent / Carer Blurb
             </label>
             <RefineWithAi
               apiReady={apiReady}
-              sectionLabel="parent carer blurb"
+              sectionLabel="Parent / Carer Blurb"
               onRefine={(instruction) => onRefine('parent_carer_blurb', instruction)}
             />
           </div>
@@ -356,7 +356,7 @@ export function UnitPreviewPanel({
 
       <section className="ui-card p-4 sm:p-6">
         <h3 className="ui-section-heading border-l-2 border-blue pl-3">Weeks</h3>
-        <nav className="unit-lesson-tabs no-print" aria-label="Week navigation">
+        <nav className="unit-lesson-tabs no-print" aria-label="Week Navigation">
           {unit.lessons.map((lesson) => (
             <button
               key={lesson.lesson_number}
@@ -386,7 +386,7 @@ export function UnitPreviewPanel({
         <div className="mt-4 space-y-4">
           <div>
             <label className="ui-label" htmlFor="assessment-title">
-              Assessment title
+              Assessment Title
             </label>
             <input
               id="assessment-title"
@@ -407,7 +407,7 @@ export function UnitPreviewPanel({
               </label>
               <RefineWithAi
                 apiReady={apiReady}
-                sectionLabel="assessment instructions"
+                sectionLabel="Assessment Instructions"
                 onRefine={(instruction) => onRefine('unit_assessment.instructions', instruction)}
               />
             </div>
@@ -427,11 +427,11 @@ export function UnitPreviewPanel({
           <div>
             <div className="unit-field-label-row">
               <label className="ui-label" htmlFor="assessment-tasks">
-                Tasks (one per line)
+                Tasks (One per Line)
               </label>
               <RefineWithAi
                 apiReady={apiReady}
-                sectionLabel="assessment tasks"
+                sectionLabel="Assessment Tasks"
                 onRefine={(instruction) => onRefine('unit_assessment.tasks', instruction)}
               />
             </div>

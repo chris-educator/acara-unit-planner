@@ -98,12 +98,12 @@ export const CLASS_CONTEXT_PLACEHOLDER =
   'Optional — e.g. mixed-ability Year 5 class, strong oral discussion, limited devices, 45–60 min blocks'
 
 export const REFINE_SUGGESTIONS = [
-  'Add more formative checks',
-  'Add more scaffolding',
-  'Lower reading level',
-  'Make more hands-on',
-  'Strengthen summative assessment alignment',
-  'Strengthen EAL/D supports',
+  'Add More Formative Checks',
+  'Add More Scaffolding',
+  'Lower Reading Level',
+  'Make More Hands-On',
+  'Strengthen Summative Assessment Alignment',
+  'Strengthen EAL/D Supports',
 ] as const
 
 export const DRAFT_STORAGE_KEY = 'acara-unit-planner-draft-v2'

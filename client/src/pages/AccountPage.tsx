@@ -128,7 +128,7 @@ export function AccountPage() {
                 }
               }}
             >
-              {resendBusy ? 'Sending…' : 'Resend verification email'}
+              {resendBusy ? 'Sending…' : 'Resend Verification Email'}
             </button>
           </div>
         )}
@@ -182,18 +182,18 @@ export function AccountPage() {
                   onClick={() => logout()}
                   className="shrink-0 text-base font-semibold text-blue hover:text-blue-hover"
                 >
-                  Sign out
+                  Sign Out
                 </button>
               </div>
               <p className="mt-6 text-3xl font-bold text-blue">{me?.credits ?? 0}</p>
-              <p className="text-sm text-text-muted">credits remaining</p>
+              <p className="text-sm text-text-muted">Credits Remaining</p>
               <p className="mt-3 text-xs text-text-muted">
                 Each term plan generation costs 12 credits; refine costs 2 — see the quote before you
                 generate.
               </p>
             </div>
 
-            <h2 className="ui-section-heading mt-8 mb-1">Need more credits?</h2>
+            <h2 className="ui-section-heading mt-8 mb-1">Need More Credits?</h2>
             <p className="text-sm leading-snug text-text-muted">
               Top up once and use your credits on any credit-based EdStack app. Tools like Graph Builder,
               Map Builder, and Classroom Clock stay free — no credits needed.
@@ -202,7 +202,7 @@ export function AccountPage() {
               href={EDSTACK_CREDITS_URL}
               className="ui-btn-primary mt-4 inline-flex w-full items-center justify-center sm:w-auto"
             >
-              Buy credits at EdStack →
+              Buy Credits at EdStack →
             </a>
 
             <h2 className="ui-section-heading mt-8 mb-1">Your Account Data</h2>
@@ -214,7 +214,7 @@ export function AccountPage() {
               </a>
               . See the{' '}
               <Link to={ROUTE_PRIVACY} className="text-blue hover:text-blue-hover">
-                Privacy policy
+                Privacy Policy
               </Link>{' '}
               for details.
             </p>

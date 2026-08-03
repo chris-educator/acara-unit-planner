@@ -85,7 +85,7 @@ export function SuggestedResourcesEditor({
             </div>
             <div>
               <label className="ui-label" htmlFor={`res-why-${weekNumber}-${index}`}>
-                Why this helps
+                Why This Helps
               </label>
               <input
                 id={`res-why-${weekNumber}-${index}`}
@@ -97,7 +97,7 @@ export function SuggestedResourcesEditor({
             <div className="grid gap-2 sm:grid-cols-2">
               <div>
                 <label className="ui-label" htmlFor={`res-query-${weekNumber}-${index}`}>
-                  Search query
+                  Search Query
                 </label>
                 <input
                   id={`res-query-${weekNumber}-${index}`}
@@ -113,13 +113,13 @@ export function SuggestedResourcesEditor({
                     rel="noopener noreferrer"
                     className="mt-1 inline-block text-xs text-blue hover:underline"
                   >
-                    Open search
+                    Open Search
                   </a>
                 ) : null}
               </div>
               <div>
                 <label className="ui-label" htmlFor={`res-portal-${weekNumber}-${index}`}>
-                  Portal (optional)
+                  Portal (Optional)
                 </label>
                 <select
                   id={`res-portal-${weekNumber}-${index}`}
@@ -154,7 +154,7 @@ export function SuggestedResourcesEditor({
         onClick={() => onChange([...items, emptyResource()])}
         disabled={items.length >= 4}
       >
-        Add resource
+        Add Resource
       </button>
     </div>
   )

@@ -18,7 +18,7 @@ export function SiteTopBar({
         <a
           href={EDSTACK_HOME_URL}
           className="site-top-bar__logo inline-flex w-fit shrink-0"
-          aria-label="EdStack home"
+          aria-label="EdStack Home"
         >
           <EdStackLogo tone="dark" />
         </a>

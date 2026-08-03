@@ -10,10 +10,10 @@ export function SignOutButton({ onClick }: SignOutButtonProps) {
       type="button"
       onClick={onClick}
       className="site-top-bar__action site-top-bar__sign-out"
-      aria-label="Sign out"
+      aria-label="Sign Out"
     >
       <KeyIcon className="h-4 w-4 shrink-0" />
-      <span className="site-top-bar__action-label">Sign out</span>
+      <span className="site-top-bar__action-label">Sign Out</span>
     </button>
   )
 }

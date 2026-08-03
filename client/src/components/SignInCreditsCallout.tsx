@@ -72,7 +72,7 @@ export function SignInCreditsCallout({
         {linkSignIn ? (
           <>
             <Link to={ROUTE_LOGIN} className="sign-in-credits-callout__link">
-              Sign in
+              Sign In
             </Link>
             {' — '}
             {SIGN_IN_CREDITS_CALLOUT_TEXT}

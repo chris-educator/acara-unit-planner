@@ -165,7 +165,7 @@ export function ShareMenu({
       >
         <ShareIcon />
       </button>
-      <div className="share-menu__popover" role="menu" aria-label="Share options">
+      <div className="share-menu__popover" role="menu" aria-label="Share Options">
         {menuItems.map((item) => (
           <a
             key={item.sortLabel}

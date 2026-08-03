@@ -28,7 +28,7 @@ function listField(
         </label>
         <RefineWithAi
           apiReady={apiReady}
-          sectionLabel={label.toLowerCase()}
+          sectionLabel={label}
           onRefine={(instruction) => onRefine(sectionPath, instruction)}
         />
       </div>
@@ -69,7 +69,7 @@ function textField(
         </label>
         <RefineWithAi
           apiReady={apiReady}
-          sectionLabel={label.toLowerCase()}
+          sectionLabel={label}
           onRefine={(instruction) => onRefine(sectionPath, instruction)}
         />
       </div>
@@ -106,11 +106,11 @@ export function LessonEditor({
       <div>
         <div className="unit-field-label-row">
           <label className="ui-label" htmlFor={`title-${n}`}>
-            Week title
+            Week Title
           </label>
           <RefineWithAi
             apiReady={apiReady}
-            sectionLabel="week title"
+            sectionLabel="Week Title"
             onRefine={(instruction) => onRefine(lessonPath(base, 'title'), instruction)}
           />
         </div>
@@ -123,7 +123,7 @@ export function LessonEditor({
       </div>
 
       {listField(
-        'Learning objectives',
+        'Learning Objectives',
         lesson.learning_objectives,
         (learning_objectives) => onChange({ learning_objectives }),
         lessonPath(base, 'learning_objectives'),
@@ -133,7 +133,7 @@ export function LessonEditor({
       )}
 
       {listField(
-        'Materials needed',
+        'Materials Needed',
         lesson.materials_needed,
         (materials_needed) => onChange({ materials_needed }),
         lessonPath(base, 'materials_needed'),
@@ -143,7 +143,7 @@ export function LessonEditor({
       )}
 
       {listField(
-        'Teacher prep',
+        'Teacher Prep',
         lesson.teacher_prep ?? [],
         (teacher_prep) => onChange({ teacher_prep }),
         lessonPath(base, 'teacher_prep'),
@@ -170,7 +170,7 @@ export function LessonEditor({
       )}
 
       {textField(
-        'Main activity',
+        'Main Activity',
         lesson.main_activity,
         (main_activity) => onChange({ main_activity }),
         lessonPath(base, 'main_activity'),
@@ -181,7 +181,7 @@ export function LessonEditor({
       )}
 
       {textField(
-        'Exit ticket',
+        'Exit Ticket',
         lesson.exit_ticket,
         (exit_ticket) => onChange({ exit_ticket }),
         lessonPath(base, 'exit_ticket'),
@@ -193,7 +193,7 @@ export function LessonEditor({
 
       <div className="unit-diff-grid">
         {textField(
-          'Differentiation — support',
+          'Differentiation — Support',
           lesson.differentiation_support,
           (differentiation_support) => onChange({ differentiation_support }),
           lessonPath(base, 'differentiation_support'),
@@ -203,7 +203,7 @@ export function LessonEditor({
           3,
         )}
         {textField(
-          'Differentiation — extension',
+          'Differentiation — Extension',
           lesson.differentiation_extension,
           (differentiation_extension) => onChange({ differentiation_extension }),
           lessonPath(base, 'differentiation_extension'),
@@ -223,7 +223,7 @@ export function LessonEditor({
           3,
         )}
         {textField(
-          'Differentiation — adjustments',
+          'Differentiation — Adjustments',
           lesson.differentiation_adjustments ?? '',
           (differentiation_adjustments) => onChange({ differentiation_adjustments }),
           lessonPath(base, 'differentiation_adjustments'),
@@ -236,7 +236,7 @@ export function LessonEditor({
 
       <div>
         <label className="ui-label" htmlFor={`timing-${n}`}>
-          Timing notes
+          Timing Notes
         </label>
         <input
           id={`timing-${n}`}

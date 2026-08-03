@@ -10,20 +10,20 @@ export function SignInTopBarLink({ to }: SignInTopBarLinkProps) {
   const children = (
     <>
       <KeyIcon className="h-4 w-4 shrink-0" />
-      <span className="site-top-bar__action-label">Sign in</span>
+      <span className="site-top-bar__action-label">Sign In</span>
     </>
   )
 
   if (to.startsWith('#')) {
     return (
-      <a href={to} className={className} aria-label="Sign in">
+      <a href={to} className={className} aria-label="Sign In">
         {children}
       </a>
     )
   }
 
   return (
-    <Link to={to} className={className} aria-label="Sign in">
+    <Link to={to} className={className} aria-label="Sign In">
       {children}
     </Link>
   )

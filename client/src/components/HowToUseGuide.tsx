@@ -19,14 +19,14 @@ export function HowToUseGuide() {
           }
           <strong className="font-semibold text-text">Ask Ed</strong>
           {
-            ' in the top bar for planning help — Ask will not write the unit itself — or use '
+            ' in the top bar for planning help, or use '
           }
           <strong className="font-semibold text-text">Refine</strong>
           {' on any section after generation.'}
         </p>
       </div>
 
-      <ol className="app-how-to-guide__steps" aria-label="ACARA Unit Planner workflow">
+      <ol className="app-how-to-guide__steps" aria-label="ACARA Unit Planner Workflow">
         {HOW_TO_USE_STEPS.map((item) => (
           <li key={item.step} className="app-how-to-guide__step">
             <span className="app-how-to-guide__num" aria-hidden="true">
@@ -41,7 +41,7 @@ export function HowToUseGuide() {
       </ol>
 
       <div className="app-how-to-guide__footer">
-        <ul className="app-how-to-guide__hints" aria-label="Quick hints">
+        <ul className="app-how-to-guide__hints" aria-label="Quick Hints">
           {HOW_TO_USE_HINTS.map((hint) => (
             <li key={hint} className="app-how-to-guide__hint-pill">
               {hint}

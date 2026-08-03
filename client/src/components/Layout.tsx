@@ -80,7 +80,7 @@ export function Layout({
               <div
                 className="header-ai-cluster flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end"
                 role="group"
-                aria-label="AI status and providers"
+                aria-label="AI Status and Providers"
               >
                 <ApiStatus apiReady={apiReady} assistantReady={assistantReady} />
                 <AiProviderBadges />

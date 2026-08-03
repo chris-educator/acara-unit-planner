@@ -44,7 +44,7 @@ export function CollapsibleSection({
               onClick={toggle}
               className="shrink-0 px-1 text-text-muted hover:text-text"
               aria-expanded={open}
-              aria-label={open ? 'Collapse section' : 'Expand section'}
+              aria-label={open ? 'Collapse Section' : 'Expand Section'}
             >
               {toggleSymbol}
             </button>

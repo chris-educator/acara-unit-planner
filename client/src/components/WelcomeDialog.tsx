@@ -12,7 +12,7 @@ export function WelcomeDialog() {
       <button
         type="button"
         className="product-tour-welcome-backdrop"
-        aria-label="Close welcome for now"
+        aria-label="Close Welcome for Now"
         onClick={dismissWelcome}
       />
       <div
@@ -39,7 +39,7 @@ export function WelcomeDialog() {
             onClick={dismissWelcome}
             className="ui-btn-secondary w-full sm:w-auto"
           >
-            Maybe later
+            Maybe Later
           </button>
           <button type="button" onClick={startTour} className="ui-btn-primary w-full sm:w-auto">
             Take a Quick Tour

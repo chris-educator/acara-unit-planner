@@ -7,7 +7,7 @@ export type HowToUseStep = {
 export const HOW_TO_USE_STEPS: HowToUseStep[] = [
   {
     step: '1',
-    title: 'Set up your Term',
+    title: 'Set Up Your Term',
     detail: 'Enter topic, year level, subject, pedagogy focus, and how many weeks (6–10).',
   },
   {
@@ -17,7 +17,7 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
   },
   {
     step: '3',
-    title: 'Generate & refine',
+    title: 'Generate & Refine',
     detail:
       'Review the teacher pack (vocab, misconceptions, checklist), weekly prep and resource searches, then refine any section for 2 credits.',
   },
@@ -29,10 +29,10 @@ export const HOW_TO_USE_STEPS: HowToUseStep[] = [
 ]
 
 export const HOW_TO_USE_HINTS = [
-  '6–10 week plans',
-  '12 credits per plan',
-  'Teacher Pack + resources',
-  'Descriptor-aligned',
-  'Accreditation export',
-  'Ask in top bar',
+  '6–10 Week Plans',
+  '12 Credits per Plan',
+  'Teacher Pack + Resources',
+  'Descriptor-Aligned',
+  'Accreditation Export',
+  'Ask in Top Bar',
 ]

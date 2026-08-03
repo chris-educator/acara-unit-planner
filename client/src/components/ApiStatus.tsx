@@ -18,9 +18,9 @@ export function ApiStatus({ apiReady, assistantReady = null }: ApiStatusProps) {
     ? 'Checking API…'
     : ready
       ? partial
-        ? 'AI ready · Ask unavailable'
-        : 'AI ready'
-      : 'API not configured'
+        ? 'AI Ready · Ask Unavailable'
+        : 'AI Ready'
+      : 'API Not Configured'
 
   const tone = checking ? 'api-status--checking' : ready ? 'api-status--ready' : 'api-status--warn'
 

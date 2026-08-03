@@ -321,9 +321,9 @@ export default function AppMain() {
                 functionalTitle={!topic.trim() ? 'Enter a unit topic to generate.' : undefined}
               >
                 {loading
-                  ? 'Building your term plan…'
+                  ? 'Building Your Teacher Pack…'
                   : billingActive
-                    ? 'Generate Term Plan (12 credits)'
+                    ? 'Generate Term Plan (12 Credits)'
                     : 'Generate Term Plan'}
               </SignInGatedButton>
               <button
@@ -340,19 +340,21 @@ export default function AppMain() {
           <div data-tour="unit-preview">
           {loading ? (
             <aside
-              className="unit-workspace__placeholder no-print ui-card p-4 sm:p-6"
+              className="unit-workspace__placeholder no-print"
               aria-busy="true"
-              aria-label="Building term plan"
+              aria-label="Building Your Teacher Pack"
             >
-              <p className="text-center text-sm font-semibold text-text" role="status">
-                Building your term plan — this may take a minute or so — please don&apos;t refresh
-                the page.
-              </p>
-              <div className="mt-6 animate-pulse space-y-4" aria-hidden>
-                <div className="h-4 w-1/3 rounded bg-surface-raised" />
-                <div className="h-3 w-full rounded bg-surface-raised" />
-                <div className="h-3 w-5/6 rounded bg-surface-raised" />
-                <div className="h-3 w-4/6 rounded bg-surface-raised" />
+              <div className="unit-empty-state unit-empty-state--loading">
+                <p className="unit-empty-state__title" role="status">
+                  Building your teacher pack — this may take a minute or so — please don&apos;t
+                  refresh the page.
+                </p>
+                <div className="mt-6 animate-pulse space-y-4" aria-hidden>
+                  <div className="mx-auto h-4 w-1/3 max-w-[10rem] rounded bg-[rgb(0_132_255_/_0.2)]" />
+                  <div className="mx-auto h-3 w-full max-w-md rounded bg-[rgb(0_132_255_/_0.14)]" />
+                  <div className="mx-auto h-3 w-5/6 max-w-sm rounded bg-[rgb(0_132_255_/_0.14)]" />
+                  <div className="mx-auto h-3 w-4/6 max-w-xs rounded bg-[rgb(0_132_255_/_0.14)]" />
+                </div>
               </div>
             </aside>
           ) : unit ? (
@@ -371,7 +373,7 @@ export default function AppMain() {
           ) : (
             <aside className="unit-workspace__placeholder no-print">
               <div className="unit-empty-state">
-                <p className="unit-empty-state__title">Your teacher pack appears here</p>
+                <p className="unit-empty-state__title">Your Teacher Pack Appears Here</p>
                 <p className="unit-empty-state__text">
                   After generation you will get editable weeks with objectives, materials,
                   differentiation, assessment tasks, and a marking rubric — plus docx, pdf, txt, or

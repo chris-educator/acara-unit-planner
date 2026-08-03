@@ -1203,8 +1203,15 @@ html[data-theme='dark'] .app-how-to-guide__step {
   justify-content: center;
   min-height: 20rem;
   border-radius: 1rem;
-  border: 2px dashed rgb(0 132 255 / 0.22);
-  background: linear-gradient(145deg, rgb(0 132 255 / 0.06), var(--color-surface));
+  border: 2px solid rgb(0 132 255 / 0.45);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 35%, rgb(0 132 255 / 0.22), transparent 70%),
+    linear-gradient(145deg, rgb(0 132 255 / 0.14), var(--color-surface) 72%);
+  box-shadow:
+    0 0 0 1px rgb(0 132 255 / 0.12),
+    0 0 28px rgb(0 132 255 / 0.28),
+    0 0 56px rgb(0 132 255 / 0.12),
+    inset 0 1px 0 rgb(255 255 255 / 0.35);
   padding: 2rem 1.5rem;
   text-align: center;
 }
@@ -1214,7 +1221,17 @@ html[data-theme='dark'] .app-how-to-guide__step {
   font-family: var(--font-heading);
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--color-blue);
+  text-shadow: 0 0 18px rgb(0 132 255 / 0.35);
+}
+
+.unit-empty-state--loading .unit-empty-state__title {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-wrap: balance;
 }
 
 .unit-empty-state__text {
@@ -1238,11 +1255,34 @@ html[data-theme='dark'] .app-how-to-guide__step {
 
 .unit-empty-state__list li {
   border-radius: 999px;
-  border: 1px solid rgb(0 132 255 / 0.2);
-  background: rgb(0 132 255 / 0.08);
+  border: 1px solid rgb(0 132 255 / 0.35);
+  background: rgb(0 132 255 / 0.14);
+  box-shadow: 0 0 12px rgb(0 132 255 / 0.18);
   padding: 0.3rem 0.75rem;
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--color-text);
+}
+
+html[data-theme='dark'] .unit-empty-state {
+  border-color: rgb(0 132 255 / 0.55);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 35%, rgb(0 132 255 / 0.32), transparent 70%),
+    linear-gradient(145deg, rgb(0 132 255 / 0.2), var(--color-surface) 72%);
+  box-shadow:
+    0 0 0 1px rgb(0 132 255 / 0.2),
+    0 0 32px rgb(0 132 255 / 0.4),
+    0 0 64px rgb(0 132 255 / 0.18),
+    inset 0 1px 0 rgb(0 132 255 / 0.15);
+}
+
+html[data-theme='dark'] .unit-empty-state__title {
+  text-shadow: 0 0 22px rgb(0 132 255 / 0.55);
+}
+
+html[data-theme='dark'] .unit-empty-state__list li {
+  border-color: rgb(0 132 255 / 0.45);
+  background: rgb(0 132 255 / 0.2);
+  box-shadow: 0 0 14px rgb(0 132 255 / 0.28);
 }
 
 .unit-draft-banner {

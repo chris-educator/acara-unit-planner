@@ -85,7 +85,7 @@ export function LoginPage() {
       <SignInCreditsCallout />
       <div className={`mx-auto w-full min-w-0 max-w-lg flex-1 ${APP_CONTENT_PAD_CLASS} pb-10 pt-6`}>
         <div className="mb-4 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <h1 className="ui-page-heading">Sign in</h1>
+          <h1 className="ui-page-heading">Sign In</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
         {!billingReady ? (
@@ -116,7 +116,7 @@ export function LoginPage() {
           {googleReady && (
             <div className="flex items-center gap-3 text-xs text-text-muted">
               <span className="h-px flex-1 bg-border" />
-              <span>or use email</span>
+              <span>Or Use Email</span>
               <span className="h-px flex-1 bg-border" />
             </div>
           )}
@@ -162,7 +162,7 @@ export function LoginPage() {
                 onClick={onResendVerification}
                 disabled={!billingReady || resendBusy}
               >
-                {resendBusy ? 'Sending…' : 'Resend verification email'}
+                {resendBusy ? 'Sending…' : 'Resend Verification Email'}
               </button>
             )}
             <button
@@ -170,7 +170,7 @@ export function LoginPage() {
               className="ui-btn-primary w-full"
               disabled={!billingReady || busy}
             >
-              {busy ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}
+              {busy ? 'Please Wait…' : mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>
             <button
               type="button"
@@ -178,8 +178,8 @@ export function LoginPage() {
               onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
             >
               {mode === 'login'
-                ? 'Need an account? Register'
-                : 'Already have an account? Sign in'}
+                ? 'Need an Account? Register'
+                : 'Already Have an Account? Sign In'}
             </button>
           </form>
         </div>
