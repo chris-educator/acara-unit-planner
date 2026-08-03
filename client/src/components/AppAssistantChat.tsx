@@ -4,6 +4,7 @@ import { appstaxFlagAssistantReplyMailto } from '../constants/branding'
 import { useBillingGate } from '../hooks/useBillingGate'
 import { AppstaxMailtoLink } from './AppstaxMailtoLink'
 import { SignInGatedButton } from './SignInGatedButton'
+import { ChatFormattedContent } from './ChatFormattedContent'
 
 type AppAssistantChatProps = {
   apiReady: boolean
@@ -67,13 +68,13 @@ export function AppAssistantChat({
           <div
             key={`${msg.role}-${i}-${msg.content.slice(0, 24)}`}
             className={[
-              'ask-assistant-bubble max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed break-words',
+              'ask-assistant-bubble max-w-[92%] rounded-2xl px-4 py-3 text-sm leading-relaxed break-words',
               msg.role === 'user'
                 ? 'ask-assistant-bubble--user ml-auto bg-blue text-btn-label shadow-sm'
                 : 'ask-assistant-bubble--assistant border border-border border-l-4 border-l-blue bg-surface-raised text-text',
             ].join(' ')}
           >
-            {msg.content}
+            <ChatFormattedContent content={msg.content} plain={msg.role === 'user'} />
             {msg.role === 'assistant' && i > 0 && (
               <p className="mt-3 text-[11px] text-text-muted">
                 <AppstaxMailtoLink
