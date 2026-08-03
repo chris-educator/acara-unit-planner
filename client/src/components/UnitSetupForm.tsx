@@ -62,7 +62,7 @@ export function UnitSetupForm({
   return (
     <section className="ui-card p-4 sm:p-6 no-print" data-tour="unit-setup">
       <div className="min-w-0">
-        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit setup</h2>
+        <h2 className="ui-section-heading border-l-2 border-blue pl-3">Unit Setup</h2>
         <p className="mt-2 text-sm text-text-muted">
           Plan against Australian Curriculum (ACARA) learning areas and subjects. Defaults open on
           Year 5 Humanities and Social Sciences — change year and subject to match your class.
@@ -168,7 +168,7 @@ export function UnitSetupForm({
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="ui-label" htmlFor="class_context">
-            Class context
+            Class Context
           </label>
           <textarea
             id="class_context"
@@ -183,7 +183,7 @@ export function UnitSetupForm({
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <fieldset className="min-w-0">
-          <legend className="ui-label">Cross-curriculum priorities (optional)</legend>
+          <legend className="ui-label">Cross-Curriculum Priorities (optional)</legend>
           <p className="mt-1 text-xs text-text-muted">
             Select any to weave through overview, objectives, and weekly activities.
           </p>

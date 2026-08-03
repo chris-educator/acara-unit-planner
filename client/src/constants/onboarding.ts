@@ -19,7 +19,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'how-to-use',
     target: '[data-tour="how-to-use"]',
-    title: 'Your workflow at a glance',
+    title: 'Your Workflow at a Glance',
     body: 'This card walks through a 6–10 week term unit: curriculum links, weekly intents, assessment, then export for your folders.',
   },
   {
@@ -31,19 +31,19 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'unit-setup',
     target: '[data-tour="unit-setup"]',
-    title: 'Set up the unit',
+    title: 'Set up the Unit',
     body: 'Enter topic, year level, subject, week count, and pedagogy focus. School name and class context show on the export if you add them.',
   },
   {
     id: 'curriculum-links',
     target: '[data-tour="curriculum-links"]',
-    title: 'Link the curriculum',
+    title: 'Link the Curriculum',
     body: 'Optionally pick up to four Australian Curriculum themes so weekly objectives stay syllabus-aligned.',
   },
   {
     id: 'generate',
     target: '[data-tour="generate"]',
-    title: 'Generate the term plan',
+    title: 'Generate the Term Plan',
     body: 'Sign in to use credits (12 per plan, 2 to refine a section). Clear All resets the form and draft in this browser.',
   },
   {

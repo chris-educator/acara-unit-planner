@@ -20,7 +20,7 @@ export function RubricTable({ rubric, apiReady, onChange, onRefine }: RubricTabl
 
   return (
     <div className="unit-rubric-wrap">
-      <h4 className="text-sm font-semibold text-text">Assessment rubric</h4>
+      <h4 className="text-sm font-semibold text-text">Assessment Rubric</h4>
       <div className="unit-rubric-scroll">
         <table className="unit-rubric-table">
           <thead>

@@ -41,7 +41,7 @@ export function SuggestedResourcesEditor({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <label className="ui-label mb-0">Suggested resources</label>
+        <label className="ui-label mb-0">Suggested Resources</label>
         <p className="text-[11px] text-text-muted">{RESOURCE_SEARCH_DISCLAIMER}</p>
       </div>
       {items.map((item, index) => {

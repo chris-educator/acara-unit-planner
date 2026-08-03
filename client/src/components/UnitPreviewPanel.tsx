@@ -213,7 +213,7 @@ export function UnitPreviewPanel({
       </section>
 
       <section className="ui-card p-4 sm:p-6">
-        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Teacher pack</h3>
+        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Teacher Pack</h3>
         <p className="mt-2 text-xs text-text-muted">{RESOURCE_SEARCH_DISCLAIMER}</p>
 
         <div className="mt-4">
@@ -382,7 +382,7 @@ export function UnitPreviewPanel({
       </section>
 
       <section className="ui-card p-4 sm:p-6">
-        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Unit assessment</h3>
+        <h3 className="ui-section-heading border-l-2 border-blue pl-3">Unit Assessment</h3>
         <div className="mt-4 space-y-4">
           <div>
             <label className="ui-label" htmlFor="assessment-title">

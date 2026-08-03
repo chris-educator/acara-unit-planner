@@ -1,6 +1,6 @@
 import { useOnboarding } from '../context/OnboardingContext'
 
-/** Blue Quick guide CTA to start or replay the product tour. */
+/** Blue Quick Guide CTA to start or replay the product tour. */
 export function QuickTourButton({ className = '' }: { className?: string }) {
   const { replayTour } = useOnboarding()
 

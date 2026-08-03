@@ -23,7 +23,7 @@ export function WelcomeDialog() {
         className="product-tour-welcome-panel"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="product-tour-welcome-panel__eyebrow">First look</p>
+        <p className="product-tour-welcome-panel__eyebrow">First Look</p>
         <h2 id="welcome-dialog-title" className="product-tour-welcome-panel__title">
           Welcome to{' '}
           <span className="text-text-muted">ACARA </span>

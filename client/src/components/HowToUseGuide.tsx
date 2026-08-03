@@ -9,9 +9,9 @@ export function HowToUseGuide() {
       data-tour="how-to-use"
     >
       <div className="app-how-to-guide__header">
-        <span className="app-how-to-guide__badge">Quick guide</span>
+        <span className="app-how-to-guide__badge">Quick Guide</span>
         <h2 id="how-to-use-heading" className="app-how-to-guide__title">
-          How to use ACARA Unit Planner
+          How to Use ACARA Unit Planner
         </h2>
         <p className="app-how-to-guide__lead">
           {

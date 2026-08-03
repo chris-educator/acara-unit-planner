@@ -96,7 +96,7 @@ export function AccountPage() {
       <SignInCreditsCallout maxWidthClass="max-w-2xl" />
       <div className={`mx-auto w-full min-w-0 max-w-2xl flex-1 ${APP_CONTENT_PAD_CLASS} pb-10 pt-6`}>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <h1 className="ui-page-heading">Account &amp; credits</h1>
+          <h1 className="ui-page-heading">Account &amp; Credits</h1>
           <BackToAppLink variant="primary" className="w-full justify-center sm:w-auto sm:shrink-0" />
         </div>
 
@@ -205,7 +205,7 @@ export function AccountPage() {
               Buy credits at EdStack →
             </a>
 
-            <h2 className="ui-section-heading mt-8 mb-1">Your account data</h2>
+            <h2 className="ui-section-heading mt-8 mb-1">Your Account Data</h2>
             <p className="text-sm leading-snug text-text-muted">
               Account email and credit balance are managed by the shared EdStack billing service. For
               data export or deletion requests, email{' '}
