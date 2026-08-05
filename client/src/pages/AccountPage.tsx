@@ -195,8 +195,7 @@ export function AccountPage() {
 
             <h2 className="ui-section-heading mt-8 mb-1">Need More Credits?</h2>
             <p className="text-sm leading-snug text-text-muted">
-              Top up once and use your credits on any credit-based EdStack app. Tools like Graph Builder,
-              Map Builder, and Classroom Clock stay free — no credits needed.
+              Top up once and use your credits on any credit-based EdStack app.
             </p>
             <a
               href={EDSTACK_CREDITS_URL}
