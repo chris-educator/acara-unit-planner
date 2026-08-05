@@ -193,7 +193,7 @@ export function AccountPage() {
               </p>
             </div>
 
-            <h2 className="ui-section-heading mt-8 mb-1">Need More Credits?</h2>
+            <h2 className="ui-section-heading mt-8 mb-1">Need more Credits?</h2>
             <p className="text-sm leading-snug text-text-muted">
               Top up once and use your credits on any credit-based EdStack app.
             </p>
